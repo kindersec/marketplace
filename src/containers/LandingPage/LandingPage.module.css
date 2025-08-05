@@ -1,15 +1,27 @@
 /* Elegant, minimal background for the landing page */
 :root {
-  --landingBgStart: #f8f9fa;
-  --landingBgEnd: #ececec;
-  --landingAccent: #1a2233;
-  --landingText: #111111;
-  --landingSubtleText: #444444;
+  --landingBgStart: #f8fafc;
+  --landingBgEnd: #e2e8f0;
+  --landingAccent: #1e293b;
+  --landingText: #0f172a;
+  --landingSubtleText: #475569;
+  --gradientPrimary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradientSecondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradientAccent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradientDark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  --gradientLight: linear-gradient(135deg, #f0f4ff 0%, #e6f3ff 100%);
+  --gradientSmart: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  --gradientHeroLight: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --accentBlue: #3b82f6;
+  --accentGreen: #10b981;
+  --accentPurple: #8b5cf6;
+  --accentOrange: #f59e0b;
+  --accentPink: #ec4899;
 }
 
 .root {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--landingBgStart) 0%, var(--landingBgEnd) 100%) !important;
+  background: var(--gradientLight) !important;
   color: var(--landingText);
 }
 
@@ -21,7 +33,7 @@
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, #f8f9fa 0%, #ececec 100%);
+  background: var(--gradientHeroLight);
   color: var(--landingText);
   padding: 60px 0;
   position: relative;
@@ -77,22 +89,38 @@
 }
 
 .primaryButton {
-  background: var(--landingAccent);
+  background: var(--gradientPrimary);
   color: white;
   border: none;
   padding: 15px 30px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(26, 34, 51, 0.2);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.primaryButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.primaryButton:hover::before {
+  left: 100%;
 }
 
 .primaryButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(26, 34, 51, 0.3);
-  background: #111a2b;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
 }
 
 .secondaryButton {
@@ -100,7 +128,7 @@
   color: var(--landingText);
   border: 2px solid var(--landingText);
   padding: 13px 28px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
@@ -110,7 +138,8 @@
 .secondaryButton:hover {
   background: var(--landingText);
   color: white;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.2);
 }
 
 .heroImageContainer {
@@ -118,13 +147,14 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-
   max-width: 400px;
   max-height: 500px;
   margin: auto;
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  background: white;
+  border: 1px solid #e9ecef;
 }
 
 .heroImage {
@@ -135,16 +165,14 @@
 }
 
 .heroImageContainer:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
 }
-
-
 
 /* Features Section */
 .features {
   padding: 60px 0;
-  background: #f8f9fa;
+  background: var(--gradientLight);
 }
 
 .sectionTitle {
@@ -173,22 +201,45 @@
 }
 
 .featureCard {
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
   padding: 40px 30px;
   border-radius: 20px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  border: 1px solid #e9ecef;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
 }
 
+.featureCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentBlue);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
 
+.featureCard:hover::before {
+  transform: scaleX(1);
+}
+
+.featureCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+}
 
 .featureIcon {
   font-size: 3rem;
   margin-bottom: 20px;
   display: block;
-  color: var(--landingAccent);
+  color: var(--accentBlue);
 }
 
 .featureTitle {
@@ -207,7 +258,7 @@
 /* Categories Section */
 .categories {
   padding: 60px 0;
-  background: white;
+  background: var(--gradientLight);
 }
 
 .categoriesGrid {
@@ -222,23 +273,40 @@
   padding: 30px 20px;
   border-radius: 15px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
   border: 1px solid #e9ecef;
+  position: relative;
+  overflow: hidden;
+}
+
+.categoryCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentGreen);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.categoryCard:hover::before {
+  transform: scaleX(1);
 }
 
 .categoryCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
-  border-color: var(--landingAccent);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .categoryIcon {
   font-size: 2.5rem;
   margin-bottom: 15px;
   display: block;
-  color: var(--landingAccent);
+  color: var(--accentGreen);
 }
 
 .categoryName {
@@ -256,7 +324,7 @@
 /* Featured Products Section */
 .featuredProducts {
   padding: 60px 0;
-  background: white;
+  background: var(--gradientLight);
 }
 
 .featuredProductsGrid {
@@ -267,19 +335,36 @@
 }
 
 .featuredProductCard {
-  background: white;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
-  border: 1px solid #e9ecef;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.featuredProductCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentPurple);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.featuredProductCard:hover::before {
+  transform: scaleX(1);
 }
 
 .featuredProductCard:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  border-color: var(--landingAccent);
+  transform: translateY(-12px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
 }
 
 .productImageContainer {
@@ -287,6 +372,7 @@
   height: 200px;
   overflow: hidden;
   position: relative;
+  background: transparent;
 }
 
 .productImage {
@@ -365,7 +451,7 @@
 /* Testimonials Section */
 .testimonials {
   padding: 60px 0;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ececec 100%);
+  background: var(--gradientLight);
   color: var(--landingText);
 }
 
@@ -377,27 +463,45 @@
 }
 
 .testimonialCard {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8);
   padding: 40px 30px;
   border-radius: 20px;
   text-align: center;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonialCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentOrange);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.testimonialCard:hover::before {
+  transform: scaleX(1);
 }
 
 .testimonialCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .testimonialAvatar {
   font-size: 3rem;
   margin-bottom: 20px;
   display: block;
-  color: var(--landingAccent);
+  color: var(--accentOrange);
 }
 
 .testimonialContent {
@@ -423,15 +527,15 @@
 /* CTA Section */
 .ctaSection {
   padding: 60px 0;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ececec 100%);
-  color: var(--landingText);
+  background: var(--gradientDark);
+  color: white;
   text-align: center;
 }
 
 /* Blog Section */
 .blogSection {
   padding: 60px 0;
-  background: white;
+  background: var(--gradientLight);
   color: var(--landingText);
 }
 
@@ -447,16 +551,32 @@
   background: white;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   border: 1px solid #e9ecef;
   cursor: pointer;
+  position: relative;
+}
+
+.blogCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentPink);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.blogCard:hover::before {
+  transform: scaleX(1);
 }
 
 .blogCard:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-  border-color: var(--landingAccent);
+  transform: translateY(-12px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
 }
 
 .blogCard:focus {
@@ -466,7 +586,7 @@
 
 .blogImage {
   height: 200px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ececec 100%);
+  background: var(--gradientLight);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -501,7 +621,7 @@
 }
 
 .blogCategory {
-  background: var(--landingAccent);
+  background: var(--accentPink);
   color: white;
   padding: 4px 12px;
   border-radius: 20px;
@@ -551,28 +671,44 @@
 }
 
 .blogCTAButton {
-  background: var(--landingAccent);
+  background: var(--gradientPrimary);
   color: white;
   border: none;
   padding: 15px 40px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(26, 34, 51, 0.2);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.blogCTAButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.blogCTAButton:hover::before {
+  left: 100%;
 }
 
 .blogCTAButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(26, 34, 51, 0.3);
-  background: #111a2b;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
 }
 
 /* Company/About Section */
 .companySection {
   padding: 60px 0;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ececec 100%);
+  background: var(--gradientLight);
   color: var(--landingText);
 }
 
@@ -628,15 +764,36 @@
 .statItem {
   text-align: center;
   padding: 30px 20px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.statItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentGreen);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.statItem:hover::before {
+  transform: scaleX(1);
 }
 
 .statItem:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .statNumber {
@@ -671,25 +828,45 @@
 }
 
 .valueCard {
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
   padding: 40px 30px;
   border-radius: 20px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  border: 1px solid #e9ecef;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.valueCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentPurple);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.valueCard:hover::before {
+  transform: scaleX(1);
 }
 
 .valueCard:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-12px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .valueIcon {
   font-size: 3rem;
   margin-bottom: 20px;
   display: block;
-  color: var(--landingAccent);
+  color: var(--accentPurple);
 }
 
 .valueTitle {
@@ -714,33 +891,49 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 20px;
-  color: var(--landingText);
+  color: white;
 }
 
 .ctaSubtitle {
   font-size: 1.1rem;
   margin-bottom: 40px;
-  color: var(--landingSubtleText);
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
 }
 
 .ctaButton {
-  background: var(--landingAccent);
+  background: var(--gradientPrimary);
   color: white;
   border: none;
   padding: 18px 40px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 1.2rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(26, 34, 51, 0.2);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.ctaButton:hover::before {
+  left: 100%;
 }
 
 .ctaButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(26, 34, 51, 0.3);
-  background: #111a2b;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
 }
 
 /* Loading and Error States */
