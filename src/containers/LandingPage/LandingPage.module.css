@@ -113,26 +113,28 @@
   transform: translateY(-2px);
 }
 
-.heroImage {
+.heroImageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 400px;
   width: 100%;
-  height: auto;
+
+  max-width: 400px;
+  max-height: 500px;
+  margin: auto;
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
-.heroImage img {
+.heroImage {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
   border-radius: 20px;
 }
 
-.heroImage:hover {
+.heroImageContainer:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
@@ -782,8 +784,8 @@
     text-align: center;
   }
 
-  .heroImage {
-    max-width: 300px;
+  .heroImageContainer {
+    max-height: 400px;
   }
 
   .heroTitle {
@@ -853,8 +855,8 @@
     padding: 60px 0;
   }
 
-  .heroImage {
-    max-width: 250px;
+  .heroImageContainer {
+    max-height: 300px;
   }
 
   .heroTitle {

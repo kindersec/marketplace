@@ -266,7 +266,7 @@ export const LandingPageComponent = props => {
                   </button>
                 </div>
               </div>
-              <div className={css.heroImage}>
+              <div className={css.heroImageContainer}>
                 <img
                   src={smartHomeImage}
                   alt="Smart Home Illustration"
