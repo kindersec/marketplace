@@ -25,9 +25,6 @@
   flex-direction: column;
   align-items: flex-start;
 }
-.navigationLinksWrapper {
-  margin-bottom: 36px;
-}
 .accountLinksWrapper {
   margin-bottom: 36px;
 }
@@ -248,7 +245,12 @@
   flex-grow: 1;
 }
 
-
+.navigationLinksWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 36px;
+}
 
 .shopBySection {
   display: flex;

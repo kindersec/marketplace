@@ -190,6 +190,44 @@ const TopbarMobileMenu = props => {
             <FormattedMessage id="TopbarMobileMenu.accountSettingsLink" />
           </NamedLink>
         </div>
+
+        <div className={css.navigationLinksWrapper}>
+          <NamedLink
+            className={classNames(css.navigationLink, currentPageClass('SearchPage'))}
+            name="SearchPage"
+          >
+            <FormattedMessage id="TopbarMobileMenu.allDevices" />
+          </NamedLink>
+          <NamedLink
+            className={classNames(css.navigationLink, currentPageClass('ArticlesPage'))}
+            name="ArticlesPage"
+          >
+            <FormattedMessage id="TopbarMobileMenu.guidesAndTutorials" />
+          </NamedLink>
+          <div className={css.shopBySection}>
+            <div className={css.shopByLabel}>
+              <FormattedMessage id="TopbarMobileMenu.shopBy" />
+            </div>
+            <NamedLink
+              className={classNames(css.navigationLink, currentPageClass('BrandsPage'))}
+              name="BrandsPage"
+            >
+              <FormattedMessage id="TopbarDesktop.shopBy.brands" />
+            </NamedLink>
+            <NamedLink
+              className={classNames(css.navigationLink, currentPageClass('CategoriesPage'))}
+              name="CategoriesPage"
+            >
+              <FormattedMessage id="TopbarDesktop.shopBy.categories" />
+            </NamedLink>
+            <NamedLink
+              className={classNames(css.navigationLink, currentPageClass('CompatibilityPage'))}
+              name="CompatibilityPage"
+            >
+              <FormattedMessage id="TopbarDesktop.shopBy.compatibility" />
+            </NamedLink>
+          </div>
+        </div>
         <div className={css.customLinksWrapper}>{extraLinks}</div>
         <div className={css.spacer} />
       </div>
