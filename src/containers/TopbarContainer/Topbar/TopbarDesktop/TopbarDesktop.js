@@ -17,6 +17,7 @@ import {
 
 import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
 import CustomLinksMenu from './CustomLinksMenu/CustomLinksMenu';
+import ShopByMenu from './CustomLinksMenu/ShopByMenu';
 
 import css from './TopbarDesktop.module.css';
 
@@ -37,6 +38,26 @@ const InboxLink = ({ notificationCount, inboxTab }) => {
       <span className={css.topbarLinkLabel}>
         <FormattedMessage id="TopbarDesktop.inbox" />
         {notificationDot}
+      </span>
+    </NamedLink>
+  );
+};
+
+const GuidesAndTutorialsLink = ({ intl }) => {
+  return (
+    <NamedLink className={css.topbarLink} name="ArticlesPage">
+      <span className={css.topbarLinkLabel}>
+        <FormattedMessage id="TopbarDesktop.guidesAndTutorials" />
+      </span>
+    </NamedLink>
+  );
+};
+
+const AllDevicesLink = ({ intl }) => {
+  return (
+    <NamedLink className={css.topbarLink} name="SearchPage">
+      <span className={css.topbarLinkLabel}>
+        <FormattedMessage id="TopbarDesktop.allDevices" />
       </span>
     </NamedLink>
   );
@@ -197,6 +218,9 @@ const TopbarDesktop = props => {
       />
 
       {inboxLinkMaybe}
+      <AllDevicesLink intl={intl} />
+      <GuidesAndTutorialsLink intl={intl} />
+      <ShopByMenu currentPage={currentPage} intl={intl} />
       {profileMenuMaybe}
       {profileIconLinkMaybe}
     </nav>

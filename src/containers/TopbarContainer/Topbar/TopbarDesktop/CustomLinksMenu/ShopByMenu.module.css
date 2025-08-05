@@ -1,0 +1,128 @@
+@import '../../../../../styles/customMediaQueries.css';
+
+.shopByMenuLabel {
+  /* Font */
+  composes: h5 from global;
+  color: var(--colorGrey700);
+  font-size: 16px;
+  font-weight: var(--fontWeightMedium);
+
+  /* Layout */
+  display: flex;
+  align-items: center;
+  height: var(--topbarHeightDesktop);
+  padding: 0 32px;
+  margin: 0;
+  border-bottom: 0px solid;
+  background-color: transparent;
+  min-width: 120px;
+  transition: var(--transitionStyleButton);
+
+  /* Hovers */
+  &:enabled {
+    cursor: pointer;
+  }
+  &:enabled:hover,
+  &:enabled:active {
+    border-bottom: 4px solid var(--marketplaceColor);
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+  &:disabled {
+    background-color: transparent;
+    cursor: auto;
+  }
+}
+
+.shopByMenuIsOpen {
+  background-color: var(--colorGrey50);
+
+  &:hover {
+    border-bottom: 4px solid var(--marketplaceColor);
+    border-radius: 0;
+  }
+}
+
+.shopByMenuLabelWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  min-width: 80px;
+}
+
+.arrowIcon {
+  color: var(--colorGrey700);
+}
+
+.shopByMenuContent {
+  /* Layout */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: var(--zIndexPopup);
+
+  /* Size */
+  min-width: 200px;
+  margin-top: 0;
+
+  /* Colors */
+  background-color: var(--colorWhite);
+  border: 1px solid var(--colorGrey100);
+  border-radius: 4px;
+  box-shadow: var(--boxShadowPopup);
+
+  /* Typography */
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.menuLink {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 16px;
+  margin: 0;
+  border: none;
+  background: none;
+
+  /* Typography */
+  composes: h5 from global;
+  color: var(--colorGrey700);
+  text-decoration: none;
+  text-align: left;
+  font-size: 16px;
+
+  /* Hovers */
+  &:hover,
+  &:active {
+    background-color: var(--colorGrey50);
+    color: var(--colorGrey900);
+    text-decoration: none;
+  }
+  &:disabled {
+    color: var(--colorGrey400);
+    cursor: auto;
+  }
+}
+
+.currentPage {
+  background-color: var(--colorGrey50);
+  color: var(--colorGrey900);
+}
+
+.menuItemBorder {
+  /* Layout */
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: transparent;
+}
+
+.currentPage .menuItemBorder {
+  background-color: var(--colorMarketplace);
+}
