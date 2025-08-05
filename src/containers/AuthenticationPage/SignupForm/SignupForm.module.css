@@ -47,3 +47,34 @@
 .bottomWrapper {
   composes: marketplaceModalBottomWrapper from global;
 }
+
+/* Enhanced form field styling */
+.formField {
+  margin-bottom: 20px;
+}
+
+.formField label {
+  color: var(--colorGray800);
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.formField input {
+  border: 2px solid var(--colorGray300);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.formField input:focus {
+  border-color: var(--marketplaceColor);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  outline: none;
+}
+
+.formField input::placeholder {
+  color: var(--colorGray500);
+}

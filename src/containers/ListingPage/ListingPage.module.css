@@ -290,14 +290,20 @@
 }
 
 .mainColumnForProductLayout {
+  max-width: 500px;
+  margin: auto;
+
   @media (--viewportMedium) {
+    max-width: 500px;
+    margin: auto;
   }
   @media (--viewportLarge) {
     /* contentContainer's full width - (orderColumn + paddings + margin) */
-    max-width: calc(100% - 360px);
+    max-width: 500px;
     flex-basis: calc(100% - 360px);
     flex-shrink: 0;
     flex-grow: 1;
+    margin: auto;
   }
 }
 

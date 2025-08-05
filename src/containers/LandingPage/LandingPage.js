@@ -17,7 +17,7 @@ import smartHomeImage from '../../assets/illustration smart home.png';
 const heroData = {
   title: "Transform Your Home with Smart Technology",
   subtitle: "Discover the latest smart home devices from top brands. Control, automate, and enhance your living space with cutting-edge technology.",
-  ctaText: "Explore Smart Devices",
+  ctaText: "Explore Smart Home Devices",
   ctaSecondary: "Learn More",
   imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
 };

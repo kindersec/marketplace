@@ -21,12 +21,23 @@
 /* Adjust the bottomWrapper's margin to match modals without the helper text */
 .bottomWrapperText {
   composes: marketplaceModalBottomWrapperText from global;
+  color: var(--colorGray600);
+  line-height: 1.5;
 }
 
 .recoveryLink {
   composes: marketplaceModalHelperLink from global;
+  color: var(--marketplaceColor);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.recoveryLink:hover {
+  color: var(--colorGray900);
+  transform: translateY(-1px);
 }
 
 .recoveryLinkInfo {
   composes: marketplaceModalHelperText from global;
+  color: var(--colorGray600);
 }
