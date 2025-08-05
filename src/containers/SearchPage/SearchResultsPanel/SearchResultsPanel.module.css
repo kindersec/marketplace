@@ -10,15 +10,15 @@
 
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 24px;
+  gap: 16px;
   width: 100%;
 
   @media (--viewportLarge) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   @media (--viewportXLarge) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -27,33 +27,44 @@
 
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 24px;
+  gap: 20px;
   width: 100%;
 
   @media (min-width: 550px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
 
   @media (--viewportMedium) {
     padding: 0 0 96px 0;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
 
   @media (--viewportLarge) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
   }
 
   @media (min-width: 1440px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
   }
 
   @media (--viewportXLarge) {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
   }
 }
 
 .listingCard {
   width: 100%;
+  background: var(--colorWhite);
+  border-radius: 8px;
+  border: 1px solid var(--colorGrey100);
+  overflow: hidden;
+  transform: scale(0.8);
+  transform-origin: center;
 }
 
 .pagination {

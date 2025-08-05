@@ -160,7 +160,7 @@ const ListingCardImage = props => {
  * @param {Object} props.listing API entity: listing or ownListing
  * @param {string?} props.renderSizes for img/srcset
  * @param {Function?} props.setActiveListing
- * @param {boolean?} props.showAuthorInfo
+ * @param {boolean?} props.showBrandInfo
  * @returns {JSX.Element} listing card to be used in search result panel etc.
  */
 export const ListingCard = props => {
@@ -173,7 +173,7 @@ export const ListingCard = props => {
     listing,
     renderSizes,
     setActiveListing,
-    showAuthorInfo = true,
+    showBrandInfo = true,
   } = props;
 
   const classes = classNames(rootClassName || css.root, className);
@@ -183,13 +183,23 @@ export const ListingCard = props => {
   const { title = '', price, publicData } = currentListing.attributes;
   const slug = createSlug(title);
 
-  const author = ensureUser(listing.author);
-  const authorName = author.attributes.profile.displayName;
-
-  const { listingType, cardStyle } = publicData || {};
+  const { listingType, cardStyle, brand } = publicData || {};
   const validListingTypes = config.listing.listingTypes;
   const foundListingTypeConfig = validListingTypes.find(conf => conf.listingType === listingType);
   const showListingImage = requireListingImage(foundListingTypeConfig);
+
+  // Find the brand field configuration to get enum options
+  const brandFieldConfig = config.listing.listingFields?.find(field => field.key === 'brand');
+  const brandEnumOptions = brandFieldConfig?.enumOptions || [];
+
+  // Get the display name for the brand value
+  const getBrandDisplayName = (brandValue) => {
+    if (!brandValue) return null;
+    const brandOption = brandEnumOptions.find(option => option.option === brandValue);
+    return brandOption ? brandOption.label : brandValue;
+  };
+
+  const brandDisplayName = getBrandDisplayName(brand);
 
   const {
     aspectWidth = 1,
@@ -236,9 +246,9 @@ export const ListingCard = props => {
               })}
             </div>
           )}
-          {showAuthorInfo ? (
-            <div className={css.authorInfo}>
-              <FormattedMessage id="ListingCard.author" values={{ authorName }} />
+          {showBrandInfo && brandDisplayName ? (
+            <div className={css.brandInfo}>
+              {brandDisplayName}
             </div>
           ) : null}
         </div>

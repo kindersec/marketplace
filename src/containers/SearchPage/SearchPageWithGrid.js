@@ -35,7 +35,7 @@ import {
 import { getListingsById } from '../../ducks/marketplaceData.duck';
 import { manageDisableScrolling, isScrollingDisabled } from '../../ducks/ui.duck';
 
-import { H3, H5, NamedRedirect, Page } from '../../components';
+import { H3, H5, NamedRedirect, Page, IconArrowHead } from '../../components';
 import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../FooterContainer/FooterContainer';
 
@@ -75,10 +75,12 @@ export class SearchPageComponent extends Component {
     this.state = {
       isMobileModalOpen: false,
       currentQueryParams: validUrlQueryParamsFromProps(props),
+      isAsideCollapsed: false,
     };
 
     this.onOpenMobileModal = this.onOpenMobileModal.bind(this);
     this.onCloseMobileModal = this.onCloseMobileModal.bind(this);
+    this.toggleAside = this.toggleAside.bind(this);
 
     // Filter functions
     this.resetAll = this.resetAll.bind(this);
@@ -98,6 +100,12 @@ export class SearchPageComponent extends Component {
   // for example when a filter modal is opened in mobile view
   onCloseMobileModal() {
     this.setState({ isMobileModalOpen: false });
+  }
+
+  toggleAside() {
+    this.setState(prevState => ({
+      isAsideCollapsed: !prevState.isAsideCollapsed,
+    }));
   }
 
   // Reset all filter query parameters
@@ -381,37 +389,61 @@ export class SearchPageComponent extends Component {
       >
         <TopbarContainer rootClassName={topbarClasses} currentSearchParams={validQueryParams} />
         <div className={css.layoutWrapperContainer}>
-          <aside className={css.layoutWrapperFilterColumn} data-testid="filterColumnAside">
+          <aside
+            className={classNames(css.layoutWrapperFilterColumn, {
+              [css.layoutWrapperFilterColumnCollapsed]: this.state.isAsideCollapsed,
+            })}
+            data-testid="filterColumnAside"
+          >
             <div className={css.filterColumnContent}>
-              {availableFilters.map(filterConfig => {
-                const key = `SearchFiltersDesktop.${filterConfig.scope || 'built-in'}.${
-                  filterConfig.key
-                }`;
-                return (
-                  <FilterComponent
-                    key={key}
-                    idPrefix="SearchFiltersDesktop"
-                    className={css.filter}
-                    config={filterConfig}
-                    listingCategories={listingCategories}
-                    marketplaceCurrency={marketplaceCurrency}
-                    urlQueryParams={validQueryParams}
-                    initialValues={initialValues(this.props, this.state.currentQueryParams)}
-                    getHandleChangedValueFn={this.getHandleChangedValueFn}
-                    intl={intl}
-                    liveEdit
-                    showAsPopup={false}
-                    isDesktop
-                  />
-                );
-              })}
-              <button className={css.resetAllButton} onClick={e => this.handleResetAll(e)}>
-                <FormattedMessage id={'SearchFiltersMobile.resetAll'} />
-              </button>
+              {!this.state.isAsideCollapsed && (
+                <>
+                  {availableFilters.map(filterConfig => {
+                    const key = `SearchFiltersDesktop.${filterConfig.scope || 'built-in'}.${
+                      filterConfig.key
+                    }`;
+                    return (
+                      <FilterComponent
+                        key={key}
+                        idPrefix="SearchFiltersDesktop"
+                        className={css.filter}
+                        config={filterConfig}
+                        listingCategories={listingCategories}
+                        marketplaceCurrency={marketplaceCurrency}
+                        urlQueryParams={validQueryParams}
+                        initialValues={initialValues(this.props, this.state.currentQueryParams)}
+                        getHandleChangedValueFn={this.getHandleChangedValueFn}
+                        intl={intl}
+                        liveEdit
+                        showAsPopup={false}
+                        isDesktop
+                      />
+                    );
+                  })}
+                  <button className={css.resetAllButton} onClick={e => this.handleResetAll(e)}>
+                    <FormattedMessage id={'SearchFiltersMobile.resetAll'} />
+                  </button>
+                </>
+              )}
             </div>
+            <button
+              className={css.toggleAsideButton}
+              onClick={this.toggleAside}
+              aria-label={this.state.isAsideCollapsed ? 'Expand filters' : 'Collapse filters'}
+            >
+              <IconArrowHead
+                direction={this.state.isAsideCollapsed ? 'right' : 'left'}
+                size="small"
+              />
+            </button>
           </aside>
 
-          <div className={css.layoutWrapperMain} role="main">
+          <div
+            className={classNames(css.layoutWrapperMain, {
+              [css.layoutWrapperMainExpanded]: this.state.isAsideCollapsed,
+            })}
+            role="main"
+          >
             <div className={css.searchResultContainer}>
               <SearchFiltersMobile
                 className={css.searchFiltersMobileList}
@@ -478,6 +510,49 @@ export class SearchPageComponent extends Component {
                     <FormattedMessage id="SearchPage.invalidDatesFilter" />
                   </H5>
                 ) : null}
+                {/* Temporary test listing with brand data */}
+                {listings.length === 0 && !searchInProgress && (
+                  <div className={css.listingCards}>
+                    <div className={css.listingCard}>
+                      <div style={{
+                        background: 'var(--colorGrey100)',
+                        height: '200px',
+                        borderRadius: '8px 8px 0 0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--colorGrey600)'
+                      }}>
+                        Test Image
+                      </div>
+                      <div style={{ padding: '16px' }}>
+                        <div style={{
+                          fontSize: '14px',
+                          fontWeight: '600',
+                          color: 'var(--marketplaceColor)',
+                          marginBottom: '8px'
+                        }}>
+                          $99.00
+                        </div>
+                        <div style={{
+                          fontSize: '14px',
+                          fontWeight: '700',
+                          color: 'var(--colorGrey700)',
+                          marginBottom: '8px'
+                        }}>
+                          Test Listing with Brand
+                        </div>
+                        <div style={{
+                          fontSize: '12px',
+                          fontWeight: '500',
+                          color: 'var(--colorGrey600)'
+                        }}>
+                          Test Brand
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <SearchResultsPanel
                   className={css.searchListingsPanel}
                   listings={listings}

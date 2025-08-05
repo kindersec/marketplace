@@ -232,7 +232,7 @@ const mergeBranding = (brandingConfig, defaultBranding) => {
     ...rest
   } = brandingConfig || {};
 
-  const marketplaceColor = marketplaceColors?.mainColor || defaultBranding.marketplaceColor;
+  const marketplaceColor = defaultBranding.marketplaceColor || marketplaceColors?.mainColor;
   const marketplaceColorDark = marketplaceColor ? hexToCssHsl(marketplaceColor, -10) : null;
   const marketplaceColorLight = marketplaceColor ? hexToCssHsl(marketplaceColor, 10) : null;
 
@@ -241,7 +241,7 @@ const mergeBranding = (brandingConfig, defaultBranding) => {
   const colorPrimaryButtonDark = colorPrimaryButton ? hexToCssHsl(colorPrimaryButton, -10) : null;
   const colorPrimaryButtonLight = colorPrimaryButton ? hexToCssHsl(colorPrimaryButton, 10) : null;
 
-  const logoSettingsRaw = logoSettings || defaultBranding.logoSettings;
+  const logoSettingsRaw = defaultBranding.logoSettings || logoSettings;
   const validLogoSettings =
     logoSettingsRaw?.format === 'image' && [24, 36, 48].includes(logoSettingsRaw?.height);
 
@@ -257,9 +257,9 @@ const mergeBranding = (brandingConfig, defaultBranding) => {
     colorPrimaryButton,
     colorPrimaryButtonDark,
     colorPrimaryButtonLight,
-    logoSettings: validLogoSettings ? logoSettingsRaw : { format: 'image', height: 24 },
-    logoImageDesktop: logo || defaultBranding.logoImageDesktopURL,
-    logoImageMobile: logo || defaultBranding.logoImageMobileURL,
+    logoSettings: validLogoSettings ? logoSettingsRaw : defaultBranding.logoSettings,
+    logoImageDesktop: defaultBranding.logoImageDesktopURL || logo,
+    logoImageMobile: defaultBranding.logoImageMobileURL || logo,
     brandImage: loginBackgroundImage,
     facebookImage,
     twitterImage,

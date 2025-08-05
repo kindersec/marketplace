@@ -39,6 +39,31 @@ const NoAccessPage = loadable(() => import(/* webpackChunkName: "NoAccessPage" *
 
 // Styleguide helps you to review current components and develop new ones
 const StyleguidePage = loadable(() => import(/* webpackChunkName: "StyleguidePage" */ '../containers/StyleguidePage/StyleguidePage'));
+const BrandsPage = loadable(() => import(/* webpackChunkName: "BrandsPage" */ '../containers/BrandsPage/BrandsPage'));
+const BlogPage = loadable(() => import(/* webpackChunkName: "BlogPage" */ '../containers/BlogPage/BlogPage'));
+const CategoriesPage = loadable(() => import(/* webpackChunkName: "CategoriesPage" */ '../containers/CategoriesPage/CategoriesPage'));
+const CompatibilityPage = loadable(() => import(/* webpackChunkName: "CompatibilityPage" */ '../containers/CompatibilityPage/CompatibilityPage'));
+
+// Article pages
+const ArticlesPage = loadable(() => import(/* webpackChunkName: "ArticlesPage" */ '../containers/ArticlesPage/ArticlesPage'));
+const SmartBathroomGadgetsPage = loadable(() => import(/* webpackChunkName: "SmartBathroomGadgetsPage" */ '../containers/ArticlesPage/SmartBathroomGadgetsPage'));
+const UnderratedSmartDevicesPage = loadable(() => import(/* webpackChunkName: "UnderratedSmartDevicesPage" */ '../containers/ArticlesPage/UnderratedSmartDevicesPage'));
+const SmartHomeGlossaryPage = loadable(() => import(/* webpackChunkName: "SmartHomeGlossaryPage" */ '../containers/ArticlesPage/SmartHomeGlossaryPage'));
+const WiFiPage = loadable(() => import(/* webpackChunkName: "WiFiPage" */ '../containers/ArticlesPage/WiFiPage'));
+const SmartLivingRoomPage = loadable(() => import(/* webpackChunkName: "SmartLivingRoomPage" */ '../containers/ArticlesPage/SmartLivingRoomPage'));
+const SmartPlugsPage = loadable(() => import(/* webpackChunkName: "SmartPlugsPage" */ '../containers/ArticlesPage/SmartPlugsPage'));
+const SmartHomeDevicesPage = loadable(() => import(/* webpackChunkName: "SmartHomeDevicesPage" */ '../containers/ArticlesPage/SmartHomeDevicesPage'));
+const SmartHomeProtocolsPage = loadable(() => import(/* webpackChunkName: "SmartHomeProtocolsPage" */ '../containers/ArticlesPage/SmartHomeProtocolsPage'));
+const VideoDoorbellPage = loadable(() => import(/* webpackChunkName: "VideoDoorbellPage" */ '../containers/ArticlesPage/VideoDoorbellPage'));
+const RobotLawnMowerPage = loadable(() => import(/* webpackChunkName: "RobotLawnMowerPage" */ '../containers/ArticlesPage/RobotLawnMowerPage'));
+const RobotVacuumPage = loadable(() => import(/* webpackChunkName: "RobotVacuumPage" */ '../containers/ArticlesPage/RobotVacuumPage'));
+
+// New article pages
+const SmartBulbPage = loadable(() => import(/* webpackChunkName: "SmartBulbPage" */ '../containers/ArticlesPage/SmartBulbPage'));
+const SmartLockPage = loadable(() => import(/* webpackChunkName: "SmartLockPage" */ '../containers/ArticlesPage/SmartLockPage'));
+const SmartHomeMythsPage = loadable(() => import(/* webpackChunkName: "SmartHomeMythsPage" */ '../containers/ArticlesPage/SmartHomeMythsPage'));
+const SmartBulbGlossaryPage = loadable(() => import(/* webpackChunkName: "SmartBulbGlossaryPage" */ '../containers/ArticlesPage/SmartBulbGlossaryPage'));
+const SmartLockGlossaryPage = loadable(() => import(/* webpackChunkName: "SmartLockGlossaryPage" */ '../containers/ArticlesPage/SmartLockGlossaryPage'));
 
 export const ACCOUNT_SETTINGS_PAGES = [
   'ContactDetailsPage',
@@ -62,22 +87,47 @@ const RedirectToLandingPage = () => <NamedRedirect name="LandingPage" />;
 // Our routes are exact by default.
 // See behaviour from Routes.js where Route is created.
 const routeConfiguration = (layoutConfig, accessControlConfig) => {
-  const SearchPage = layoutConfig.searchPage?.variantType === 'map' 
-    ? SearchPageWithMap 
+  const SearchPage = layoutConfig.searchPage?.variantType === 'map'
+    ? SearchPageWithMap
     : SearchPageWithGrid;
-  const ListingPage = layoutConfig.listingPage?.variantType === 'carousel' 
-    ? ListingPageCarousel 
+  const ListingPage = layoutConfig.listingPage?.variantType === 'carousel'
+    ? ListingPageCarousel
     : ListingPageCoverPhoto;
 
   const isPrivateMarketplace = accessControlConfig?.marketplace?.private === true;
   const authForPrivateMarketplace = isPrivateMarketplace ? { auth: true } : {};
-  
+
   return [
     {
       path: '/',
       name: 'LandingPage',
       component: LandingPage,
       loadData: pageDataLoadingAPI.LandingPage.loadData,
+    },
+    {
+      path: '/brands',
+      name: 'BrandsPage',
+      component: BrandsPage,
+    },
+    {
+      path: '/categories',
+      name: 'CategoriesPage',
+      component: CategoriesPage,
+    },
+    {
+      path: '/compatibility',
+      name: 'CompatibilityPage',
+      component: CompatibilityPage,
+    },
+    {
+      path: '/blog',
+      name: 'BlogPage',
+      component: BlogPage,
+    },
+    {
+      path: '/landing-page',
+      name: 'LandingPageAlt',
+      component: LandingPage,
     },
     {
       path: '/p/:pageId',
@@ -410,6 +460,92 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       name: 'PreviewResolverPage',
       component: PreviewResolverPage ,
     },
+
+    {
+      path: '/articles',
+      name: 'ArticlesPage',
+      component: ArticlesPage,
+    },
+    {
+      path: '/articles/smart-bathroom-gadgets',
+      name: 'SmartBathroomGadgetsPage',
+      component: SmartBathroomGadgetsPage,
+    },
+          {
+        path: '/articles/underrated-smart-devices',
+        name: 'UnderratedSmartDevicesPage',
+        component: UnderratedSmartDevicesPage,
+      },
+      {
+        path: '/articles/smart-home-glossary',
+        name: 'SmartHomeGlossaryPage',
+        component: SmartHomeGlossaryPage,
+      },
+      {
+        path: '/articles/wi-fi',
+        name: 'WiFiPage',
+        component: WiFiPage,
+      },
+      {
+        path: '/articles/smart-living-room',
+        name: 'SmartLivingRoomPage',
+        component: SmartLivingRoomPage,
+      },
+      {
+        path: '/articles/smart-plugs',
+        name: 'SmartPlugsPage',
+        component: SmartPlugsPage,
+      },
+      {
+        path: '/articles/smart-home-devices',
+        name: 'SmartHomeDevicesPage',
+        component: SmartHomeDevicesPage,
+      },
+      {
+        path: '/articles/smart-home-protocols',
+        name: 'SmartHomeProtocolsPage',
+        component: SmartHomeProtocolsPage,
+      },
+      {
+        path: '/articles/video-doorbell',
+        name: 'VideoDoorbellPage',
+        component: VideoDoorbellPage,
+      },
+      {
+        path: '/articles/robot-lawn-mower',
+        name: 'RobotLawnMowerPage',
+        component: RobotLawnMowerPage,
+      },
+      {
+        path: '/articles/robot-vacuum',
+        name: 'RobotVacuumPage',
+        component: RobotVacuumPage,
+      },
+      {
+        path: '/articles/smart-bulb',
+        name: 'SmartBulbPage',
+        component: SmartBulbPage,
+      },
+      {
+        path: '/articles/smart-lock',
+        name: 'SmartLockPage',
+        component: SmartLockPage,
+      },
+      {
+        path: '/articles/smart-home-myths',
+        name: 'SmartHomeMythsPage',
+        component: SmartHomeMythsPage,
+      },
+      {
+        path: '/articles/smart-bulb-glossary',
+        name: 'SmartBulbGlossaryPage',
+        component: SmartBulbGlossaryPage,
+      },
+      {
+        path: '/articles/smart-lock-glossary',
+        name: 'SmartLockGlossaryPage',
+        component: SmartLockGlossaryPage,
+      },
   ];
 };
 

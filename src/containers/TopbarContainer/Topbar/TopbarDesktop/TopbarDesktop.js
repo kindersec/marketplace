@@ -12,6 +12,7 @@ import {
   MenuContent,
   MenuItem,
   NamedLink,
+  IconProfile,
 } from '../../../../components';
 
 import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
@@ -19,21 +20,11 @@ import CustomLinksMenu from './CustomLinksMenu/CustomLinksMenu';
 
 import css from './TopbarDesktop.module.css';
 
-const SignupLink = () => {
-  return (
-    <NamedLink name="SignupPage" className={css.topbarLink}>
-      <span className={css.topbarLinkLabel}>
-        <FormattedMessage id="TopbarDesktop.signup" />
-      </span>
-    </NamedLink>
-  );
-};
-
-const LoginLink = () => {
+const ProfileIconLink = () => {
   return (
     <NamedLink name="LoginPage" className={css.topbarLink}>
       <span className={css.topbarLinkLabel}>
-        <FormattedMessage id="TopbarDesktop.login" />
+        <IconProfile className={css.profileIcon} />
       </span>
     </NamedLink>
   );
@@ -169,8 +160,7 @@ const TopbarDesktop = props => {
     />
   ) : null;
 
-  const signupLinkMaybe = isAuthenticatedOrJustHydrated ? null : <SignupLink />;
-  const loginLinkMaybe = isAuthenticatedOrJustHydrated ? null : <LoginLink />;
+  const profileIconLinkMaybe = isAuthenticatedOrJustHydrated ? null : <ProfileIconLink />;
 
   const searchFormMaybe = showSearchForm ? (
     <TopbarSearchForm
@@ -208,8 +198,7 @@ const TopbarDesktop = props => {
 
       {inboxLinkMaybe}
       {profileMenuMaybe}
-      {signupLinkMaybe}
-      {loginLinkMaybe}
+      {profileIconLinkMaybe}
     </nav>
   );
 };

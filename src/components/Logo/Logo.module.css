@@ -27,6 +27,9 @@
   }
 }
 
+.logo16 {
+  max-height: 16px;
+}
 .logo24 {
   max-height: 24px;
 }

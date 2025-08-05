@@ -1,5 +1,7 @@
 @import '../assets/sanitize.css';
 @import './customMediaQueries.css';
+@import './modernEnhancements.css';
+@import './modernUtilities.css';
 
 /* ================ Custom Properties aka CSS variables ================ */
 
@@ -55,7 +57,7 @@
   --marketplaceColorLight: #7748d5; /* hsl(260, 63%, 56%), +10L from marketplaceColor */
   --marketplaceColorDark: #492296; /* hsl(260, 63%, 26%), -10L from marketplaceColor */
 
-  /** 
+  /**
    * The fill color used by <PrimaryButton>
    * These might be overwritten by values from hosted assets
    */
@@ -63,7 +65,7 @@
   --colorPrimaryButtonDark: var(--colorSuccessDark);
   --colorPrimaryButtonLight: var(--colorSuccessLight);
 
-  /** 
+  /**
    * The fill color used by <SecondaryButton>
    */
   --colorSecondaryButton: var(--colorWhite);
@@ -71,8 +73,7 @@
   --colorSecondaryButtonLight: var(--colorWhite);
 
   /* ================ Font ================ */
-  --fontFamily: -apple-system, BlinkMacSystemFont, 'Inter', Helvetica, Arial, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --fontFamily: var(--fontFamilyPrimary);
 
   --fontWeightRegular: 400;
   --fontWeightMedium: 500;
@@ -254,8 +255,8 @@ a:hover {
 }
 
 h1 {
-  font-size: 24px;
-  line-height: 24px;
+  font-size: 20px;
+  line-height: 20px;
   font-weight: var(--fontWeightBlack);
   padding: 3px 0 3px 0;
   /* margin-top + n * line-height + margin-bottom => x * 6px */
@@ -263,8 +264,8 @@ h1 {
   margin-bottom: 18px;
 
   @media (--viewportMedium) {
-    font-size: 64px;
-    line-height: 64px;
+    font-size: 48px;
+    line-height: 48px;
     padding: 0;
     /* margin-top + n * line-height + margin-bottom => x * 8px */
     margin-top: 24px;
@@ -273,8 +274,8 @@ h1 {
 }
 
 h2 {
-  font-size: 21px;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 20px;
   font-weight: var(--fontWeightBold);
 
   padding: 4px 0 2px 0;
@@ -283,8 +284,8 @@ h2 {
   margin-bottom: 18px;
 
   @media (--viewportMedium) {
-    font-size: 40px;
-    line-height: 56px;
+    font-size: 32px;
+    line-height: 44px;
     padding: 5px 0 3px 0;
     /* x * 8px */
     margin-top: 24px;
@@ -294,15 +295,15 @@ h2 {
 
 h3 {
   font-weight: var(--fontWeightBold);
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 20px;
   /* x * 6px */
   margin-top: 18px;
   margin-bottom: 12px;
 
   @media (--viewportMedium) {
-    font-size: 30px;
-    line-height: 40px;
+    font-size: 24px;
+    line-height: 32px;
     padding: 1px 0 7px 0;
     /* x * 8px */
     margin-top: 16px;
@@ -312,15 +313,15 @@ h3 {
 
 h4 {
   font-weight: var(--fontWeightBold);
-  font-size: 21px;
-  line-height: 30px;
+  font-size: 18px;
+  line-height: 24px;
   padding: 1px 0 5px 0;
   /* x * 6px */
   margin-top: 12px;
   margin-bottom: 6px;
 
   @media (--viewportMedium) {
-    line-height: 32px;
+    line-height: 26px;
     padding: 0;
     /* x * 8px */
     margin-top: 16px;
@@ -330,15 +331,15 @@ h4 {
 
 h5 {
   font-weight: var(--fontWeightMedium);
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 12px;
+  line-height: 16px;
   /* x * 6px */
   padding: 3px 0 3px 0;
   margin-top: 12px;
   margin-bottom: 6px;
 
   @media (--viewportMedium) {
-    line-height: 16px;
+    line-height: 14px;
     /* x * 8px */
     padding: 3px 0 5px 0;
     margin-top: 8px;
@@ -348,8 +349,8 @@ h5 {
 
 h6 {
   font-weight: var(--fontWeightBold);
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 10px;
+  line-height: 16px;
   text-transform: uppercase;
   /* x * 6px */
   padding: 4px 0 2px 0;
@@ -357,7 +358,7 @@ h6 {
   margin-bottom: 6px;
 
   @media (--viewportMedium) {
-    line-height: 16px;
+    line-height: 14px;
     /* x * 8px */
     padding: 3px 0 5px 0;
     margin-top: 8px;
@@ -395,6 +396,30 @@ pre {
     margin-top: 16px;
     margin-bottom: 16px;
   }
+}
+
+/* ================ Image Normalisations ================ */
+
+/* Ensure all images in the marketplace fit properly in their containers */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure ResponsiveImage components fit properly in their containers */
+img[class*="ResponsiveImage_root"] {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Ensure PageBuilder images fit properly in their containers */
+img[class*="Image_fieldImage"] {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* ================ Normalisations ================ */
@@ -587,7 +612,7 @@ textarea {
 /* ================ Plain global CSS glasses ================ */
 
 /**
- * Note: even though these reflect element styles, 
+ * Note: even though these reflect element styles,
  * these are below element styles to allow overwrites using classes.
  */
 
@@ -613,8 +638,8 @@ textarea {
 
 .h1 {
   font-weight: var(--fontWeightBlack);
-  font-size: 24px;
-  line-height: 24px;
+  font-size: 20px;
+  line-height: 20px;
 
   padding: 3px 0 3px 0;
   /* margin-top + n * line-height + margin-bottom => x * 6px */
@@ -622,8 +647,8 @@ textarea {
   margin-bottom: 18px;
 
   @media (--viewportMedium) {
-    font-size: 64px;
-    line-height: 64px;
+    font-size: 48px;
+    line-height: 48px;
     padding: 0;
     /* margin-top + n * line-height + margin-bottom => x * 8px */
     margin-top: 24px;
@@ -633,8 +658,8 @@ textarea {
 
 .h2 {
   font-weight: var(--fontWeightBold);
-  font-size: 21px;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 20px;
 
   padding: 4px 0 2px 0;
   /* x * 6px */
@@ -642,8 +667,8 @@ textarea {
   margin-bottom: 18px;
 
   @media (--viewportMedium) {
-    font-size: 40px;
-    line-height: 56px;
+    font-size: 32px;
+    line-height: 44px;
     padding: 5px 0 3px 0;
     /* x * 8px */
     margin-top: 24px;
@@ -653,15 +678,15 @@ textarea {
 
 .h3 {
   font-weight: var(--fontWeightBold);
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 20px;
   /* x * 6px */
   margin-top: 18px;
   margin-bottom: 12px;
 
   @media (--viewportMedium) {
-    font-size: 30px;
-    line-height: 40px;
+    font-size: 24px;
+    line-height: 32px;
     padding: 1px 0 7px 0;
     /* x * 8px */
     margin-top: 16px;
@@ -671,15 +696,15 @@ textarea {
 
 .h4 {
   font-weight: var(--fontWeightBold);
-  font-size: 21px;
-  line-height: 30px;
+  font-size: 18px;
+  line-height: 24px;
   padding: 1px 0 5px 0;
   /* x * 6px */
   margin-top: 12px;
   margin-bottom: 6px;
 
   @media (--viewportMedium) {
-    line-height: 32px;
+    line-height: 26px;
     padding: 0;
     /* x * 8px */
     margin-top: 16px;
@@ -689,15 +714,15 @@ textarea {
 
 .h5 {
   font-weight: var(--fontWeightMedium);
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 12px;
+  line-height: 16px;
   /* x * 6px */
   padding: 3px 0 3px 0;
   margin-top: 12px;
   margin-bottom: 6px;
 
   @media (--viewportMedium) {
-    line-height: 16px;
+    line-height: 14px;
     /* x * 8px */
     padding: 3px 0 5px 0;
     margin-top: 8px;
@@ -707,8 +732,8 @@ textarea {
 
 .h6 {
   font-weight: var(--fontWeightBold);
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 10px;
+  line-height: 16px;
   text-transform: uppercase;
   /* x * 6px */
   padding: 4px 0 2px 0;
@@ -716,7 +741,7 @@ textarea {
   margin-bottom: 6px;
 
   @media (--viewportMedium) {
-    line-height: 16px;
+    line-height: 14px;
     /* x * 8px */
     padding: 3px 0 5px 0;
     margin-top: 8px;
@@ -757,13 +782,13 @@ textarea {
   font-weight: var(--fontWeightMedium);
 
   /* No margins for default font */
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 12px;
+  line-height: 20px;
   padding: 0;
 
   @media (--viewportMedium) {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 13px;
+    line-height: 20px;
     padding: 5px 0 3px 0;
   }
 }
@@ -816,8 +841,8 @@ textarea {
 
 .marketplaceSmallFontStyles {
   font-weight: var(--fontWeightMedium);
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 12px;
+  line-height: 20px;
 }
 
 .marketplaceTinyFontStyles {
@@ -956,7 +981,7 @@ textarea {
  * For actual buttons, use components: <Button>, <PrimaryButton>, <SecondaryButton>
  *
  * To create button look-and-feel for links, etc. combine button classes in CSS Modules:
- * 
+ *
  * <Button>:
  *   composes: buttonDefault from global;
  * <PrimaryButton>:

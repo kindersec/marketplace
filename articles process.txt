@@ -1,0 +1,7 @@
+- Load the articles in the /articles folder
+- Check how pages are created in src/containers/ArticlesPage/ folder
+- Create a page for each articles from /articlers under containers/ArticlesPage/ similarly to the existing pages
+- Update the routing in src/routing/routeConfiguration.js
+- Update the ArticlesPage in src/containers/ArticlesPage/ArticlesPage.js
+- Update the src/containers/BlogPage/BlogPage.js with the newly created article
+- Move the articles markdown files to the "/articles done" folder

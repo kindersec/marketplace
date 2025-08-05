@@ -28,6 +28,7 @@ export { default as IconEmailSuccess } from './IconEmailSuccess/IconEmailSuccess
 export { default as IconInquiry } from './IconInquiry/IconInquiry';
 export { default as IconKeys } from './IconKeys/IconKeys';
 export { default as IconKeysSuccess } from './IconKeysSuccess/IconKeysSuccess';
+export { default as IconProfile } from './IconProfile/IconProfile';
 export { default as IconReviewStar } from './IconReviewStar/IconReviewStar';
 export { default as IconReviewUser } from './IconReviewUser/IconReviewUser';
 export { default as IconSearch } from './IconSearch/IconSearch';

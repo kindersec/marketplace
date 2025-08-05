@@ -1,0 +1,305 @@
+@import '../../styles/customMediaQueries.css';
+
+.root {
+  background: linear-gradient(135deg, var(--colorGray50) 0%, var(--colorWhite) 100%);
+  color: var(--colorGray800);
+  min-height: 100vh;
+}
+
+.content {
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: var(--spacing2xl) var(--spacingLg) var(--spacing2xl) var(--spacingLg);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacingLg);
+  padding: var(--spacingSm);
+}
+
+.pageTitle {
+  font-size: var(--fontSize4xl);
+  font-weight: 900;
+  font-variation-settings: 'wght' 900;
+  margin-bottom: var(--spacingMd);
+  line-height: 1.1;
+  color: var(--colorGray900);
+  letter-spacing: -0.02em;
+
+  @media (--viewportMedium) {
+    font-size: var(--fontSize5xl);
+    margin-bottom: var(--spacingLg);
+  }
+}
+
+.subtitle {
+  font-size: var(--fontSizeBase);
+  color: var(--colorGray600);
+  line-height: var(--lineHeightRelaxed);
+  max-width: 600px;
+  margin: 0 auto;
+
+  @media (--viewportMedium) {
+    font-size: var(--fontSizeLg);
+  }
+}
+
+.articlesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacingLg);
+  margin-top: var(--spacing2xl);
+
+  @media (--viewportMedium) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing2xl);
+  }
+
+  @media (--viewportLarge) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing2xl);
+  }
+}
+
+.articleCardLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--transitionNormal);
+}
+
+.articleCardLink:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.articleCard {
+  background: var(--colorWhite);
+  border-radius: var(--borderRadiusLg);
+  box-shadow: var(--shadowMd);
+  overflow: hidden;
+  transition: all var(--transitionNormal);
+  border: 1px solid var(--colorGray200);
+  cursor: pointer;
+}
+
+.articleCardLink:hover .articleCard {
+  transform: translateY(-2px);
+  box-shadow: var(--shadowLg);
+}
+
+.articleContent {
+  padding: var(--spacingMd);
+}
+
+.articleMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacingSm);
+  font-size: var(--fontSizeSm);
+}
+
+.category {
+  background: var(--marketplaceColor);
+  color: var(--colorWhite);
+  padding: var(--spacingXs) var(--spacingSm);
+  border-radius: var(--borderRadiusMd);
+  font-weight: 600;
+  font-variation-settings: 'wght' 600;
+}
+
+.date {
+  color: var(--colorGray500);
+}
+
+.articleTitle {
+  font-size: var(--fontSizeLg);
+  font-weight: 700;
+  font-variation-settings: 'wght' 700;
+  margin-bottom: var(--spacingSm);
+  line-height: 1.2;
+  color: var(--colorGray900);
+
+  @media (--viewportMedium) {
+    font-size: var(--fontSizeXl);
+    margin-bottom: var(--spacingMd);
+  }
+}
+
+.articleExcerpt {
+  font-size: var(--fontSizeSm);
+  line-height: var(--lineHeightRelaxed);
+  color: var(--colorGray600);
+  margin-bottom: var(--spacingMd);
+}
+
+.articleTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacingXs);
+}
+
+.tag {
+  background: var(--colorGray100);
+  color: var(--colorGray700);
+  padding: var(--spacingXs) var(--spacingSm);
+  border-radius: var(--borderRadiusMd);
+  font-size: var(--fontSizeSm);
+  font-weight: 500;
+  font-variation-settings: 'wght' 500;
+}
+
+.filterSection {
+  margin: var(--spacingLg) 0;
+  text-align: center;
+}
+
+.filterGroup {
+  margin-bottom: var(--spacingLg);
+}
+
+.filterGroup:last-child {
+  margin-bottom: 0;
+}
+
+.filterTitle {
+  font-size: var(--fontSizeBase);
+  font-weight: 600;
+  color: var(--colorGray800);
+  margin-bottom: var(--spacingSm);
+}
+
+.filterButtons {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacingSm);
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  background: var(--colorWhite);
+  color: var(--colorGray700);
+  border: 2px solid var(--colorGray300);
+  padding: var(--spacingSm) var(--spacingLg);
+  border-radius: var(--borderRadiusLg);
+  font-size: var(--fontSizeSm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transitionNormal);
+}
+
+.filterButton:hover {
+  border-color: var(--marketplaceColor);
+  color: var(--marketplaceColor);
+  transform: translateY(-2px);
+}
+
+.filterButton.active {
+  background: var(--marketplaceColor);
+  color: var(--colorWhite);
+  border-color: var(--marketplaceColor);
+}
+
+.searchSection {
+  margin: var(--spacingLg) 0;
+  text-align: center;
+}
+
+.searchContainer {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.searchInput {
+  width: 100%;
+  padding: var(--spacingMd) var(--spacing2xl) var(--spacingMd) var(--spacingLg);
+  border: 2px solid var(--colorGray300);
+  border-radius: var(--borderRadiusLg);
+  font-size: var(--fontSizeBase);
+  background: var(--colorWhite);
+  color: var(--colorGray800);
+  transition: all var(--transitionNormal);
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: var(--marketplaceColor);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.searchInput::placeholder {
+  color: var(--colorGray500);
+}
+
+.searchIcon {
+  position: absolute;
+  right: var(--spacingMd);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--fontSizeLg);
+  color: var(--colorGray500);
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: var(--spacingLg) var(--spacingMd) var(--spacingLg) var(--spacingMd);
+  }
+
+  .pageTitle {
+    font-size: var(--fontSize3xl);
+  }
+
+  .subtitle {
+    font-size: var(--fontSizeSm);
+  }
+
+  .articlesGrid {
+    gap: var(--spacingMd);
+  }
+
+  .articleContent {
+    padding: var(--spacingSm);
+  }
+
+  .articleTitle {
+    font-size: var(--fontSizeLg);
+  }
+
+  .filterSection {
+    margin: var(--spacingMd) 0;
+  }
+
+  .filterGroup {
+    margin-bottom: var(--spacingMd);
+  }
+
+  .filterButtons {
+    gap: var(--spacingXs);
+  }
+
+  .filterButton {
+    padding: var(--spacingXs) var(--spacingMd);
+    font-size: var(--fontSizeSm);
+  }
+
+  .searchSection {
+    margin: var(--spacingMd) 0;
+  }
+
+  .searchContainer {
+    max-width: 100%;
+  }
+
+  .searchInput {
+    padding: var(--spacingSm) var(--spacingXl) var(--spacingSm) var(--spacingMd);
+    font-size: var(--fontSizeSm);
+  }
+
+  .searchIcon {
+    font-size: var(--fontSizeBase);
+  }
+}

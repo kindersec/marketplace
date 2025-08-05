@@ -6,10 +6,11 @@ import { ResponsiveImage } from '../../components/';
 
 import css from './Logo.module.css';
 
+const HEIGHT_16 = 16;
 const HEIGHT_24 = 24;
 const HEIGHT_36 = 36;
 const HEIGHT_48 = 48;
-const HEIGHT_OPTIONS = [HEIGHT_24, HEIGHT_36, HEIGHT_48];
+const HEIGHT_OPTIONS = [HEIGHT_16, HEIGHT_24, HEIGHT_36, HEIGHT_48];
 
 // logoSettings property supports only 3 types at this point
 const isValidLogoSettings = settings =>
@@ -31,7 +32,7 @@ const getVariantData = variants => {
 
 // We have maximum heights for each logo type. It's enforced through classes
 const getHeightClassName = height => {
-  return height === HEIGHT_48 ? css.logo48 : height === HEIGHT_36 ? css.logo36 : css.logo24;
+  return height === HEIGHT_48 ? css.logo48 : height === HEIGHT_36 ? css.logo36 : height === HEIGHT_24 ? css.logo24 : css.logo16;
 };
 
 export const LogoComponent = props => {
@@ -52,6 +53,24 @@ export const LogoComponent = props => {
     logoImageClassName || css.logo,
     getHeightClassName(logoSettings?.height)
   );
+
+  // SVG Logo implementation - inline SVG code
+  // return (
+  //   <div className={logoClasses}>
+  //     <svg
+  //       className={logoImageClasses}
+  //       data-logo="logo"
+  //       xmlns="http://www.w3.org/2000/svg"
+  //       viewBox="0 0 143 29"
+  //       aria-label={marketplaceName}
+  //       {...rest}
+  //     >
+  //       <path fill-rule="evenodd" clip-rule="evenodd" d="M8 16L3.54223 12.3383C1.93278 11.0162 1 9.04287 1 6.96005C1 3.11612 4.15607 0 8 0C11.8439 0 15 3.11612 15 6.96005C15 9.04287 14.0672 11.0162 12.4578 12.3383L8 16ZM3 6H5C6.10457 6 7 6.89543 7 8V9L3 7.5V6ZM11 6C9.89543 6 9 6.89543 9 8V9L13 7.5V6H11Z" fill="#000000"/>
+  //     </svg>
+  //   </div>
+  // );
+
+  // COMMENTED OUT: Original image display code
 
   // Logo from hosted asset
   if (isImageAsset(logoImageDesktop) && hasValidLogoSettings && layout === 'desktop') {
@@ -97,14 +116,24 @@ export const LogoComponent = props => {
   } else if (layout === 'desktop') {
     return (
       <div className={logoClasses}>
-        <img className={logoImageClasses} src={logoImageDesktop} alt={marketplaceName} {...rest} />
+        <img
+          className={logoImageClasses}
+          src={logoImageDesktop}
+          alt={marketplaceName}
+          {...rest}
+        />
       </div>
     );
   }
 
   return (
     <div className={logoClasses}>
-      <img className={logoImageClasses} src={logoImageMobile} alt={marketplaceName} {...rest} />
+      <img
+        className={logoImageClasses}
+        src={logoImageMobile}
+        alt={marketplaceName}
+        {...rest}
+      />
     </div>
   );
 };

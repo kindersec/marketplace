@@ -80,10 +80,10 @@ import {
 } from './ListingPage.shared';
 import SectionHero from './SectionHero';
 import SectionTextMaybe from './SectionTextMaybe';
+import SectionDescriptionAndDetails from './SectionDescriptionAndDetails';
 import SectionReviews from './SectionReviews';
 import SectionAuthorMaybe from './SectionAuthorMaybe';
 import SectionMapMaybe from './SectionMapMaybe';
-import CustomListingFields from './CustomListingFields';
 import ActionBarMaybe from './ActionBarMaybe';
 
 import css from './ListingPage.module.css';
@@ -390,36 +390,6 @@ export const ListingPageComponent = props => {
                 </H3>
               )}
             </div>
-            <SectionTextMaybe text={description} showAsIngress />
-
-            <CustomListingFields
-              publicData={publicData}
-              metadata={metadata}
-              listingFieldConfigs={listingConfig.listingFields}
-              categoryConfiguration={config.categoryConfiguration}
-              intl={intl}
-            />
-
-            <SectionMapMaybe
-              geolocation={geolocation}
-              publicData={publicData}
-              listingId={currentListing.id}
-              mapsConfig={config.maps}
-            />
-            <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
-            <SectionAuthorMaybe
-              title={title}
-              listing={currentListing}
-              authorDisplayName={authorDisplayName}
-              onContactUser={onContactUser}
-              isInquiryModalOpen={isAuthenticated && inquiryModalOpen}
-              onCloseInquiryModal={() => setInquiryModalOpen(false)}
-              sendInquiryError={sendInquiryError}
-              sendInquiryInProgress={sendInquiryInProgress}
-              onSubmitInquiry={onSubmitInquiry}
-              currentUser={currentUser}
-              onManageDisableScrolling={onManageDisableScrolling}
-            />
           </div>
           <div className={css.orderColumnForHeroLayout}>
             <OrderPanel
@@ -454,6 +424,48 @@ export const ListingPageComponent = props => {
               marketplaceName={config.marketplaceName}
               showListingImage={showListingImage}
             />
+          </div>
+        </div>
+
+        {/* Full-width description and details section */}
+        <div className={css.fullWidthDescriptionContainer}>
+          <SectionDescriptionAndDetails
+            text={description}
+            showAsIngress
+            enableMarkdown
+            publicData={publicData}
+            metadata={metadata}
+            listingFieldConfigs={listingConfig.listingFields}
+            categoryConfiguration={config.categoryConfiguration}
+            intl={intl}
+          />
+        </div>
+
+        <div className={css.contentWrapperForHeroLayout}>
+          <div className={css.mainColumnForHeroLayout}>
+            <SectionMapMaybe
+              geolocation={geolocation}
+              publicData={publicData}
+              listingId={currentListing.id}
+              mapsConfig={config.maps}
+            />
+            <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
+            <SectionAuthorMaybe
+              title={title}
+              listing={currentListing}
+              authorDisplayName={authorDisplayName}
+              onContactUser={onContactUser}
+              isInquiryModalOpen={isAuthenticated && inquiryModalOpen}
+              onCloseInquiryModal={() => setInquiryModalOpen(false)}
+              sendInquiryError={sendInquiryError}
+              sendInquiryInProgress={sendInquiryInProgress}
+              onSubmitInquiry={onSubmitInquiry}
+              currentUser={currentUser}
+              onManageDisableScrolling={onManageDisableScrolling}
+            />
+          </div>
+          <div className={css.orderColumnForHeroLayout}>
+            {/* Empty order column to maintain layout */}
           </div>
         </div>
       </LayoutSingleColumn>

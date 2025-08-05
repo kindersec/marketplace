@@ -57,6 +57,7 @@
 
 .layoutWrapperFilterColumn {
   display: none;
+  position: relative;
 
   @media (--viewportMedium) {
     /* Layout */
@@ -81,6 +82,48 @@
   }
   @media (--viewportXLarge) {
     padding: 40px 0 0 calc((100vw - 1800px) / 2);
+  }
+}
+
+.layoutWrapperFilterColumnCollapsed {
+  @media (--viewportMedium) {
+    width: 60px;
+    min-width: 60px;
+  }
+  @media (--viewportLarge) {
+    width: 60px;
+    min-width: 60px;
+  }
+}
+
+.toggleAsideButton {
+  position: absolute;
+  top: 24px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--colorWhite);
+  border: 1px solid var(--colorGrey300);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: var(--colorGrey50);
+    border-color: var(--colorGrey400);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--colorGrey300);
+  }
+
+  @media (--viewportLarge) {
+    top: 40px;
   }
 }
 
@@ -164,6 +207,12 @@
   }
   @media (--viewportXLarge) {
     padding: 40px calc((100vw - 1800px) / 2) 0 59px;
+  }
+}
+
+.layoutWrapperMainExpanded {
+  @media (--viewportMedium) {
+    border-left: none;
   }
 }
 
@@ -251,6 +300,7 @@
 
 .listingsForGridVariant {
   composes: listings;
+  padding: 0;
 }
 
 .listingsForMapVariant {

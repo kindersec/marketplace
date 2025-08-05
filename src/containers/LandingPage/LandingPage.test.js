@@ -8,63 +8,103 @@ import { LandingPageComponent } from './LandingPage';
 const { waitFor } = testingLibrary;
 
 describe('LandingPage', () => {
-  it('renders the Fallback page on error', async () => {
-    const errorMessage = 'LandingPage failed';
-    let e = new Error(errorMessage);
-    e.type = 'error';
-    e.name = 'Test';
-
+  it('renders loading state', () => {
     const { getByText } = render(
-      <LandingPageComponent pageAssetsData={null} inProgress={false} error={e} />
+      <LandingPageComponent inProgress={true} error={null} />
+    );
+
+    expect(getByText('Loading...')).toBeInTheDocument();
+  });
+
+  it('renders error state', () => {
+    const error = new Error('Test error');
+    const { getByText } = render(
+      <LandingPageComponent inProgress={false} error={error} />
+    );
+
+    expect(getByText('Oops, something went wrong!')).toBeInTheDocument();
+    expect(getByText('Test error')).toBeInTheDocument();
+  });
+
+  it('renders the modern landing page content', async () => {
+    const { getByText, getAllByText } = render(
+      <LandingPageComponent inProgress={false} error={null} />
     );
 
     await waitFor(() => {
-      expect(getByText('Oops, something went wrong!')).toBeInTheDocument();
-      expect(getByText(errorMessage)).toBeInTheDocument();
+      // Hero section
+      expect(getByText('Transform Your Home with Smart Technology')).toBeInTheDocument();
+      expect(getByText('Discover the latest smart home devices from top brands. Control, automate, and enhance your living space with cutting-edge technology.')).toBeInTheDocument();
+      expect(getByText('Explore Smart Devices')).toBeInTheDocument();
+      expect(getByText('Learn More')).toBeInTheDocument();
+
+      // Features section
+      expect(getByText('Why Choose Smart Home?')).toBeInTheDocument();
+      expect(getByText('Smart Home Control')).toBeInTheDocument();
+      expect(getByText('Enhanced Security')).toBeInTheDocument();
+      expect(getByText('Energy Efficiency')).toBeInTheDocument();
+      expect(getByText('Voice Control')).toBeInTheDocument();
+
+      // Categories section
+      expect(getByText('Popular Categories')).toBeInTheDocument();
+      expect(getByText('Smart Lighting')).toBeInTheDocument();
+      expect(getByText('Security Cameras')).toBeInTheDocument();
+      expect(getByText('Smart Thermostats')).toBeInTheDocument();
+      expect(getByText('Smart Locks')).toBeInTheDocument();
+      expect(getByText('Robot Vacuums')).toBeInTheDocument();
+      expect(getByText('Smart Speakers')).toBeInTheDocument();
+      expect(getByText('Doorbells')).toBeInTheDocument();
+      expect(getByText('Smart Blinds')).toBeInTheDocument();
+      expect(getByText('Robot Lawn Mower')).toBeInTheDocument();
+      expect(getByText('Air Purifier')).toBeInTheDocument();
+
+      // Testimonials section
+      expect(getByText('What Our Customers Say')).toBeInTheDocument();
+      expect(getByText('Sarah Johnson')).toBeInTheDocument();
+      expect(getByText('Mike Chen')).toBeInTheDocument();
+      expect(getByText('Emily Rodriguez')).toBeInTheDocument();
+
+      // CTA section
+      expect(getByText('Ready to Get Started?')).toBeInTheDocument();
+      expect(getByText('Start Shopping Now')).toBeInTheDocument();
     });
   });
 
-  it('renders given pageAssetsData', async () => {
-    const data = {
-      sections: [
-        {
-          sectionType: 'columns',
-          sectionId: 'test-section',
-          numColumns: 1,
-          title: { fieldType: 'heading2', content: 'Landing page' },
-          description: {
-            fieldType: 'paragraph',
-            content: 'This is the description of the section',
-          },
-          blocks: [
-            {
-              blockType: 'defaultBlock',
-              blockId: 'test-block',
-              title: { fieldType: 'heading3', content: 'Block title here' },
-              text: {
-                fieldType: 'markdown',
-                content: `**Lorem ipsum** dolor sit amet, consectetur adipiscing elit. Nulla orci nisi, lobortis sit amet posuere et, vulputate sit amet neque. Nam a est id lectus viverra sagittis. Proin sed imperdiet lorem. Duis aliquam fermentum purus, tincidunt venenatis felis gravida in. Sed imperdiet mi vitae consequat rhoncus. Sed velit leo, porta at lorem ac, iaculis fermentum leo. Morbi tellus orci, bibendum id ante vel, hendrerit efficitur lectus. Proin vitae condimentum justo. Phasellus finibus nisi quis neque feugiat, ac auctor ipsum suscipit.`,
-              },
-            },
-          ],
-        },
-      ],
-    };
+  it('handles category clicks', async () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
     const { getByText } = render(
-      <LandingPageComponent
-        pageAssetsData={{ landingPage: { data } }}
-        inProgress={false}
-        error={null}
-      />
+      <LandingPageComponent inProgress={false} error={null} />
     );
 
     await waitFor(() => {
-      // Expect following texts to be found from rendered UI (inside <body>)
-      expect(getByText('Landing page')).toBeInTheDocument();
-      expect(getByText('This is the description of the section')).toBeInTheDocument();
-      expect(getByText('Block title here')).toBeInTheDocument();
-      expect(getByText('Lorem ipsum')).toBeInTheDocument();
+      const smartLightingCard = getByText('Smart Lighting').closest('div[role="button"]');
+      smartLightingCard.click();
+
+      expect(consoleSpy).toHaveBeenCalledWith('Category clicked:', {
+        name: 'Smart Lighting',
+        icon: '💡',
+        count: '500+ Products'
+      });
     });
+
+    consoleSpy.mockRestore();
+  });
+
+  it('handles CTA button clicks', async () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+
+    const { getByText } = render(
+      <LandingPageComponent inProgress={false} error={null} />
+    );
+
+    await waitFor(() => {
+      const primaryButton = getByText('Explore Smart Devices');
+      primaryButton.click();
+
+      expect(consoleSpy).toHaveBeenCalledWith('Primary CTA clicked');
+    });
+
+    consoleSpy.mockRestore();
   });
 });
