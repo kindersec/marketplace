@@ -55,7 +55,7 @@
   border-bottom: 1px solid var(--colorGrey100);
 
   @media (--viewportMedium) {
-    border-radius: var(--borderRadiusMedium);
+    border-radius: 20px;
     border: 1px solid var(--colorGrey100);
     overflow: hidden;
   }
@@ -119,7 +119,7 @@
    height a multiple of the baseline. */
   max-width: 88px;
   max-height: 88px;
-  border-radius: var(--borderRadiusMedium);
+  border-radius: 20px;
 }
 
 .navLeft,

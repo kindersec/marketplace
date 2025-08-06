@@ -38,6 +38,7 @@ const IconCheck = props => {
 const Item = props => {
   const { label, isSelected } = props;
   const labelClass = isSelected ? css.selectedLabel : css.notSelectedLabel;
+  if (!isSelected) return null;
   return (
     <li className={css.item}>
       <span className={css.iconWrapper}>

@@ -8,7 +8,7 @@
   padding: 0;
 
   /* Borders */
-  border-radius: var(--borderRadiusMedium);
+  border-radius: 20px;
   box-shadow: var(--boxShadowPopupLight);
 
   transition: var(--transitionStyleButton);

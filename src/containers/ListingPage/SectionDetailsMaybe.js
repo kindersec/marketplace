@@ -52,12 +52,14 @@ const SectionDetailsMaybe = props => {
         <FormattedMessage id="ListingPage.detailsTitle" />
       </Heading>
       <ul className={css.details}>
-        {existingListingFields.map(detail => (
-          <li key={detail.key} className={css.detailsRow}>
-            <span className={css.detailLabel}>{detail.label}</span>
-            <span>{detail.value}</span>
-          </li>
-        ))}
+        {existingListingFields
+          .filter(detail => detail.key !== "brand")
+          .map(detail => (
+            <li key={detail.key} className={css.detailsRow}>
+              <span className={css.detailLabel}>{detail.label}</span>
+              <span>{detail.value}</span>
+            </li>
+          ))}
       </ul>
     </section>
   ) : null;

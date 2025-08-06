@@ -326,7 +326,7 @@ label {
   font-variation-settings: 'wght' 600;
   font-size: var(--fontSizeSm);
   letter-spacing: 0.025em;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   color: var(--colorGray700);
 }
 

@@ -31,7 +31,7 @@
 
 .noImage {
   border: 1px solid var(--colorGrey100);
-  border-radius: var(--borderRadiusMedium);
+  border-radius: 20px;
 }
 
 .itemCentering {

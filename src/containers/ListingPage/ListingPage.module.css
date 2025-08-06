@@ -238,7 +238,7 @@
   transition: var(--transitionStyleButton);
 
   @media (--viewportMedium) {
-    border-radius: var(--borderRadius);
+    border-radius: 20px;
 
     &:hover {
       transform: scale(1.005);
