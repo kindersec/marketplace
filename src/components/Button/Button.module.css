@@ -38,6 +38,7 @@
 }
 
 .primaryButton {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
   /* Class handle for primary button state styles */
 }
 .secondaryButton {

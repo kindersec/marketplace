@@ -190,6 +190,18 @@ export const ListingPageComponent = props => {
   const shortDescription = publicData.shortdescription;
   const brand = publicData.brand;
   const worksWithHomeAssistant = publicData.works_with_home_assistant;
+  const connectivity = publicData.connectivity;
+  const compatibility = publicData.compatibility;
+  const homeAssistantIntegrationLink = publicData.home_assistant_integration_link;
+
+  // Extract product features from public data
+  const productFeatures = [
+    publicData.short_feature_1,
+    publicData.short_feature_2,
+    publicData.short_feature_3,
+    publicData.short_feature_4,
+    publicData.short_feature_5
+  ].filter(feature => feature && feature.trim() !== '');
 
   // Get brand display name from config
   const brandFieldConfig = config.listing.listingFields?.find(field => field.key === 'brand');
@@ -200,6 +212,49 @@ export const ListingPageComponent = props => {
     return brandOption ? brandOption.label : brandValue;
   };
   const brandDisplayName = getBrandDisplayName(brand);
+
+  // Helper function to get pictogram for connectivity/compatibility items
+  const getPictogram = (item) => {
+    const pictograms = {
+      'wifi': '📶',
+      'bluetooth': '📡',
+      'zigbee': '🔗',
+      'z-wave': '🌊',
+      'thread': '🧵',
+      'matter': '⚡',
+      'homekit': '🏠',
+      'alexa': '🔊',
+      'google': '🎤',
+      'siri': '💬',
+      'smartthings': '📱',
+      'homeassistant': '🏠',
+      'ifttt': '🔗',
+      'webhook': '🌐',
+      'mqtt': '📨',
+      'http': '🌍',
+      'coap': '📦',
+      'lora': '📡',
+      'cellular': '📞',
+      'ethernet': '🔌'
+    };
+    return pictograms[item.toLowerCase()] || '🔧';
+  };
+
+  // Helper function to get display value from config
+  const getDisplayValue = (fieldKey, value) => {
+    const fieldConfig = config.listing.listingFields?.find(field => field.key === fieldKey);
+    if (!fieldConfig || !fieldConfig.enumOptions) return value;
+
+    if (Array.isArray(value)) {
+      return value.map(v => {
+        const option = fieldConfig.enumOptions.find(opt => opt.option === v);
+        return option ? option.label : v;
+      }).join(', ');
+    } else {
+      const option = fieldConfig.enumOptions.find(opt => opt.option === value);
+      return option ? option.label : value;
+    }
+  };
 
   const richTitle = (
     <span>
@@ -366,15 +421,6 @@ export const ListingPageComponent = props => {
 
           <div className={css.middleColumnForProductLayout}>
             <div className={css.productInfo}>
-              {worksWithHomeAssistant && (
-                <div className={css.homeAssistantBadge}>
-                  <img
-                    src="https://works-with.home-assistant.io/img/wwha-blue.svg"
-                    alt="Works with Home Assistant"
-                    className={css.homeAssistantImage}
-                  />
-                </div>
-              )}
               <div className={css.productHeader}>
                 {brandDisplayName && (
                   <h2 className={css.productBrand}>{brandDisplayName}</h2>
@@ -384,13 +430,59 @@ export const ListingPageComponent = props => {
               {shortDescription && (
                 <p className={css.productShortDescription}>{shortDescription}</p>
               )}
-              <ul className={css.productFeatures}>
-                <li>Advanced technology integration for seamless operation</li>
-                <li>Premium quality materials ensuring long-lasting durability</li>
-                <li>User-friendly interface designed for optimal experience</li>
-                <li>Comprehensive warranty coverage for peace of mind</li>
-                <li>24/7 customer support available for all your needs</li>
-              </ul>
+              {productFeatures.length > 0 && (
+                <ul className={css.productFeatures}>
+                  {productFeatures.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              )}
+              {worksWithHomeAssistant === "true" && (
+                <div className={css.homeAssistantBadge}>
+                  <img
+                    src="https://works-with.home-assistant.io/img/wwha-blue.svg"
+                    alt="Works with Home Assistant"
+                    className={css.homeAssistantImage}
+                  />
+                </div>
+              )}
+
+              {/* Connectivity and Compatibility Section - following key features */}
+              {(connectivity || compatibility) && (
+                <div className={css.connectivityCompatibilityContainer}>
+                  {connectivity && (
+                    <div className={css.connectivityColumn}>
+                      <span className={css.sectionLabel}>Connectivity:</span>
+                      <span className={css.sectionValue}>
+                        {getDisplayValue('connectivity', connectivity)}
+                      </span>
+                    </div>
+                  )}
+
+                  {compatibility && (
+                    <div className={css.compatibilityColumn}>
+                      <span className={css.sectionLabel}>Compatibility:</span>
+                      <span className={css.sectionValue}>
+                        {getDisplayValue('compatibility', compatibility)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Home Assistant Integration Link */}
+              {homeAssistantIntegrationLink && (
+                <div className={css.homeAssistantIntegrationContainer}>
+                  <a
+                    href={homeAssistantIntegrationLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={css.homeAssistantIntegrationLink}
+                  >
+                    Home Assistant Integration
+                  </a>
+                </div>
+              )}
             </div>
           </div>
 

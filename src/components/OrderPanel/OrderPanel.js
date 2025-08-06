@@ -537,7 +537,8 @@ const OrderPanel = props => {
             <FormattedMessage id="OrderPanel.closedListingButtonText" />
           </div>
         ) : (
-          <PrimaryButton
+          <button
+            className={css.ctaButton}
             onClick={handleSubmit(
               isOwnListing,
               isClosed,
@@ -557,7 +558,7 @@ const OrderPanel = props => {
             ) : (
               <FormattedMessage id="OrderPanel.ctaButtonMessageInquiry" />
             )}
-          </PrimaryButton>
+          </button>
         )}
       </div>
     </div>
