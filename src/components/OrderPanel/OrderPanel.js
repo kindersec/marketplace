@@ -428,18 +428,22 @@ const OrderPanel = props => {
 
         {showListingImage && (
           <div className={css.orderHeading}>
-            {titleDesktop ? titleDesktop : <H2 className={titleClasses}>{title}</H2>}
+            {price && (
+              <H2 className={titleClasses}>
+                {formatMoneyIfSupportedCurrency(price, intl)}
+              </H2>
+            )}
             {subTitleText ? <div className={css.orderHelp}>{subTitleText}</div> : null}
           </div>
         )}
 
-        <PriceMaybe
+        {/* <PriceMaybe
           price={price}
           publicData={publicData}
           validListingTypes={validListingTypes}
           intl={intl}
           marketplaceCurrency={marketplaceCurrency}
-        />
+        /> */}
 
         {/* <div className={css.author}>
           <AvatarSmall user={author} className={css.providerAvatar} />

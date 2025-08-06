@@ -187,6 +187,20 @@ export const ListingPageComponent = props => {
     metadata = {},
   } = currentListing.attributes;
 
+  const shortDescription = publicData.shortdescription;
+  const brand = publicData.brand;
+  const worksWithHomeAssistant = publicData.works_with_home_assistant;
+
+  // Get brand display name from config
+  const brandFieldConfig = config.listing.listingFields?.find(field => field.key === 'brand');
+  const brandEnumOptions = brandFieldConfig?.enumOptions || [];
+  const getBrandDisplayName = (brandValue) => {
+    if (!brandValue) return null;
+    const brandOption = brandEnumOptions.find(option => option.option === brandValue);
+    return brandOption ? brandOption.label : brandValue;
+  };
+  const brandDisplayName = getBrandDisplayName(brand);
+
   const richTitle = (
     <span>
       {richText(title, {
@@ -318,7 +332,7 @@ export const ListingPageComponent = props => {
     >
       <LayoutSingleColumn className={css.pageRoot} topbar={topbar} footer={<FooterContainer />}>
         <div className={css.contentWrapperForProductLayout}>
-          <div className={css.mainColumnForProductLayout}>
+          <div className={css.imageColumnForProductLayout}>
             {mounted && currentListing.id && noPayoutDetailsSetWithOwnListing ? (
               <ActionBarMaybe
                 className={css.actionBarForProductLayout}
@@ -348,6 +362,39 @@ export const ListingPageComponent = props => {
                 variantPrefix={config.layout.listingImage.variantPrefix}
               />
             )}
+          </div>
+
+          <div className={css.middleColumnForProductLayout}>
+            <div className={css.productInfo}>
+              {worksWithHomeAssistant && (
+                <div className={css.homeAssistantBadge}>
+                  <img
+                    src="https://works-with.home-assistant.io/img/wwha-blue.svg"
+                    alt="Works with Home Assistant"
+                    className={css.homeAssistantImage}
+                  />
+                </div>
+              )}
+              <div className={css.productHeader}>
+                {brandDisplayName && (
+                  <h2 className={css.productBrand}>{brandDisplayName}</h2>
+                )}
+                <h3 className={css.productTitle}>{richTitle}</h3>
+              </div>
+              {shortDescription && (
+                <p className={css.productShortDescription}>{shortDescription}</p>
+              )}
+              <ul className={css.productFeatures}>
+                <li>Advanced technology integration for seamless operation</li>
+                <li>Premium quality materials ensuring long-lasting durability</li>
+                <li>User-friendly interface designed for optimal experience</li>
+                <li>Comprehensive warranty coverage for peace of mind</li>
+                <li>24/7 customer support available for all your needs</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className={css.orderColumnForProductLayout}>
             <div
               className={showListingImage ? css.mobileHeading : css.noListingImageHeadingProduct}
             >
@@ -361,8 +408,6 @@ export const ListingPageComponent = props => {
                 </H3>
               )}
             </div>
-          </div>
-          <div className={css.orderColumnForProductLayout}>
             <OrderPanel
               className={classNames(css.productOrderPanel, {
                 [css.imagesEnabled]: showListingImage,
