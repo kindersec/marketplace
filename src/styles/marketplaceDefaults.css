@@ -782,12 +782,12 @@ textarea {
   font-weight: var(--fontWeightMedium);
 
   /* No margins for default font */
-  font-size: 12px;
+  font-size: 18px;
   line-height: 20px;
   padding: 0;
 
   @media (--viewportMedium) {
-    font-size: 13px;
+    font-size: 18px;
     line-height: 20px;
     padding: 5px 0 3px 0;
   }

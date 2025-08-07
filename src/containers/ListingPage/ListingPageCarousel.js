@@ -88,6 +88,302 @@ import SectionGallery from './SectionGallery';
 
 import css from './ListingPage.module.css';
 
+// Tabs Component
+const Tabs = ({ activeTab, onTabChange, publicData }) => {
+  const tabs = [
+    { id: 'features', label: 'Features' },
+    { id: 'specs', label: 'Specifications' },
+    { id: 'reviews', label: 'Reviews' },
+    { id: 'more', label: 'More' }
+  ];
+
+  const tabContent = {
+    features: (
+      <div className={css.tabContent}>
+        {/* <h3>Product Features</h3> */}
+
+        <div className={css.featuresGrid}>
+          <div className={css.featureCard}>
+            <div className={css.featureImage}>
+              <div className={css.featureIcon}>🔗</div>
+            </div>
+            <div className={css.featureContent}>
+              <h4>Advanced Connectivity</h4>
+              <p>Seamless integration with WiFi, Bluetooth, and Zigbee protocols for reliable smart home connectivity. Our advanced connectivity options ensure your device stays connected even in challenging environments, providing a stable and responsive experience for all your smart home needs.</p>
+            </div>
+          </div>
+
+          <div className={css.featureCard}>
+            <div className={css.featureContent}>
+              <h4>Smart Automation</h4>
+              <p>Intelligent automation capabilities that adapt to your lifestyle and preferences. The system learns from your daily routines and automatically adjusts settings to optimize comfort, security, and energy efficiency without requiring constant manual intervention.</p>
+            </div>
+            <div className={css.featureImage}>
+              <div className={css.featureIcon}>🤖</div>
+            </div>
+          </div>
+
+          <div className={css.featureCard}>
+            <div className={css.featureImage}>
+              <div className={css.featureIcon}>⚡</div>
+            </div>
+            <div className={css.featureContent}>
+              <h4>Energy Efficient</h4>
+              <p>Optimized power consumption design for sustainable operation and reduced energy costs. Our energy-efficient technology not only saves you money on utility bills but also contributes to environmental sustainability through intelligent power management.</p>
+            </div>
+          </div>
+
+          <div className={css.featureCard}>
+            <div className={css.featureContent}>
+              <h4>User-Friendly Interface</h4>
+              <p>Intuitive mobile app and web interface for easy control and monitoring. Designed with user experience in mind, our interface makes it simple for anyone to set up, configure, and manage their smart home devices with minimal learning curve.</p>
+            </div>
+            <div className={css.featureImage}>
+              <div className={css.featureIcon}>📱</div>
+            </div>
+          </div>
+
+          <div className={css.featureCard}>
+            <div className={css.featureImage}>
+              <div className={css.featureIcon}>🔒</div>
+            </div>
+            <div className={css.featureContent}>
+              <h4>Comprehensive Security</h4>
+              <p>Advanced security features including encryption, authentication, and privacy protection. Your data and home security are our top priorities, with multiple layers of protection ensuring your smart home remains safe from unauthorized access.</p>
+            </div>
+          </div>
+        </div>
+
+        {publicData.extended_description && (
+          <div className={css.extendedDescriptionSection}>
+            <h4>Detailed Description</h4>
+            <div className={css.extendedDescription}>
+              {publicData.extended_description}
+            </div>
+          </div>
+        )}
+      </div>
+    ),
+    specs: (
+      <div className={css.tabContent}>
+        <h3>Technical Specifications</h3>
+        <div className={css.specsTableContainer}>
+          <table className={css.specsTable}>
+            <thead>
+              <tr>
+                <th>Specification</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Dimensions</td>
+                <td>120mm x 80mm x 25mm</td>
+              </tr>
+              <tr>
+                <td>Weight</td>
+                <td>150g</td>
+              </tr>
+              <tr>
+                <td>Power Supply</td>
+                <td>5V DC, 2A</td>
+              </tr>
+              <tr>
+                <td>Connectivity</td>
+                <td>WiFi 802.11 b/g/n, Bluetooth 4.2</td>
+              </tr>
+              <tr>
+                <td>Operating Temperature</td>
+                <td>-10°C to +50°C</td>
+              </tr>
+              <tr>
+                <td>Humidity</td>
+                <td>10% to 90% (non-condensing)</td>
+              </tr>
+              <tr>
+                <td>Certifications</td>
+                <td>CE, FCC, RoHS</td>
+              </tr>
+              <tr>
+                <td>Warranty</td>
+                <td>2 years</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ),
+    reviews: (
+      <div className={css.tabContent}>
+        <h3>Customer Reviews</h3>
+        <div className={css.reviewsContainer}>
+          <div className={css.reviewItem}>
+            <div className={css.reviewHeader}>
+              <div className={css.reviewStars}>★★★★★</div>
+              <div className={css.reviewAuthor}>Sarah M.</div>
+              <div className={css.reviewDate}>2 weeks ago</div>
+            </div>
+            <p>"Excellent product! The setup was incredibly easy and it works flawlessly with my smart home system. Highly recommend!"</p>
+          </div>
+          <div className={css.reviewItem}>
+            <div className={css.reviewHeader}>
+              <div className={css.reviewStars}>★★★★★</div>
+              <div className={css.reviewAuthor}>Mike R.</div>
+              <div className={css.reviewDate}>1 month ago</div>
+            </div>
+            <p>"Great value for money. The features are exactly what I needed and the build quality is solid. Very satisfied with my purchase."</p>
+          </div>
+          <div className={css.reviewItem}>
+            <div className={css.reviewHeader}>
+              <div className={css.reviewStars}>★★★★☆</div>
+              <div className={css.reviewAuthor}>Jennifer L.</div>
+              <div className={css.reviewDate}>3 weeks ago</div>
+            </div>
+            <p>"Good product overall. Easy to install and works well. The only minor issue is the app could be a bit more intuitive, but it's manageable."</p>
+          </div>
+        </div>
+      </div>
+    ),
+    more: (
+      <div className={css.tabContent}>
+        <h3>More Resources</h3>
+
+        {/* Related YouTube Videos Section */}
+        <div className={css.moreSection}>
+          <h4>Related YouTube Videos</h4>
+          <div className={css.videoGrid}>
+            <div className={css.videoCard}>
+              <div className={css.videoThumbnail}>
+                <div className={css.playButton}>▶</div>
+              </div>
+              <div className={css.videoInfo}>
+                <h5>Smart Home Setup Guide</h5>
+                <p>Complete walkthrough of setting up your smart home system with this device</p>
+                <span className={css.videoDuration}>12:34</span>
+              </div>
+            </div>
+            <div className={css.videoCard}>
+              <div className={css.videoThumbnail}>
+                <div className={css.playButton}>▶</div>
+              </div>
+              <div className={css.videoInfo}>
+                <h5>Advanced Configuration Tips</h5>
+                <p>Learn advanced features and customization options for power users</p>
+                <span className={css.videoDuration}>8:45</span>
+              </div>
+            </div>
+            <div className={css.videoCard}>
+              <div className={css.videoThumbnail}>
+                <div className={css.playButton}>▶</div>
+              </div>
+              <div className={css.videoInfo}>
+                <h5>Troubleshooting Common Issues</h5>
+                <p>Quick fixes for the most common problems and connectivity issues</p>
+                <span className={css.videoDuration}>6:22</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Related Blog Posts Section */}
+        <div className={css.moreSection}>
+          <h4>Related Blog Posts</h4>
+          <div className={css.blogGrid}>
+            <div className={css.blogCard}>
+              <div className={css.blogImage}></div>
+              <div className={css.blogInfo}>
+                <h5>How to Choose the Perfect Smart Lock</h5>
+                <p>Comprehensive guide to selecting the right smart lock for your home security needs</p>
+                <span className={css.blogDate}>March 15, 2024</span>
+              </div>
+            </div>
+            <div className={css.blogCard}>
+              <div className={css.blogImage}></div>
+              <div className={css.blogInfo}>
+                <h5>Smart Home Security Best Practices</h5>
+                <p>Essential security tips and best practices for protecting your smart home</p>
+                <span className={css.blogDate}>March 8, 2024</span>
+              </div>
+            </div>
+            <div className={css.blogCard}>
+              <div className={css.blogImage}></div>
+              <div className={css.blogInfo}>
+                <h5>Integration with Home Assistant</h5>
+                <p>Step-by-step guide to integrating your device with Home Assistant</p>
+                <span className={css.blogDate}>March 1, 2024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Related Reddit Posts Section */}
+        <div className={css.moreSection}>
+          <h4>Related Reddit Discussions</h4>
+          <div className={css.redditGrid}>
+            <div className={css.redditCard}>
+              <div className={css.redditHeader}>
+                <span className={css.redditSubreddit}>r/smarthome</span>
+                <span className={css.redditScore}>+127</span>
+              </div>
+              <h5>Just installed this smart lock - AMA about the setup process</h5>
+              <p>After weeks of research, I finally pulled the trigger on this smart lock. The installation was surprisingly straightforward...</p>
+              <div className={css.redditMeta}>
+                <span>2 days ago</span>
+                <span>• 23 comments</span>
+              </div>
+            </div>
+            <div className={css.redditCard}>
+              <div className={css.redditHeader}>
+                <span className={css.redditSubreddit}>r/homeautomation</span>
+                <span className={css.redditScore}>+89</span>
+              </div>
+              <h5>Comparison: This smart lock vs competitors</h5>
+              <p>I've been testing several smart locks and wanted to share my findings. This one stands out for its reliability...</p>
+              <div className={css.redditMeta}>
+                <span>1 week ago</span>
+                <span>• 15 comments</span>
+              </div>
+            </div>
+            <div className={css.redditCard}>
+              <div className={css.redditHeader}>
+                <span className={css.redditSubreddit}>r/HomeAssistant</span>
+                <span className={css.redditScore}>+156</span>
+              </div>
+              <h5>New integration guide for this smart lock</h5>
+              <p>I've created a comprehensive guide for integrating this smart lock with Home Assistant. Includes automations...</p>
+              <div className={css.redditMeta}>
+                <span>2 weeks ago</span>
+                <span>• 31 comments</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  };
+
+  return (
+    <div className={css.tabsContainer}>
+      <div className={css.tabsHeader}>
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            className={classNames(css.tabButton, {
+              [css.activeTab]: activeTab === tab.id
+            })}
+            onClick={() => onTabChange(tab.id)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      <div className={css.tabBody}>
+        {tabContent[activeTab]}
+      </div>
+    </div>
+  );
+};
+
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
 const { UUID } = sdkTypes;
@@ -97,6 +393,7 @@ export const ListingPageComponent = props => {
     props.inquiryModalOpenForListingId === props.params.id
   );
   const [mounted, setMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState('features');
 
   useEffect(() => {
     setMounted(true);
@@ -471,16 +768,39 @@ export const ListingPageComponent = props => {
               )}
 
               {/* Home Assistant Integration Link */}
-              {homeAssistantIntegrationLink && (
-                <div className={css.homeAssistantIntegrationContainer}>
-                  <a
-                    href={homeAssistantIntegrationLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={css.homeAssistantIntegrationLink}
-                  >
-                    Home Assistant Integration
-                  </a>
+              {/* Integration Links Row */}
+              {(homeAssistantIntegrationLink || publicData.zigbee_2_mqtt_link) && (
+                <div className={css.integrationLinksRow}>
+                  {homeAssistantIntegrationLink && (
+                    <a
+                      href={homeAssistantIntegrationLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={css.homeAssistantIntegrationLink}
+                    >
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/a/ab/New_Home_Assistant_logo.svg"
+                        alt="Home Assistant"
+                        className={css.integrationLogo}
+                      />
+                      Home Assistant
+                    </a>
+                  )}
+                  {publicData.zigbee_2_mqtt_link && (
+                    <a
+                      href={publicData.zigbee_2_mqtt_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={css.homeAssistantIntegrationLink}
+                    >
+                      <img
+                        src="https://www.zigbee2mqtt.io/logo.png"
+                        alt="Zigbee2mqtt"
+                        className={css.integrationLogo}
+                      />
+                      Zigbee2mqtt
+                    </a>
+                  )}
                 </div>
               )}
             </div>
@@ -537,8 +857,13 @@ export const ListingPageComponent = props => {
           </div>
         </div>
 
+        {/* Tabs Section */}
+        <div className={css.tabsSection}>
+          <Tabs activeTab={activeTab} onTabChange={setActiveTab} publicData={publicData} />
+        </div>
+
         {/* Full-width description and details section */}
-        <div className={css.fullWidthDescriptionContainer}>
+        {/* <div className={css.fullWidthDescriptionContainer}>
           <SectionDescriptionAndDetails
             text={description}
             showAsIngress
@@ -549,7 +874,7 @@ export const ListingPageComponent = props => {
             categoryConfiguration={config.categoryConfiguration}
             intl={intl}
           />
-        </div>
+        </div> */}
 
         <div className={css.contentWrapperForProductLayout}>
           <div className={css.mainColumnForProductLayout}>
@@ -573,9 +898,6 @@ export const ListingPageComponent = props => {
               currentUser={currentUser}
               onManageDisableScrolling={onManageDisableScrolling}
             />
-          </div>
-          <div className={css.orderColumnForProductLayout}>
-            {/* Empty order column to maintain layout */}
           </div>
         </div>
       </LayoutSingleColumn>
