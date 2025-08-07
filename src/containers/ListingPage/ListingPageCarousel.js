@@ -104,55 +104,60 @@ const Tabs = ({ activeTab, onTabChange, publicData }) => {
         {/* <h3>Product Features</h3> */}
 
         <div className={css.featuresGrid}>
-          <div className={css.featureCard}>
-            <div className={css.featureImage}>
-              <div className={css.featureIcon}>🔗</div>
-            </div>
-            <div className={css.featureContent}>
-              <h4>Advanced Connectivity</h4>
-              <p>Seamless integration with WiFi, Bluetooth, and Zigbee protocols for reliable smart home connectivity. Our advanced connectivity options ensure your device stays connected even in challenging environments, providing a stable and responsive experience for all your smart home needs.</p>
-            </div>
-          </div>
+          {(() => {
+            // Extract features from public data
+            const features = [];
+            for (let i = 1; i <= 5; i++) {
+              const title = publicData[`feature_${i}_title`];
+              const text = publicData[`feature_${i}_text`];
+              const icon = publicData[`feature_${i}_icon`];
 
-          <div className={css.featureCard}>
-            <div className={css.featureContent}>
-              <h4>Smart Automation</h4>
-              <p>Intelligent automation capabilities that adapt to your lifestyle and preferences. The system learns from your daily routines and automatically adjusts settings to optimize comfort, security, and energy efficiency without requiring constant manual intervention.</p>
-            </div>
-            <div className={css.featureImage}>
-              <div className={css.featureIcon}>🤖</div>
-            </div>
-          </div>
+              if (title && text) {
+                features.push({
+                  title,
+                  text,
+                  icon: icon || '🔧', // Default icon if none provided
+                  index: i
+                });
+              }
+            }
 
-          <div className={css.featureCard}>
-            <div className={css.featureImage}>
-              <div className={css.featureIcon}>⚡</div>
-            </div>
-            <div className={css.featureContent}>
-              <h4>Energy Efficient</h4>
-              <p>Optimized power consumption design for sustainable operation and reduced energy costs. Our energy-efficient technology not only saves you money on utility bills but also contributes to environmental sustainability through intelligent power management.</p>
-            </div>
-          </div>
+            // If no features found, show a message
+            if (features.length === 0) {
+              return (
+                <div className={css.noFeaturesMessage}>
+                  <p>No product features available for this item.</p>
+                </div>
+              );
+            }
 
-          <div className={css.featureCard}>
-            <div className={css.featureContent}>
-              <h4>User-Friendly Interface</h4>
-              <p>Intuitive mobile app and web interface for easy control and monitoring. Designed with user experience in mind, our interface makes it simple for anyone to set up, configure, and manage their smart home devices with minimal learning curve.</p>
-            </div>
-            <div className={css.featureImage}>
-              <div className={css.featureIcon}>📱</div>
-            </div>
-          </div>
-
-          <div className={css.featureCard}>
-            <div className={css.featureImage}>
-              <div className={css.featureIcon}>🔒</div>
-            </div>
-            <div className={css.featureContent}>
-              <h4>Comprehensive Security</h4>
-              <p>Advanced security features including encryption, authentication, and privacy protection. Your data and home security are our top priorities, with multiple layers of protection ensuring your smart home remains safe from unauthorized access.</p>
-            </div>
-          </div>
+            // Render features
+            return features.map((feature, index) => (
+              <div key={feature.index} className={css.featureCard}>
+                {index % 2 === 0 ? (
+                  <>
+                    <div className={css.featureImage}>
+                      <div className={css.featureIcon}>{feature.icon}</div>
+                    </div>
+                    <div className={css.featureContent}>
+                      <h4>{feature.title}</h4>
+                      <p>{feature.text}</p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className={css.featureContent}>
+                      <h4>{feature.title}</h4>
+                      <p>{feature.text}</p>
+                    </div>
+                    <div className={css.featureImage}>
+                      <div className={css.featureIcon}>{feature.icon}</div>
+                    </div>
+                  </>
+                )}
+              </div>
+            ));
+          })()}
         </div>
 
         {publicData.extended_description && (
@@ -252,41 +257,72 @@ const Tabs = ({ activeTab, onTabChange, publicData }) => {
         <h3>More Resources</h3>
 
         {/* Related YouTube Videos Section */}
-        <div className={css.moreSection}>
-          <h4>Related YouTube Videos</h4>
-          <div className={css.videoGrid}>
-            <div className={css.videoCard}>
-              <div className={css.videoThumbnail}>
-                <div className={css.playButton}>▶</div>
-              </div>
-              <div className={css.videoInfo}>
-                <h5>Smart Home Setup Guide</h5>
-                <p>Complete walkthrough of setting up your smart home system with this device</p>
-                <span className={css.videoDuration}>12:34</span>
+        {publicData.youtube_links && (() => {
+          // Handle different data types for youtube_links
+          let youtubeLinks = publicData.youtube_links;
+
+          // If it's a string, try to parse it as JSON
+          if (typeof youtubeLinks === 'string') {
+            try {
+              youtubeLinks = JSON.parse(youtubeLinks);
+            } catch (error) {
+              console.warn('Failed to parse youtube_links as JSON:', error);
+              youtubeLinks = null;
+            }
+          }
+
+          // Ensure it's an array and has content
+          if (!Array.isArray(youtubeLinks) || youtubeLinks.length === 0) {
+            return null;
+          }
+
+          return (
+            <div className={css.moreSection}>
+              <h4>Related YouTube Videos</h4>
+              <div className={css.videoGrid}>
+                {(() => {
+                  // Helper function to extract video ID from YouTube URL
+                  const extractVideoId = (url) => {
+                    const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
+                    const match = url.match(regex);
+                    return match ? match[1] : null;
+                  };
+
+                  // Helper function to generate thumbnail URL
+                  const getThumbnailUrl = (videoId) => {
+                    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+                  };
+
+                  // Helper function to generate embed URL
+                  const getEmbedUrl = (videoId) => {
+                    return `https://www.youtube.com/embed/${videoId}`;
+                  };
+
+                  return youtubeLinks.map((url, index) => {
+                    const videoId = extractVideoId(url);
+
+                    if (!videoId) {
+                      return null; // Skip invalid URLs
+                    }
+
+                    return (
+                      <div key={index} className={`${css.videoEmbed} ${css.videoCard}`}>
+                        <iframe
+                          src={`https://www.youtube.com/embed/${videoId}`}
+                          title={`Product Video ${index + 1}`}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className={css.videoIframe}
+                        />
+                      </div>
+                    );
+                  }).filter(Boolean); // Remove null entries
+                })()}
               </div>
             </div>
-            <div className={css.videoCard}>
-              <div className={css.videoThumbnail}>
-                <div className={css.playButton}>▶</div>
-              </div>
-              <div className={css.videoInfo}>
-                <h5>Advanced Configuration Tips</h5>
-                <p>Learn advanced features and customization options for power users</p>
-                <span className={css.videoDuration}>8:45</span>
-              </div>
-            </div>
-            <div className={css.videoCard}>
-              <div className={css.videoThumbnail}>
-                <div className={css.playButton}>▶</div>
-              </div>
-              <div className={css.videoInfo}>
-                <h5>Troubleshooting Common Issues</h5>
-                <p>Quick fixes for the most common problems and connectivity issues</p>
-                <span className={css.videoDuration}>6:22</span>
-              </div>
-            </div>
-          </div>
-        </div>
+          );
+        })()}
 
         {/* Related Blog Posts Section */}
         <div className={css.moreSection}>
@@ -320,47 +356,105 @@ const Tabs = ({ activeTab, onTabChange, publicData }) => {
         </div>
 
         {/* Related Reddit Posts Section */}
-        <div className={css.moreSection}>
-          <h4>Related Reddit Discussions</h4>
-          <div className={css.redditGrid}>
-            <div className={css.redditCard}>
-              <div className={css.redditHeader}>
-                <span className={css.redditSubreddit}>r/smarthome</span>
-                <span className={css.redditScore}>+127</span>
-              </div>
-              <h5>Just installed this smart lock - AMA about the setup process</h5>
-              <p>After weeks of research, I finally pulled the trigger on this smart lock. The installation was surprisingly straightforward...</p>
-              <div className={css.redditMeta}>
-                <span>2 days ago</span>
-                <span>• 23 comments</span>
+        {publicData.reddit_links && (() => {
+          // Handle different data types for reddit_links
+          let redditLinks = publicData.reddit_links;
+
+          // If it's a string, try to parse it as JSON
+          if (typeof redditLinks === 'string') {
+            try {
+              redditLinks = JSON.parse(redditLinks);
+            } catch (error) {
+              console.warn('Failed to parse reddit_links as JSON:', error);
+              redditLinks = null;
+            }
+          }
+
+          // Ensure it's an array and has content
+          if (!Array.isArray(redditLinks) || redditLinks.length === 0) {
+            return null;
+          }
+
+          // Limit to 3 posts
+          const limitedRedditLinks = redditLinks.slice(0, 3);
+
+          return (
+            <div className={css.moreSection}>
+              <h4>Related Reddit Discussions</h4>
+              <div className={css.redditCarousel}>
+                <div className={css.redditCarouselContainer}>
+                  {(() => {
+                    // Helper function to extract Reddit post info from URL
+                    const extractRedditInfo = (url) => {
+                      const regex = /reddit\.com\/r\/([^\/]+)\/comments\/([^\/]+)\/([^\/\?]+)/;
+                      const match = url.match(regex);
+                      if (match) {
+                        return {
+                          subreddit: match[1],
+                          postId: match[2],
+                          postTitle: decodeURIComponent(match[3].replace(/_/g, ' ')),
+                          originalUrl: url
+                        };
+                      }
+                      return null;
+                    };
+
+                    return limitedRedditLinks.map((url, index) => {
+                      const redditInfo = extractRedditInfo(url);
+
+                      if (!redditInfo) {
+                        return null; // Skip invalid URLs
+                      }
+
+                      return (
+                        <div key={index} className={css.redditCard}>
+                          <div className={css.redditVoteSection}>
+                            <div className={css.redditUpvote}>
+                              <span className={css.redditVoteIcon}>▲</span>
+                            </div>
+                            <span className={css.redditScore}>+{Math.floor(Math.random() * 200) + 50}</span>
+                            <div className={css.redditDownvote}>
+                              <span className={css.redditVoteIcon}>▼</span>
+                            </div>
+                          </div>
+                          <div className={css.redditContent}>
+                            <div className={css.redditHeader}>
+                              <span className={css.redditSubreddit}>r/{redditInfo.subreddit}</span>
+                            </div>
+                            <h5 className={css.redditTitle}>{redditInfo.postTitle}</h5>
+                            <a
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={css.redditLink}
+                            >
+                              View on Reddit
+                            </a>
+                          </div>
+                        </div>
+                      );
+                    }).filter(Boolean); // Remove null entries
+                  })()}
+                </div>
+                {limitedRedditLinks.length > 1 && (
+                  <div className={css.redditCarouselControls}>
+                    <button className={css.redditCarouselButton} onClick={() => {}}>
+                      ‹
+                    </button>
+                    <div className={css.redditCarouselDots}>
+                      {limitedRedditLinks.map((_, index) => (
+                        <span key={index} className={css.redditCarouselDot}></span>
+                      ))}
+                    </div>
+                    <button className={css.redditCarouselButton} onClick={() => {}}>
+                      ›
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
-            <div className={css.redditCard}>
-              <div className={css.redditHeader}>
-                <span className={css.redditSubreddit}>r/homeautomation</span>
-                <span className={css.redditScore}>+89</span>
-              </div>
-              <h5>Comparison: This smart lock vs competitors</h5>
-              <p>I've been testing several smart locks and wanted to share my findings. This one stands out for its reliability...</p>
-              <div className={css.redditMeta}>
-                <span>1 week ago</span>
-                <span>• 15 comments</span>
-              </div>
-            </div>
-            <div className={css.redditCard}>
-              <div className={css.redditHeader}>
-                <span className={css.redditSubreddit}>r/HomeAssistant</span>
-                <span className={css.redditScore}>+156</span>
-              </div>
-              <h5>New integration guide for this smart lock</h5>
-              <p>I've created a comprehensive guide for integrating this smart lock with Home Assistant. Includes automations...</p>
-              <div className={css.redditMeta}>
-                <span>2 weeks ago</span>
-                <span>• 31 comments</span>
-              </div>
-            </div>
-          </div>
-        </div>
+          );
+        })()}
       </div>
     )
   };
@@ -754,25 +848,14 @@ export const ListingPageComponent = props => {
               )}
 
               {/* Connectivity and Compatibility Section - following key features */}
-              {(connectivity || compatibility) && (
+              {connectivity && getDisplayValue('connectivity', connectivity) && (
                 <div className={css.connectivityCompatibilityContainer}>
-                  {connectivity && (
-                    <div className={css.connectivityColumn}>
-                      <span className={css.sectionLabel}>Connectivity:</span>
-                      <span className={css.sectionValue}>
-                        {getDisplayValue('connectivity', connectivity)}
-                      </span>
-                    </div>
-                  )}
-
-                  {compatibility && (
-                    <div className={css.compatibilityColumn}>
-                      <span className={css.sectionLabel}>Compatibility:</span>
-                      <span className={css.sectionValue}>
-                        {getDisplayValue('compatibility', compatibility)}
-                      </span>
-                    </div>
-                  )}
+                  <div className={css.connectivityColumn}>
+                    <span className={css.sectionLabel}>Connectivity:</span>
+                    <span className={css.sectionValue}>
+                      {getDisplayValue('connectivity', connectivity)}
+                    </span>
+                  </div>
                 </div>
               )}
 
