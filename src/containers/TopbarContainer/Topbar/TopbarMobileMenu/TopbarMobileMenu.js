@@ -93,36 +93,82 @@ const TopbarMobileMenu = props => {
 
   const createListingsLinkMaybe = showCreateListingsLink ? (
     <NamedLink className={css.createNewListingLink} name="NewListingPage">
+      <span className={css.menuItemBorder} />
       <FormattedMessage id="TopbarMobileMenu.newListingLink" />
     </NamedLink>
   ) : null;
 
+  const currentPageClass = page => {
+    const isAccountSettingsPage =
+      page === 'AccountSettingsPage' && ACCOUNT_SETTINGS_PAGES.includes(currentPage);
+    const isInboxPage = currentPage?.indexOf('InboxPage') === 0 && page?.indexOf('InboxPage') === 0;
+    return currentPage === page || isAccountSettingsPage || isInboxPage ? css.currentPage : null;
+  };
+
   if (!isAuthenticated) {
-    const signup = (
-      <NamedLink name="SignupPage" className={css.signupLink}>
-        <FormattedMessage id="TopbarMobileMenu.signupLink" />
-      </NamedLink>
-    );
-
-    const login = (
-      <NamedLink name="LoginPage" className={css.loginLink}>
-        <FormattedMessage id="TopbarMobileMenu.loginLink" />
-      </NamedLink>
-    );
-
     const signupOrLogin = (
-      <span className={css.authenticationLinks}>
-        <FormattedMessage id="TopbarMobileMenu.signupOrLogin" values={{ signup, login }} />
-      </span>
+      <NamedLink name="LoginPage" className={css.signupOrLoginButton}>
+        <span className={css.menuItemBorder} />
+        <FormattedMessage id="TopbarMobileMenu.signupOrLoginButton" />
+      </NamedLink>
     );
+
     return (
       <nav className={css.root}>
         <div className={css.content}>
-          <div className={css.authenticationGreeting}>
-            <FormattedMessage
-              id="TopbarMobileMenu.unauthorizedGreeting"
-              values={{ lineBreak: <br />, signupOrLogin }}
-            />
+          <div className={css.authenticationSection}>
+            {signupOrLogin}
+          </div>
+
+          <div className={css.navigationLinksWrapper}>
+            <NamedLink
+              className={classNames(css.navigationLink, currentPageClass('SearchPage'))}
+              name="SearchPage"
+            >
+              <span className={css.menuItemBorder} />
+              <FormattedMessage id="TopbarMobileMenu.allDevices" />
+            </NamedLink>
+            <NamedLink
+              className={classNames(css.navigationLink, currentPageClass('ArticlesPage'))}
+              name="ArticlesPage"
+            >
+              <span className={css.menuItemBorder} />
+              <FormattedMessage id="TopbarMobileMenu.guidesAndTutorials" />
+            </NamedLink>
+            <NamedLink
+              className={classNames(css.navigationLink, currentPageClass('AboutPage'))}
+              name="AboutPage"
+            >
+              <span className={css.menuItemBorder} />
+              <FormattedMessage id="TopbarMobileMenu.aboutDomee" />
+            </NamedLink>
+          </div>
+
+          <div className={css.shopBySection}>
+            <div className={css.shopByLabel}>
+              <FormattedMessage id="TopbarMobileMenu.shopBy" />
+            </div>
+            <NamedLink
+              className={classNames(css.navigationLink, currentPageClass('BrandsPage'))}
+              name="BrandsPage"
+            >
+              <span className={css.menuItemBorder} />
+              <FormattedMessage id="TopbarDesktop.shopBy.brands" />
+            </NamedLink>
+            <NamedLink
+              className={classNames(css.navigationLink, currentPageClass('CategoriesPage'))}
+              name="CategoriesPage"
+            >
+              <span className={css.menuItemBorder} />
+              <FormattedMessage id="TopbarDesktop.shopBy.categories" />
+            </NamedLink>
+            <NamedLink
+              className={classNames(css.navigationLink, currentPageClass('CompatibilityPage'))}
+              name="CompatibilityPage"
+            >
+              <span className={css.menuItemBorder} />
+              <FormattedMessage id="TopbarDesktop.shopBy.compatibility" />
+            </NamedLink>
           </div>
 
           <div className={css.customLinksWrapper}>{extraLinks}</div>
@@ -140,18 +186,12 @@ const TopbarMobileMenu = props => {
     ) : null;
 
   const displayName = user.attributes.profile.firstName;
-  const currentPageClass = page => {
-    const isAccountSettingsPage =
-      page === 'AccountSettingsPage' && ACCOUNT_SETTINGS_PAGES.includes(currentPage);
-    const isInboxPage = currentPage?.indexOf('InboxPage') === 0 && page?.indexOf('InboxPage') === 0;
-    return currentPage === page || isAccountSettingsPage || isInboxPage ? css.currentPage : null;
-  };
-
   const manageListingsLinkMaybe = showCreateListingsLink ? (
     <NamedLink
       className={classNames(css.navigationLink, currentPageClass('ManageListingsPage'))}
       name="ManageListingsPage"
     >
+      <span className={css.menuItemBorder} />
       <FormattedMessage id="TopbarMobileMenu.yourListingsLink" />
     </NamedLink>
   ) : null;
@@ -164,6 +204,7 @@ const TopbarMobileMenu = props => {
           <FormattedMessage id="TopbarMobileMenu.greeting" values={{ displayName }} />
         </span>
         <InlineTextButton rootClassName={css.logoutButton} onClick={onLogout}>
+          <span className={css.menuItemBorder} />
           <FormattedMessage id="TopbarMobileMenu.logoutLink" />
         </InlineTextButton>
 
@@ -173,6 +214,7 @@ const TopbarMobileMenu = props => {
             name="InboxPage"
             params={{ tab: inboxTab }}
           >
+            <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarMobileMenu.inboxLink" />
             {notificationCountBadge}
           </NamedLink>
@@ -181,12 +223,14 @@ const TopbarMobileMenu = props => {
             className={classNames(css.navigationLink, currentPageClass('ProfileSettingsPage'))}
             name="ProfileSettingsPage"
           >
+            <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarMobileMenu.profileSettingsLink" />
           </NamedLink>
           <NamedLink
             className={classNames(css.navigationLink, currentPageClass('AccountSettingsPage'))}
             name="AccountSettingsPage"
           >
+            <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarMobileMenu.accountSettingsLink" />
           </NamedLink>
         </div>
@@ -196,44 +240,52 @@ const TopbarMobileMenu = props => {
             className={classNames(css.navigationLink, currentPageClass('SearchPage'))}
             name="SearchPage"
           >
+            <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarMobileMenu.allDevices" />
           </NamedLink>
           <NamedLink
             className={classNames(css.navigationLink, currentPageClass('ArticlesPage'))}
             name="ArticlesPage"
           >
+            <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarMobileMenu.guidesAndTutorials" />
           </NamedLink>
           <NamedLink
             className={classNames(css.navigationLink, currentPageClass('AboutPage'))}
             name="AboutPage"
           >
+            <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarMobileMenu.aboutDomee" />
           </NamedLink>
-          <div className={css.shopBySection}>
-            <div className={css.shopByLabel}>
-              <FormattedMessage id="TopbarMobileMenu.shopBy" />
-            </div>
-            <NamedLink
-              className={classNames(css.navigationLink, currentPageClass('BrandsPage'))}
-              name="BrandsPage"
-            >
-              <FormattedMessage id="TopbarDesktop.shopBy.brands" />
-            </NamedLink>
-            <NamedLink
-              className={classNames(css.navigationLink, currentPageClass('CategoriesPage'))}
-              name="CategoriesPage"
-            >
-              <FormattedMessage id="TopbarDesktop.shopBy.categories" />
-            </NamedLink>
-            <NamedLink
-              className={classNames(css.navigationLink, currentPageClass('CompatibilityPage'))}
-              name="CompatibilityPage"
-            >
-              <FormattedMessage id="TopbarDesktop.shopBy.compatibility" />
-            </NamedLink>
-          </div>
         </div>
+
+        <div className={css.shopBySection}>
+          <div className={css.shopByLabel}>
+            <FormattedMessage id="TopbarMobileMenu.shopBy" />
+          </div>
+          <NamedLink
+            className={classNames(css.navigationLink, currentPageClass('BrandsPage'))}
+            name="BrandsPage"
+          >
+            <span className={css.menuItemBorder} />
+            <FormattedMessage id="TopbarDesktop.shopBy.brands" />
+          </NamedLink>
+          <NamedLink
+            className={classNames(css.navigationLink, currentPageClass('CategoriesPage'))}
+            name="CategoriesPage"
+          >
+            <span className={css.menuItemBorder} />
+            <FormattedMessage id="TopbarDesktop.shopBy.categories" />
+          </NamedLink>
+          <NamedLink
+            className={classNames(css.navigationLink, currentPageClass('CompatibilityPage'))}
+            name="CompatibilityPage"
+          >
+            <span className={css.menuItemBorder} />
+            <FormattedMessage id="TopbarDesktop.shopBy.compatibility" />
+          </NamedLink>
+        </div>
+
         <div className={css.customLinksWrapper}>{extraLinks}</div>
         <div className={css.spacer} />
       </div>

@@ -1078,6 +1078,7 @@
   "TopbarMobileMenu.profileSettingsLink": "Profileinstellungen",
   "TopbarMobileMenu.signupLink": "Registrieren",
   "TopbarMobileMenu.signupOrLogin": "{signup} oder {login}",
+  "TopbarMobileMenu.signupOrLoginButton": "Registrieren / Anmelden",
   "TopbarMobileMenu.unauthorizedGreeting": "Hallo,{lineBreak}möchtest du dich {signupOrLogin}?",
   "TopbarMobileMenu.yourListingsLink": "Deine Einträge",
   "TopbarSearchForm.placeholder": "Einträge durchsuchen…",

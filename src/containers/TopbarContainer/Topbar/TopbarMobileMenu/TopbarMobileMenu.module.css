@@ -4,10 +4,15 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
-  height: auto;
+  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%) !important;
   backdrop-filter: blur(10px);
+  overflow-y: auto;
+  position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 .content {
@@ -16,6 +21,10 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-height: calc(100vh - 200px);
+  padding: 24px 24px;
+  width: 100%;
+  overflow-y: auto;
 }
 
 .accountLinksWrapper,
@@ -24,6 +33,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
 }
 .navigationLinksWrapper {
   margin-bottom: 36px;
@@ -33,15 +43,16 @@
 }
 
 .footer {
-  position: fixed;
+  position: sticky;
   bottom: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   padding: 24px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%) !important;
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  margin-top: auto;
 }
 
 .avatar {
@@ -71,10 +82,11 @@
 
 .logoutButton {
   /* Position and dimensions */
-  display: inline;
+  display: block;
 
   /* Borders */
   border: none;
+  background: transparent;
 
   /* Text size should be inherited */
   text-decoration: none;
@@ -87,18 +99,23 @@
   color: var(--colorGrey300);
 
   /* Position component */
-  width: initial;
+  width: 100%;
   margin: 4px 0 24px 0;
-  padding: 0;
+  padding: 12px 24px;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
     color: var(--colorFail);
+    background-color: rgba(220, 53, 69, 0.05);
   }
 
   @media (--viewportMedium) {
     margin: 0 0 36px 0;
+    padding: 16px 24px;
   }
 }
 
@@ -109,9 +126,10 @@
   line-height: 24px;
 
   /* Layout */
-  display: inline-block;
+  display: block;
   margin: 0;
-  padding: 0;
+  padding: 12px 24px;
+  position: relative;
 
   /* Colors */
   color: var(--colorGrey700);
@@ -123,11 +141,13 @@
   &:hover {
     color: var(--marketplaceColor);
     text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.02);
   }
 
   @media (--viewportMedium) {
     font-size: 28px;
     line-height: 32px;
+    padding: 16px 24px;
   }
 }
 
@@ -138,9 +158,10 @@
   line-height: 24px;
 
   /* Layout */
-  display: inline-block;
+  display: block;
   margin: 0;
-  padding: 0;
+  padding: 12px 24px;
+  position: relative;
 
   /* Colors */
   color: var(--colorGrey700);
@@ -152,11 +173,13 @@
   &:hover {
     color: var(--marketplaceColor);
     text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.02);
   }
 
   @media (--viewportMedium) {
     font-size: 28px;
     line-height: 32px;
+    padding: 16px 24px;
   }
 }
 
@@ -167,9 +190,10 @@
   line-height: 24px;
 
   /* Layout */
-  display: inline-block;
+  display: block;
   margin: 0;
-  padding: 0;
+  padding: 12px 24px;
+  position: relative;
 
   /* Colors */
   color: var(--colorGrey700);
@@ -181,11 +205,13 @@
   &:hover {
     color: var(--marketplaceColor);
     text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.02);
   }
 
   @media (--viewportMedium) {
     font-size: 28px;
     line-height: 32px;
+    padding: 16px 24px;
   }
 }
 
@@ -195,17 +221,20 @@
 
 .notificationBadge {
   /* Position */
-  position: relative;
+  position: absolute;
+  top: 8px;
+  right: 16px;
   display: inline-block;
 
-  /* Hover */
-  &:hover {
-    color: var(--marketplaceColor);
+  @media (--viewportMedium) {
+    top: 12px;
+    right: 20px;
   }
 }
 
 .createNewListingLink {
   composes: customLinkFont;
+  position: relative;
 }
 
 .authenticationGreeting {
@@ -217,6 +246,7 @@
   padding: 3px 0 3px 0;
   margin-bottom: 1px;
   margin-top: 16px;
+  width: 100%;
 
   @media (--viewportMedium) {
     font-size: 40px;
@@ -229,15 +259,18 @@
 
 .authenticationLinks {
   margin-top: 24px;
+  width: 100%;
 }
 
 .signupLink {
   composes: customLinkFont;
   margin-bottom: 8px;
+  position: relative;
 }
 
 .loginLink {
   composes: customLinkFont;
+  position: relative;
 }
 
 .currentPage {
@@ -248,13 +281,40 @@
   flex-grow: 1;
 }
 
+.menuItemBorder {
+  /* Position */
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
 
+  /* Colors */
+  border-bottom: 1px solid transparent;
+
+  /* Animation */
+  transition: border-bottom-color 0.2s ease;
+}
+
+.navigationLink:hover .menuItemBorder,
+.inbox:hover .menuItemBorder,
+.createNewListingLink:hover .menuItemBorder,
+.signupLink:hover .menuItemBorder,
+.loginLink:hover .menuItemBorder {
+  border-bottom-color: var(--colorGrey200);
+}
+
+.currentPage .menuItemBorder {
+  border-bottom-color: var(--marketplaceColor);
+}
 
 .shopBySection {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-top: 16px;
+  margin-bottom: 36px;
+  width: 100%;
 }
 
 .shopByLabel {
@@ -263,5 +323,43 @@
   line-height: 24px;
   color: var(--colorGrey700);
   margin-bottom: 8px;
-  padding: 0 24px;
+  padding: 12px 24px 8px 24px;
+}
+
+.authenticationSection {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.signupOrLoginButton {
+  /* Font */
+  font-weight: var(--fontWeightBold);
+  font-size: 21px;
+  line-height: 24px;
+
+  /* Layout */
+  display: block;
+  margin: 0;
+  padding: 12px 24px;
+  position: relative;
+  width: 100%;
+
+  /* Colors */
+  color: var(--colorGrey700);
+
+  /* Text */
+  text-decoration: none;
+
+  /* Hover */
+  &:hover {
+    color: var(--marketplaceColor);
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  @media (--viewportMedium) {
+    font-size: 28px;
+    line-height: 32px;
+    padding: 16px 24px;
+  }
 }

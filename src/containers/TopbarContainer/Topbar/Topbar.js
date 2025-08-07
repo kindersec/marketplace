@@ -364,7 +364,7 @@ const TopbarComponent = props => {
         usePortal
         onManageDisableScrolling={onManageDisableScrolling}
       >
-        {authInProgress ? null : mobileMenu}
+        {mobileMenu}
       </Modal>
       <Modal
         id="TopbarMobileSearch"
