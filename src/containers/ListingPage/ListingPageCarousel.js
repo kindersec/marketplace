@@ -85,6 +85,7 @@ import SectionReviews from './SectionReviews';
 import SectionAuthorMaybe from './SectionAuthorMaybe';
 import SectionMapMaybe from './SectionMapMaybe';
 import SectionGallery from './SectionGallery';
+import CompatibilityBadges from './CompatibilityBadges';
 
 import css from './ListingPage.module.css';
 
@@ -716,6 +717,12 @@ export const ListingPageComponent = props => {
                 variantPrefix={config.layout.listingImage.variantPrefix}
               />
             )}
+
+            {/* Compatibility Badges Section */}
+            <CompatibilityBadges
+              compatibility={compatibility}
+              config={config}
+            />
           </div>
 
           <div className={css.middleColumnForProductLayout}>

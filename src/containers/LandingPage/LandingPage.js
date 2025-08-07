@@ -48,16 +48,16 @@ const featuresData = [
 
 // Categories section data
 const categoriesData = [
-  { name: "Smart Lighting", icon: "💡", count: "500+ Products" },
-  { name: "Security Cameras", icon: "📹", count: "200+ Products" },
-  { name: "Smart Thermostats", icon: "🌡️", count: "150+ Products" },
-  { name: "Smart Locks", icon: "🔒", count: "100+ Products" },
-  { name: "Robot Vacuums", icon: "🤖", count: "80+ Products" },
-  { name: "Smart Speakers", icon: "🔊", count: "120+ Products" },
-  { name: "Doorbells", icon: "🚪", count: "75+ Products" },
-  { name: "Smart Blinds", icon: "🪟", count: "60+ Products" },
-  { name: "Robot Lawn Mower", icon: "🌱", count: "45+ Products" },
-  { name: "Air Purifier", icon: "🌬️", count: "90+ Products" }
+  { name: "Smart Lighting", icon: "💡", count: "500+ Products", url: "/s?pub_categoryLevel1=smart-lighting" },
+  { name: "Security Cameras", icon: "📹", count: "200+ Products", url: "/s?pub_categoryLevel1=security-cameras" },
+  { name: "Smart Thermostats", icon: "🌡️", count: "150+ Products", url: "/s?pub_categoryLevel1=smart-thermostats" },
+  { name: "Smart Locks", icon: "🔒", count: "100+ Products", url: "/s?pub_categoryLevel1=smart-locks" },
+  { name: "Robot Vacuums", icon: "🤖", count: "80+ Products", url: "/s?pub_categoryLevel1=robot-vacuums" },
+  { name: "Smart Speakers", icon: "🔊", count: "120+ Products", url: "/s?pub_categoryLevel1=smart-speakers" },
+  { name: "Doorbells", icon: "🚪", count: "75+ Products", url: "/s?pub_categoryLevel1=doorbells" },
+  { name: "Smart Blinds", icon: "🪟", count: "60+ Products", url: "/s?pub_categoryLevel1=smart-blinds" },
+  { name: "Robot Lawn Mower", icon: "🌱", count: "45+ Products", url: "/s?pub_categoryLevel1=robot-lawn-mower" },
+  { name: "Air Purifier", icon: "🌬️", count: "90+ Products", url: "/s?pub_categoryLevel1=air-purifier" }
 ];
 
 // Testimonials data
@@ -206,7 +206,9 @@ export const LandingPageComponent = props => {
   };
 
   const handleCategoryClick = (category) => {
-    console.log('Category clicked:', category);
+    if (category.url) {
+      history.push(category.url);
+    }
   };
 
   const handleFeaturedProductClick = (product) => {

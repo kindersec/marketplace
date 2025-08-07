@@ -85,6 +85,7 @@ import SectionReviews from './SectionReviews';
 import SectionAuthorMaybe from './SectionAuthorMaybe';
 import SectionMapMaybe from './SectionMapMaybe';
 import ActionBarMaybe from './ActionBarMaybe';
+import CompatibilityBadges from './CompatibilityBadges';
 
 import css from './ListingPage.module.css';
 
@@ -188,6 +189,9 @@ export const ListingPageComponent = props => {
     publicData = {},
     metadata = {},
   } = currentListing.attributes;
+
+  // Extract compatibility data
+  const compatibility = publicData.compatibility;
 
   const richTitle = (
     <span>
@@ -371,6 +375,12 @@ export const ListingPageComponent = props => {
         ) : (
           isOwnListing && <div className={css.actionBarContainerForNoListingImage}>{actionBar}</div>
         )}
+
+        {/* Compatibility Badges Section */}
+        <CompatibilityBadges
+          compatibility={compatibility}
+          config={config}
+        />
         <div className={css.contentWrapperForHeroLayout}>
           <div className={css.mainColumnForHeroLayout}>
             <div className={showListingImage ? css.mobileHeading : css.noListingImageHeadingHero}>

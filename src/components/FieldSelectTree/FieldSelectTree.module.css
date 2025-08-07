@@ -56,6 +56,7 @@
 .optionBtnSelected {
   composes: optionBtn;
   color: var(--marketplaceColor);
+  font-weight: 700;
 
   &:focus,
   &:hover {
