@@ -37,3 +37,32 @@
     padding: 4px 0;
   }
 }
+
+.showMoreButton {
+  composes: h5 from global;
+  font-weight: var(--fontWeightMedium);
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--marketplaceColor);
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 4px 0 2px 0;
+  cursor: pointer;
+  margin: 0;
+
+  &:hover {
+    color: var(--marketplaceColorDark);
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: none;
+    color: var(--marketplaceColorDark);
+    text-decoration: underline;
+  }
+
+  @media (--viewportMedium) {
+    padding: 4px 0;
+  }
+}

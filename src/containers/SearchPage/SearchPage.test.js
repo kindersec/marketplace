@@ -199,6 +199,7 @@ const sortConfig = {
     { key: '-createdAt', label: 'Oldest' },
     { key: '-price', label: 'Lowest price' },
     { key: 'price', label: 'Highest price' },
+    { key: 'alphabetical', label: 'Alphabetical' },
     { key: 'relevance', label: 'Relevance', longLabel: 'Relevance (Keyword search)' },
   ],
 };

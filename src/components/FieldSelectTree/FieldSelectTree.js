@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field } from 'react-final-form';
 import classNames from 'classnames';
 
+import { useIntl } from '../../util/reactIntl';
 import { richText } from '../../util/richText';
 import { ValidationError } from '../../components';
 
@@ -106,11 +107,54 @@ const OptionList = props => {
  */
 const SelectOptions = props => {
   const { options, ...rest } = props;
+  const intl = useIntl();
+  const [showAll, setShowAll] = useState(false);
+
+  const ITEMS_TO_SHOW = 5;
+  const hasMoreItems = options?.length > ITEMS_TO_SHOW;
+  const itemsToDisplay = showAll ? options : options?.slice(0, ITEMS_TO_SHOW);
+
+  const handleShowMore = () => {
+    setShowAll(true);
+  };
+
+  const handleShowLess = () => {
+    setShowAll(false);
+  };
+
   return (
-    <OptionList hasOptions={options?.length > 0}>
-      {options.map(config => (
+    <OptionList hasOptions={itemsToDisplay?.length > 0}>
+      {itemsToDisplay?.map(config => (
         <Option key={config.option} config={config} {...rest} />
       ))}
+      {hasMoreItems && !showAll && (
+        <li className={css.option} style={{ paddingLeft: `${12}px` }}>
+          <button
+            className={css.showMoreButton}
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleShowMore();
+            }}
+          >
+            {intl.formatMessage({ id: 'FieldSelectTree.showMore' }, { defaultMessage: 'Show more' })}
+          </button>
+        </li>
+      )}
+      {hasMoreItems && showAll && (
+        <li className={css.option} style={{ paddingLeft: `${12}px` }}>
+          <button
+            className={css.showMoreButton}
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleShowLess();
+            }}
+          >
+            {intl.formatMessage({ id: 'FieldSelectTree.showLess' }, { defaultMessage: 'Show less' })}
+          </button>
+        </li>
+      )}
     </OptionList>
   );
 };

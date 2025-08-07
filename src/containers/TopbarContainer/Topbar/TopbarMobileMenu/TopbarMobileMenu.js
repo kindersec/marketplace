@@ -204,6 +204,12 @@ const TopbarMobileMenu = props => {
           >
             <FormattedMessage id="TopbarMobileMenu.guidesAndTutorials" />
           </NamedLink>
+          <NamedLink
+            className={classNames(css.navigationLink, currentPageClass('AboutPage'))}
+            name="AboutPage"
+          >
+            <FormattedMessage id="TopbarMobileMenu.aboutDomee" />
+          </NamedLink>
           <div className={css.shopBySection}>
             <div className={css.shopByLabel}>
               <FormattedMessage id="TopbarMobileMenu.shopBy" />

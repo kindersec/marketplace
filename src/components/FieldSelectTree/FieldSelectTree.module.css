@@ -70,6 +70,38 @@
   }
 }
 
+.showMoreButton {
+  composes: h4 from global;
+  font-weight: var(--fontWeightMedium);
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--marketplaceColor);
+  text-align: left;
+
+  /* Layout */
+  display: block;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 4px 0 8px 0;
+
+  /* Override button styles */
+  outline: none;
+  border: none;
+  cursor: pointer;
+
+  &:focus,
+  &:hover {
+    color: var(--marketplaceColorDark);
+    text-decoration: underline;
+  }
+
+  @media (--viewportMedium) {
+    padding: 8px 0 0px 0;
+    padding: 0;
+  }
+}
+
 .longWord {
   word-break: break-word;
   hyphens: auto;

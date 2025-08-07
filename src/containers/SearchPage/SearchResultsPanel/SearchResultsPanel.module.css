@@ -10,7 +10,7 @@
 
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 16px;
+  gap: 4px;
   width: 100%;
 
   @media (--viewportLarge) {
@@ -26,33 +26,39 @@
   padding: 0 0 72px 0;
 
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
   width: 100%;
 
   @media (min-width: 550px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 16px;
   }
 
   @media (--viewportMedium) {
     padding: 0 0 96px 0;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 16px;
   }
 
   @media (--viewportLarge) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 16px;
   }
 
+  /* Laptop screens - exactly 4 columns for bigger cards */
+  @media (min-width: 1024px) and (max-width: 1439px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
   @media (min-width: 1440px) {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 16px;
   }
 
   @media (--viewportXLarge) {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 16px;
   }
 }

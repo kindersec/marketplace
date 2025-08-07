@@ -1,0 +1,436 @@
+@import '../../styles/customMediaQueries.css';
+
+/* Modern grayscale theme for the about page */
+:root {
+  --landingBgStart: #f8fafc;
+  --landingBgEnd: #e2e8f0;
+  --landingAccent: #1e293b;
+  --landingText: #0f172a;
+  --landingSubtleText: #475569;
+  --gradientPrimary: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+  --gradientSecondary: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+  --gradientAccent: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  --gradientDark: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  --gradientLight: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  --gradientSmart: linear-gradient(135deg, #374151 0%, #4b5563 50%, #6b7280 100%);
+  --gradientHeroLight: linear-gradient(135deg, #f8fafc 0%, #e5e7eb 100%);
+  --accentGray: #6b7280;
+  --accentDarkGray: #374151;
+  --accentLightGray: #9ca3af;
+  --accentCharcoal: #1f2937;
+  --accentSlate: #475569;
+}
+
+.root {
+  min-height: 100vh;
+  background: var(--gradientLight) !important;
+  color: var(--landingText);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Hero Section */
+.hero {
+  background: var(--gradientHeroLight);
+  color: var(--landingText);
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23f8f9fa" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
+}
+
+.heroContent {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  color: var(--landingText);
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  margin-bottom: 40px;
+  line-height: 1.6;
+  color: var(--landingSubtleText);
+}
+
+/* Company/About Section - matching landing page exactly */
+.companySection {
+  padding: 60px 0;
+  background: var(--gradientLight);
+  color: var(--landingText);
+}
+
+.companyContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.companyText {
+  max-width: 500px;
+}
+
+.companyTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--landingText);
+  line-height: 1.2;
+}
+
+.companySubtitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--landingAccent);
+}
+
+.companyDescription {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: var(--landingSubtleText);
+}
+
+.companyMission {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--landingSubtleText);
+  font-style: italic;
+  border-left: 4px solid var(--landingAccent);
+  padding-left: 20px;
+}
+
+.companyStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.statItem {
+  text-align: center;
+  padding: 30px 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.statItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentDarkGray);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.statItem:hover::before {
+  transform: scaleX(1);
+}
+
+.statItem:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.statNumber {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--landingAccent);
+  margin-bottom: 10px;
+}
+
+.statLabel {
+  font-size: 1rem;
+  color: var(--landingSubtleText);
+  font-weight: 600;
+}
+
+.companyValues {
+  margin-top: 80px;
+}
+
+.valuesTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 50px;
+  color: var(--landingText);
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.valueCard {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.valueCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentCharcoal);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.valueCard:hover::before {
+  transform: scaleX(1);
+}
+
+.valueCard:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.valueIcon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  display: block;
+  color: var(--accentCharcoal);
+}
+
+.valueTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--landingText);
+}
+
+.valueDescription {
+  font-size: 1rem;
+  color: var(--landingSubtleText);
+  line-height: 1.6;
+}
+
+/* What We Do Section */
+.whatWeDoSection {
+  padding: 80px 0;
+  background: var(--gradientLight);
+  color: var(--landingText);
+}
+
+.whatWeDoContent {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--landingText);
+  line-height: 1.2;
+}
+
+.sectionDescription {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--landingSubtleText);
+}
+
+/* Why Choose Us Section */
+.whyChooseUsSection {
+  padding: 80px 0;
+  background: var(--gradientLight);
+  color: var(--landingText);
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 50px 0 0 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.featureItem {
+  font-size: 1.1rem;
+  font-weight: var(--fontWeightNormal);
+  line-height: 1.6;
+  color: var(--landingSubtleText);
+  margin: 0 0 20px 0;
+  padding: 20px 30px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  padding-left: 60px;
+}
+
+.featureItem::before {
+  content: "✓";
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  color: var(--landingAccent);
+  font-weight: var(--fontWeightBold);
+  font-size: 20px;
+}
+
+.featureItem:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.featureItem:last-child {
+  margin: 0;
+}
+
+/* Contact Section */
+.contactSection {
+  padding: 80px 0;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--landingText);
+}
+
+.contactDescription {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--landingSubtleText);
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.1rem;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .companyContent {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .companyStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .valuesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .whatWeDoContent {
+    padding: 0 20px;
+  }
+
+  .featureList {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 60px 0;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+
+  .companyStats {
+    grid-template-columns: 1fr;
+  }
+
+  .statItem {
+    padding: 20px 15px;
+  }
+
+  .statNumber {
+    font-size: 2rem;
+  }
+
+  .valueCard {
+    padding: 30px 20px;
+  }
+
+  .valueTitle {
+    font-size: 1.2rem;
+  }
+
+  .featureItem {
+    padding: 15px 20px;
+    padding-left: 50px;
+    font-size: 1rem;
+  }
+
+  .featureItem::before {
+    left: 15px;
+    top: 15px;
+    font-size: 18px;
+  }
+}

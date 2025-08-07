@@ -63,6 +63,16 @@ const AllDevicesLink = ({ intl }) => {
   );
 };
 
+const AboutDomeeLink = ({ intl }) => {
+  return (
+    <NamedLink className={css.topbarLink} name="AboutPage">
+      <span className={css.topbarLinkLabel}>
+        <FormattedMessage id="TopbarDesktop.aboutDomee" />
+      </span>
+    </NamedLink>
+  );
+};
+
 const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLink }) => {
   const currentPageClass = page => {
     const isAccountSettingsPage =
@@ -219,8 +229,9 @@ const TopbarDesktop = props => {
 
       {inboxLinkMaybe}
       <AllDevicesLink intl={intl} />
-      <GuidesAndTutorialsLink intl={intl} />
       <ShopByMenu currentPage={currentPage} intl={intl} />
+      <GuidesAndTutorialsLink intl={intl} />
+      <AboutDomeeLink intl={intl} />
       {profileMenuMaybe}
       {profileIconLinkMaybe}
     </nav>

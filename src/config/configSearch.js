@@ -99,5 +99,10 @@ export const sortConfig = {
       labelTranslationKey: 'SortBy.relevance',
       labelTranslationKeyLong: 'SortBy.relevanceLong',
     },
+    // The alphabetical sort is handled client-side and not sent to the API
+    {
+      key: 'alphabetical',
+      labelTranslationKey: 'SortBy.alphabetical',
+    },
   ],
 };

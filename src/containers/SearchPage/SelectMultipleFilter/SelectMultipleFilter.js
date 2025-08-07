@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { useIntl } from '../../../util/reactIntl';
@@ -17,10 +17,25 @@ import css from './SelectMultipleFilter.module.css';
 //       There's a mutation problem: formstate.dirty is not reliable with it.
 const GroupOfFieldCheckboxes = props => {
   const { id, className, name, options } = props;
+  const intl = useIntl();
+  const [showAll, setShowAll] = useState(false);
+
+  const ITEMS_TO_SHOW = 5;
+  const hasMoreItems = options.length > ITEMS_TO_SHOW;
+  const itemsToDisplay = showAll ? options : options.slice(0, ITEMS_TO_SHOW);
+
+  const handleShowMore = () => {
+    setShowAll(true);
+  };
+
+  const handleShowLess = () => {
+    setShowAll(false);
+  };
+
   return (
     <fieldset className={className}>
       <ul className={css.list}>
-        {options.map(optionConfig => {
+        {itemsToDisplay.map(optionConfig => {
           const { option, label } = optionConfig;
           const fieldId = `${id}.${option}`;
           return (
@@ -30,6 +45,24 @@ const GroupOfFieldCheckboxes = props => {
           );
         })}
       </ul>
+      {hasMoreItems && !showAll && (
+        <button
+          type="button"
+          className={css.showMoreButton}
+          onClick={handleShowMore}
+        >
+          {intl.formatMessage({ id: 'SelectMultipleFilter.showMore' }, { defaultMessage: 'Show more' })}
+        </button>
+      )}
+      {hasMoreItems && showAll && (
+        <button
+          type="button"
+          className={css.showMoreButton}
+          onClick={handleShowLess}
+        >
+          {intl.formatMessage({ id: 'SelectMultipleFilter.showLess' }, { defaultMessage: 'Show less' })}
+        </button>
+      )}
     </fieldset>
   );
 };

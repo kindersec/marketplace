@@ -110,6 +110,19 @@ const config = {
   ],
 };
 
+// Test config with more than 5 options to test "show more" functionality
+const configWithManyOptions = {
+  options: [
+    { option: 'option1', label: 'Option 1' },
+    { option: 'option2', label: 'Option 2' },
+    { option: 'option3', label: 'Option 3' },
+    { option: 'option4', label: 'Option 4' },
+    { option: 'option5', label: 'Option 5' },
+    { option: 'option6', label: 'Option 6' },
+    { option: 'option7', label: 'Option 7' },
+  ],
+};
+
 const FormComponent = props => (
   <FinalForm
     {...props}
@@ -129,6 +142,33 @@ const FormComponent = props => (
             name="nestedLevel"
             options={config.options}
             validate={required}
+          />
+          <button style={{ marginTop: 24 }} type="submit" disabled={submitDisabled}>
+            Submit
+          </button>
+        </form>
+      );
+    }}
+  />
+);
+
+const FormComponentWithManyOptions = props => (
+  <FinalForm
+    {...props}
+    render={formRenderProps => {
+      const { handleSubmit, invalid, pristine, submitting } = formRenderProps;
+      const submitDisabled = invalid || pristine || submitting;
+      return (
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            handleSubmit(e);
+          }}
+        >
+          <FieldSelectTree
+            label="Many options"
+            name="manyOptions"
+            options={configWithManyOptions.options}
           />
           <button style={{ marginTop: 24 }} type="submit" disabled={submitDisabled}>
             Submit
@@ -162,5 +202,43 @@ describe('FieldSelectTree', () => {
     expect(screen.queryByRole('button', { name: 'Pike' })).not.toBeInTheDocument();
     userEvent.click(screen.getByRole('button', { name: 'Freshwater' }));
     expect(screen.getByRole('button', { name: 'Pike' })).toBeInTheDocument();
+  });
+
+  it('shows only first 5 options by default and "more..." button when there are more than 5 options', () => {
+    render(<FormComponentWithManyOptions onSubmit={noop} />);
+
+    // Should show first 5 options
+    expect(screen.getByRole('button', { name: 'Option 1' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Option 2' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Option 3' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Option 4' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Option 5' })).toBeInTheDocument();
+
+    // Should not show the 6th and 7th options initially
+    expect(screen.queryByRole('button', { name: 'Option 6' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Option 7' })).not.toBeInTheDocument();
+
+    // Should show "Show more" button
+    expect(screen.getByRole('button', { name: 'Show more' })).toBeInTheDocument();
+
+    // Click "Show more" button
+    userEvent.click(screen.getByRole('button', { name: 'Show more' }));
+
+    // Should now show all options
+    expect(screen.getByRole('button', { name: 'Option 6' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Option 7' })).toBeInTheDocument();
+
+    // Should show "Show less" button
+    expect(screen.getByRole('button', { name: 'Show less' })).toBeInTheDocument();
+
+    // Click "Show less" button
+    userEvent.click(screen.getByRole('button', { name: 'Show less' }));
+
+    // Should hide the 6th and 7th options again
+    expect(screen.queryByRole('button', { name: 'Option 6' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Option 7' })).not.toBeInTheDocument();
+
+    // Should show "Show more" button again
+    expect(screen.getByRole('button', { name: 'Show more' })).toBeInTheDocument();
   });
 });

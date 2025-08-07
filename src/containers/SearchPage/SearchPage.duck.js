@@ -61,10 +61,26 @@ const listingPageReducer = (state = initialState, action = {}) => {
         searchListingsError: null,
       };
     case SEARCH_LISTINGS_SUCCESS:
+      const { data, sort } = payload;
+      let resultIdsToUse = resultIds(data);
+
+      // Handle alphabetical sorting client-side
+      if (sort === 'alphabetical') {
+        const listings = data.data;
+        const sortedListings = listings
+          .filter(l => !l.attributes.deleted && l.attributes.state === 'published')
+          .sort((a, b) => {
+            const titleA = a.attributes.title || '';
+            const titleB = b.attributes.title || '';
+            return titleA.localeCompare(titleB);
+          });
+        resultIdsToUse = sortedListings.map(l => l.id);
+      }
+
       return {
         ...state,
-        currentPageResultIds: resultIds(payload.data),
-        pagination: payload.data.meta,
+        currentPageResultIds: resultIdsToUse,
+        pagination: data.meta,
         searchInProgress: false,
       };
     case SEARCH_LISTINGS_ERROR:
@@ -91,9 +107,9 @@ export const searchListingsRequest = searchParams => ({
   payload: { searchParams },
 });
 
-export const searchListingsSuccess = response => ({
+export const searchListingsSuccess = (response, sort) => ({
   type: SEARCH_LISTINGS_SUCCESS,
-  payload: { data: response.data },
+  payload: { data: response.data, sort },
 });
 
 export const searchListingsError = e => ({
@@ -262,7 +278,7 @@ export const searchListings = (searchParams, config) => (dispatch, getState, sdk
   const datesMaybe = datesSearchParams(dates);
   const stockMaybe = stockFilters(datesMaybe);
   const seatsMaybe = seatsSearchParams(seats, datesMaybe);
-  const sortMaybe = sort === config.search.sortConfig.relevanceKey ? {} : { sort };
+  const sortMaybe = sort === config.search.sortConfig.relevanceKey || sort === 'alphabetical' ? {} : { sort };
 
   const params = {
     // The rest of the params except invalid nested category-related params
@@ -296,7 +312,7 @@ export const searchListings = (searchParams, config) => (dispatch, getState, sdk
       const sanitizeConfig = { listingFields };
 
       dispatch(addMarketplaceEntities(response, sanitizeConfig));
-      dispatch(searchListingsSuccess(response));
+      dispatch(searchListingsSuccess(response, sort));
       return response;
     })
     .catch(e => {

@@ -1,22 +1,22 @@
-/* Elegant, minimal background for the landing page */
+/* Modern grayscale theme for the landing page */
 :root {
   --landingBgStart: #f8fafc;
   --landingBgEnd: #e2e8f0;
   --landingAccent: #1e293b;
   --landingText: #0f172a;
   --landingSubtleText: #475569;
-  --gradientPrimary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradientSecondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --gradientAccent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  --gradientDark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  --gradientLight: linear-gradient(135deg, #f0f4ff 0%, #e6f3ff 100%);
-  --gradientSmart: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  --gradientHeroLight: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  --accentBlue: #3b82f6;
-  --accentGreen: #10b981;
-  --accentPurple: #8b5cf6;
-  --accentOrange: #f59e0b;
-  --accentPink: #ec4899;
+  --gradientPrimary: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+  --gradientSecondary: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+  --gradientAccent: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  --gradientDark: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  --gradientLight: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  --gradientSmart: linear-gradient(135deg, #374151 0%, #4b5563 50%, #6b7280 100%);
+  --gradientHeroLight: linear-gradient(135deg, #f8fafc 0%, #e5e7eb 100%);
+  --accentGray: #6b7280;
+  --accentDarkGray: #374151;
+  --accentLightGray: #9ca3af;
+  --accentCharcoal: #1f2937;
+  --accentSlate: #475569;
 }
 
 .root {
@@ -89,7 +89,7 @@
 }
 
 .primaryButton {
-  background: var(--gradientPrimary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -220,7 +220,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--accentBlue);
+  background: var(--accentGray);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -239,7 +239,7 @@
   font-size: 3rem;
   margin-bottom: 20px;
   display: block;
-  color: var(--accentBlue);
+  color: var(--accentGray);
 }
 
 .featureTitle {
@@ -288,7 +288,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--accentGreen);
+  background: var(--accentDarkGray);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -306,7 +306,7 @@
   font-size: 2.5rem;
   margin-bottom: 15px;
   display: block;
-  color: var(--accentGreen);
+  color: var(--accentDarkGray);
 }
 
 .categoryName {
@@ -353,7 +353,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--accentPurple);
+  background: var(--accentCharcoal);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -482,7 +482,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--accentOrange);
+  background: var(--accentSlate);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -501,7 +501,7 @@
   font-size: 3rem;
   margin-bottom: 20px;
   display: block;
-  color: var(--accentOrange);
+  color: var(--accentSlate);
 }
 
 .testimonialContent {
@@ -565,7 +565,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--accentPink);
+  background: var(--accentLightGray);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -621,7 +621,7 @@
 }
 
 .blogCategory {
-  background: var(--accentPink);
+  background: var(--accentLightGray);
   color: white;
   padding: 4px 12px;
   border-radius: 20px;
@@ -671,7 +671,7 @@
 }
 
 .blogCTAButton {
-  background: var(--gradientPrimary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
   padding: 15px 40px;
@@ -781,7 +781,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--accentGreen);
+  background: var(--accentDarkGray);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -847,7 +847,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--accentPurple);
+  background: var(--accentCharcoal);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -866,7 +866,7 @@
   font-size: 3rem;
   margin-bottom: 20px;
   display: block;
-  color: var(--accentPurple);
+  color: var(--accentCharcoal);
 }
 
 .valueTitle {
@@ -902,7 +902,7 @@
 }
 
 .ctaButton {
-  background: var(--gradientPrimary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
   padding: 18px 40px;
@@ -911,7 +911,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
   position: relative;
   overflow: hidden;
 }

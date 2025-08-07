@@ -43,6 +43,7 @@ const BrandsPage = loadable(() => import(/* webpackChunkName: "BrandsPage" */ '.
 const BlogPage = loadable(() => import(/* webpackChunkName: "BlogPage" */ '../containers/BlogPage/BlogPage'));
 const CategoriesPage = loadable(() => import(/* webpackChunkName: "CategoriesPage" */ '../containers/CategoriesPage/CategoriesPage'));
 const CompatibilityPage = loadable(() => import(/* webpackChunkName: "CompatibilityPage" */ '../containers/CompatibilityPage/CompatibilityPage'));
+const AboutPage = loadable(() => import(/* webpackChunkName: "AboutPage" */ '../containers/AboutPage/AboutPage'));
 
 // Article pages
 const ArticlesPage = loadable(() => import(/* webpackChunkName: "ArticlesPage" */ '../containers/ArticlesPage/ArticlesPage'));
@@ -123,6 +124,11 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       path: '/blog',
       name: 'BlogPage',
       component: BlogPage,
+    },
+    {
+      path: '/about',
+      name: 'AboutPage',
+      component: AboutPage,
     },
     {
       path: '/landing-page',
