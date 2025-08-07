@@ -2109,3 +2109,21 @@
     }
   }
 }
+
+/* No Specifications Message Styles */
+.noSpecsMessage {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--colorGrey600);
+  font-size: 16px;
+  line-height: 1.5;
+
+  @media (--viewportMedium) {
+    padding: 60px 40px;
+    font-size: 18px;
+  }
+
+  p {
+    margin: 0;
+  }
+}

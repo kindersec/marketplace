@@ -168,48 +168,50 @@ const Tabs = ({ activeTab, onTabChange, publicData }) => {
       <div className={css.tabContent}>
         <h3>Technical Specifications</h3>
         <div className={css.specsTableContainer}>
-          <table className={css.specsTable}>
-            <thead>
-              <tr>
-                <th>Specification</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Dimensions</td>
-                <td>120mm x 80mm x 25mm</td>
-              </tr>
-              <tr>
-                <td>Weight</td>
-                <td>150g</td>
-              </tr>
-              <tr>
-                <td>Power Supply</td>
-                <td>5V DC, 2A</td>
-              </tr>
-              <tr>
-                <td>Connectivity</td>
-                <td>WiFi 802.11 b/g/n, Bluetooth 4.2</td>
-              </tr>
-              <tr>
-                <td>Operating Temperature</td>
-                <td>-10°C to +50°C</td>
-              </tr>
-              <tr>
-                <td>Humidity</td>
-                <td>10% to 90% (non-condensing)</td>
-              </tr>
-              <tr>
-                <td>Certifications</td>
-                <td>CE, FCC, RoHS</td>
-              </tr>
-              <tr>
-                <td>Warranty</td>
-                <td>2 years</td>
-              </tr>
-            </tbody>
-          </table>
+          {(() => {
+            // Extract tech_specs from publicData
+            const techSpecs = publicData.tech_specs;
+
+            // Validate that tech_specs exists and is valid JSON
+            let parsedSpecs = null;
+            if (techSpecs) {
+              try {
+                // If it's already an object, use it directly
+                if (typeof techSpecs === 'object' && techSpecs !== null) {
+                  parsedSpecs = techSpecs;
+                } else if (typeof techSpecs === 'string') {
+                  // If it's a string, try to parse it as JSON
+                  parsedSpecs = JSON.parse(techSpecs);
+                }
+              } catch (error) {
+                console.warn('Invalid tech_specs JSON:', error);
+                parsedSpecs = null;
+              }
+            }
+
+            // If we have valid specs, display them
+            if (parsedSpecs && typeof parsedSpecs === 'object' && Object.keys(parsedSpecs).length > 0) {
+                             return (
+                 <table className={css.specsTable}>
+                   <tbody>
+                     {Object.entries(parsedSpecs).map(([key, value]) => (
+                       <tr key={key}>
+                         <td>{key}</td>
+                         <td>{value}</td>
+                       </tr>
+                     ))}
+                   </tbody>
+                 </table>
+               );
+            } else {
+              // Fallback to placeholder content if no valid tech_specs
+              return (
+                <div className={css.noSpecsMessage}>
+                  <p>No technical specifications available for this product.</p>
+                </div>
+              );
+            }
+          })()}
         </div>
       </div>
     ),

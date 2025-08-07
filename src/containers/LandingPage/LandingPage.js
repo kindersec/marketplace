@@ -415,19 +415,6 @@ export const LandingPageComponent = props => {
                   ))}
                 </div>
               </div>
-
-              <div className={css.companyValues}>
-                <h3 className={css.valuesTitle}>Our Values</h3>
-                <div className={css.valuesGrid}>
-                  {companyData.values.map((value, index) => (
-                    <div key={index} className={css.valueCard}>
-                      <div className={css.valueIcon}>{value.icon}</div>
-                      <h4 className={css.valueTitle}>{value.title}</h4>
-                      <p className={css.valueDescription}>{value.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           </section>
 

@@ -50,20 +50,6 @@ const AboutPage = () => {
     >
       <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
         <div className={css.root}>
-          {/* Hero Section */}
-          <section className={css.hero}>
-            <div className={css.container}>
-              <div className={css.heroContent}>
-                <h1 className={css.heroTitle}>
-                  <FormattedMessage id="AboutPage.title" defaultMessage="About Domee" />
-                </h1>
-                <p className={css.heroSubtitle}>
-                  <FormattedMessage id="AboutPage.subtitle" defaultMessage="Your trusted partner in smart home technology" />
-                </p>
-              </div>
-            </div>
-          </section>
-
           {/* Company/About Section - matching landing page layout */}
           <section className={css.companySection}>
             <div className={css.container}>

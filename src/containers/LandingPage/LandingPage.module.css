@@ -213,28 +213,6 @@
   overflow: hidden;
 }
 
-.featureCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: var(--accentGray);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.featureCard:hover::before {
-  transform: scaleX(1);
-}
-
-.featureCard:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  background: rgba(255, 255, 255, 0.95);
-}
-
 .featureIcon {
   font-size: 3rem;
   margin-bottom: 20px;
@@ -772,28 +750,6 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   position: relative;
   overflow: hidden;
-}
-
-.statItem::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: var(--accentDarkGray);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.statItem:hover::before {
-  transform: scaleX(1);
-}
-
-.statItem:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  background: rgba(255, 255, 255, 0.95);
 }
 
 .statNumber {

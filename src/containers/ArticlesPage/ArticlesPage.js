@@ -273,38 +273,38 @@ const ArticlesPage = ({ children, params }) => {
                 </p>
               </div>
 
-              {/* Search Bar */}
-              <div className={css.searchSection}>
+              {/* Compact Search and Filter Section */}
+              <div className={css.compactControls}>
+                {/* Search Bar */}
                 <div className={css.searchContainer}>
                   <input
                     type="text"
                     placeholder="Search articles by title, content, or tags..."
                     value={searchQuery}
-                    onChange={handleSearchChange}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     className={css.searchInput}
                   />
-                  <div className={css.searchIcon}>🔍</div>
+                </div>
+
+                {/* Article Type Filter Dropdown */}
+                <div className={css.filterContainer}>
+                  <select
+                    value={selectedArticleType}
+                    onChange={(e) => handleArticleTypeChange(e.target.value)}
+                    className={css.filterDropdown}
+                  >
+                    <option value="All Articles">All Article Types</option>
+                    <option value="Buying Guides">Guides</option>
+                    <option value="How-To Guides">Reviews</option>
+                    <option value="Product Reviews">News</option>
+                    <option value="Technical Articles">Tutorials</option>
+                  </select>
                 </div>
               </div>
 
-              {/* Article Type Filter */}
-              <div className={css.filterSection}>
-                <h3 className={css.filterTitle}>Filter by Article Type</h3>
-                <div className={css.filterButtons}>
-                  {articleTypes.map((articleType, index) => (
-                    <button
-                      key={index}
-                      className={`${css.filterButton} ${selectedArticleType === articleType ? css.active : ''}`}
-                      onClick={() => handleArticleTypeChange(articleType)}
-                    >
-                      {articleType}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
+              {/* Articles Grid */}
               <div className={css.articlesGrid}>
-                {filteredArticles.map(article => (
+                {filteredArticles.map((article) => (
                   <NamedLink key={article.id} name={getArticleRouteName(article.id)} className={css.articleCardLink}>
                     <article className={css.articleCard}>
                       <div className={css.articleContent}>
@@ -327,6 +327,12 @@ const ArticlesPage = ({ children, params }) => {
                   </NamedLink>
                 ))}
               </div>
+
+              {filteredArticles.length === 0 && (
+                <div className={css.noResults}>
+                  <p>No articles found matching your criteria.</p>
+                </div>
+              )}
             </main>
             <FooterContainer />
           </>
