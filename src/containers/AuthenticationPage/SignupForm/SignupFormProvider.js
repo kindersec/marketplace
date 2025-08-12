@@ -22,18 +22,17 @@ const FieldHidden = props => {
     </Field>
   );
 };
+import TermsAndConditions from '../TermsAndConditions/TermsAndConditions';
 
 import css from './SignupForm.module.css';
 
-const getSoleUserTypeMaybe = userTypes =>
-  Array.isArray(userTypes) && userTypes.length === 1 ? userTypes[0].userType : null;
-
-const SignupFormComponent = props => (
+const SignupFormProviderComponent = props => (
   <FinalForm
     {...props}
     mutators={{ ...arrayMutators }}
-    initialValues={{ userType: 'customer' }}
+    initialValues={{ userType: 'provider' }}
     render={formRenderProps => {
+      const { onOpenTermsOfService, onOpenPrivacyPolicy } = props;
       const {
         rootClassName,
         className,
@@ -42,7 +41,6 @@ const SignupFormComponent = props => (
         inProgress,
         invalid,
         intl,
-        termsAndConditions,
         preselectedUserType,
         userTypes,
         userFields,
@@ -112,7 +110,7 @@ const SignupFormComponent = props => (
 
       return (
         <Form className={classes} onSubmit={handleSubmit}>
-          <FieldHidden name="userType" value="customer" />
+          <FieldHidden name="userType" value="provider" />
 
           {showDefaultUserFields ? (
             <div className={css.defaultUserFields}>
@@ -200,43 +198,66 @@ const SignupFormComponent = props => (
           ) : null}
 
           {showCustomUserFields ? (
-            <div className={css.customFields}>
-              {userFieldProps.map(({ key, ...fieldProps }) => (
-                <CustomExtendedDataField key={key} {...fieldProps} formId={formId} />
+            <div className={css.customUserFields}>
+              {userFieldProps.map(fieldConfig => (
+                <CustomExtendedDataField
+                  key={fieldConfig.key}
+                  className={css.row}
+                  fieldConfig={fieldConfig}
+                  intl={intl}
+                />
               ))}
             </div>
           ) : null}
 
-          <div className={css.bottomWrapper}>
-            {termsAndConditions}
-            <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
-              <FormattedMessage id="SignupForm.signUp" />
-            </PrimaryButton>
-          </div>
+          {(onOpenTermsOfService || onOpenPrivacyPolicy) ? (
+            <div className={css.termsAndConditions}>
+              <TermsAndConditions
+                onOpenTermsOfService={onOpenTermsOfService}
+                onOpenPrivacyPolicy={onOpenPrivacyPolicy}
+                intl={intl}
+              />
+            </div>
+          ) : null}
+
+          <PrimaryButton
+            type="submit"
+            inProgress={submitInProgress}
+            disabled={submitDisabled}
+            rootClassName={css.submitButton}
+          >
+            <FormattedMessage id="SignupForm.signUp" />
+          </PrimaryButton>
         </Form>
       );
     }}
   />
 );
 
-/**
- * A component that renders the signup form.
- *
- * @component
- * @param {Object} props
- * @param {string} props.rootClassName - The root class name that overrides the default class css.root
- * @param {string} props.className - The class that extends the root class
- * @param {string} props.formId - The form id
- * @param {boolean} props.inProgress - Whether the form is in progress
- * @param {ReactNode} props.termsAndConditions - The terms and conditions
- * @param {string} props.preselectedUserType - The preselected user type
- * @param {propTypes.userTypes} props.userTypes - The user types
- * @param {propTypes.listingFields} props.userFields - The user fields
- * @returns {JSX.Element}
- */
-const SignupForm = props => {
-  const intl = useIntl();
-  return <SignupFormComponent {...props} intl={intl} />;
+SignupFormProviderComponent.defaultProps = {
+  rootClassName: null,
+  className: null,
+  formId: null,
+  inProgress: false,
+  userTypes: [],
+  userFields: [],
+  termsAndConditions: null,
 };
 
-export default SignupForm;
+SignupFormProviderComponent.propTypes = {
+  rootClassName: string,
+  className: string,
+  formId: string,
+  inProgress: bool,
+  userTypes: propTypes.userTypes,
+  userFields: propTypes.userFields,
+  termsAndConditions: object,
+};
+
+// Wrapper to inject intl from react-intl into FinalForm via props
+const SignupFormProvider = props => {
+  const intl = useIntl();
+  return <SignupFormProviderComponent {...props} intl={intl} />;
+};
+
+export default SignupFormProvider;

@@ -304,6 +304,10 @@
 
 /* ================ Social logins & SSO ================ */
 
+.idpButtons {
+  margin-top: 24px;
+}
+
 .signupWithIdpTitle {
   composes: marketplaceModalTitleStyles from global;
   margin-top: 0;

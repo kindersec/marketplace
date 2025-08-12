@@ -273,13 +273,13 @@ const ArticlesPage = ({ children, params }) => {
                 </p>
               </div>
 
-              {/* Compact Search and Filter Section */}
-              <div className={css.compactControls}>
+              {/* Search and Filter Controls - Top Right Corner */}
+              <div className={css.topRightControls}>
                 {/* Search Bar */}
                 <div className={css.searchContainer}>
                   <input
                     type="text"
-                    placeholder="Search articles by title, content, or tags..."
+                    placeholder="Search articles..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className={css.searchInput}

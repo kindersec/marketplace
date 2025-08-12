@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { propTypes } from '../../util/types';
-import { Page, LayoutSingleColumn } from '../../components';
+import { Page, LayoutSingleColumn, NamedLink } from '../../components';
 
 import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../FooterContainer/FooterContainer';
 
 import css from './LandingPage.module.css';
-import smartHomeImage from '../../assets/illustration smart home.png';
+import smartHomeImage from '../../assets/illustration 6.png';
 
 // Hero section data
 const heroData = {
@@ -48,16 +48,11 @@ const featuresData = [
 
 // Categories section data
 const categoriesData = [
-  { name: "Smart Lighting", icon: "💡", count: "500+ Products", url: "/s?pub_categoryLevel1=smart-lighting" },
+  { name: "Smart Lighting", icon: "💡", count: "500+ Products", url: "/s?pub_categoryLevel1=lights" },
   { name: "Security Cameras", icon: "📹", count: "200+ Products", url: "/s?pub_categoryLevel1=security-cameras" },
-  { name: "Smart Thermostats", icon: "🌡️", count: "150+ Products", url: "/s?pub_categoryLevel1=smart-thermostats" },
   { name: "Smart Locks", icon: "🔒", count: "100+ Products", url: "/s?pub_categoryLevel1=smart-locks" },
-  { name: "Robot Vacuums", icon: "🤖", count: "80+ Products", url: "/s?pub_categoryLevel1=robot-vacuums" },
-  { name: "Smart Speakers", icon: "🔊", count: "120+ Products", url: "/s?pub_categoryLevel1=smart-speakers" },
   { name: "Doorbells", icon: "🚪", count: "75+ Products", url: "/s?pub_categoryLevel1=doorbells" },
-  { name: "Smart Blinds", icon: "🪟", count: "60+ Products", url: "/s?pub_categoryLevel1=smart-blinds" },
-  { name: "Robot Lawn Mower", icon: "🌱", count: "45+ Products", url: "/s?pub_categoryLevel1=robot-lawn-mower" },
-  { name: "Air Purifier", icon: "🌬️", count: "90+ Products", url: "/s?pub_categoryLevel1=air-purifier" }
+  { name: "Robot Vacuums", icon: "🤖", count: "45+ Products", url: "/s?pub_categoryLevel1=robot-vacuum" }
 ];
 
 // Testimonials data
@@ -85,37 +80,40 @@ const testimonialsData = [
 // Featured products data
 const featuredProductsData = [
   {
+    id: 1,
+    name: "ECOVACS GOAT GX-600",
+    description: "Robotic lawn mower with Intelligent Path Planning, AIVI 3D Obstacle Avoidance, and No Boundary Setting. Covers 600㎡ within 2 days with ≤59dB noise level.",
+    price: "$1,299.99",
+    imageUrl: "https://sharetribe.imgix.net/68877dab-abcf-4234-8908-10bff69f886c/689499b2-ae90-43c3-bac1-eef7a18fbf22?auto=format&fit=clip&h=750&w=750&s=f6a4d2516ff9ef5a79276e051cf17e4d",
+    category: "Robot Lawn Mower",
+    brand: "Ecovacs",
+    rating: 4.8,
+    reviewCount: 156,
+    listingId: "6894993a-8c9a-4753-9ce1-9bc0210d624c"
+  },
+  {
     id: 2,
-    name: "Ring Video Doorbell",
+    name: "Aqara Doorbell Camera Hub G410",
+    description: "A doorbell camera hub that supports local automations and major smart home ecosystems. Features 2K image clarity, 175° field of view, mmWave radar sensor, and on-device face recognition.",
+    price: "$129.99",
+    imageUrl: "https://sharetribe.imgix.net/68877dab-abcf-4234-8908-10bff69f886c/68947944-6bf9-4f74-8309-c1bc1ef6cb60?auto=format&fit=clip&h=750&w=750&s=a0af1e411378eebb42b239853eb0327b",
+    category: "Doorbells",
+    brand: "Aqara",
+    rating: 4.7,
+    reviewCount: 89,
+    listingId: "6894790f-52e7-4d4b-9725-06553a0d3cd3"
+  },
+  {
+    id: 3,
+    name: "Ring Battery Doorbell Pro",
     description: "1080p HD video doorbell with motion detection",
     price: "$99.99",
     imageUrl: "https://images.ctfassets.net/2xsswpd01u70/variant-58848044941659-fr-fr/402f904e163e50802bbe3cb62fc7b070/variant-58848044941659-fr-fr.png",
     category: "Security Cameras",
     brand: "Ring",
     rating: 4.6,
-    reviewCount: 892
-  },
-  {
-    id: 3,
-    name: "Ecobee Smart Thermostat",
-    description: "Wi-Fi enabled thermostat with room sensors",
-    price: "$169.99",
-    imageUrl: "https://m.media-amazon.com/images/I/5118X+rWiOL._AC_SX679_.jpg",
-    category: "Climate Control",
-    brand: "Ecobee",
-    rating: 4.7,
-    reviewCount: 654
-  },
-  {
-    id: 4,
-    name: "iRobot Roomba j7+",
-    description: "Self-emptying robot vacuum with obstacle avoidance",
-    price: "$799.99",
-    imageUrl: "https://cdn.media.amplience.net/i/irobot/j755840_1?fmt=auto&$pdp-img-desktop-retina-prd$&img404=404&v=1&locale=fr-FR,*",
-    category: "Robot Vacuums",
-    brand: "iRobot",
-    rating: 4.5,
-    reviewCount: 445
+    reviewCount: 892,
+    listingId: "688f2b46-6407-4dfe-9851-438673ca4817"
   }
 ];
 
@@ -192,6 +190,60 @@ const companyData = {
   ]
 };
 
+// Helper function to map article IDs to route names (same mapping as /articles page)
+const getArticleRouteName = (articleId) => {
+  const routeMap = {
+    'smart-bathroom-gadgets': 'SmartBathroomGadgetsPage',
+    'underrated-smart-devices': 'UnderratedSmartDevicesPage',
+    'smart-home-glossary': 'SmartHomeGlossaryPage',
+    'wi-fi': 'WiFiPage',
+    'smart-living-room': 'SmartLivingRoomPage',
+    'smart-plugs': 'SmartPlugsPage',
+    'smart-home-devices': 'SmartHomeDevicesPage',
+    'smart-home-protocols': 'SmartHomeProtocolsPage',
+    'video-doorbell': 'VideoDoorbellPage',
+    'robot-lawn-mower': 'RobotLawnMowerPage',
+    'robot-vacuum': 'RobotVacuumPage',
+    'smart-bulb': 'SmartBulbPage',
+    'smart-lock': 'SmartLockPage',
+    'smart-home-myths': 'SmartHomeMythsPage',
+    'smart-bulb-glossary': 'SmartBulbGlossaryPage',
+    'smart-lock-glossary': 'SmartLockGlossaryPage',
+  };
+  return routeMap[articleId] || 'ArticlesPage';
+};
+
+// Pick three existing articles to feature on the landing page
+const featuredArticles = [
+  {
+    id: 'video-doorbell',
+    title: 'How to Buy Your Video Doorbell: A Comprehensive Guide',
+    excerpt:
+      'Learn everything you need to know about choosing the perfect video doorbell for your smart home, from features to installation tips.',
+    date: '2025-08-04',
+    category: 'Security',
+    articleType: 'Buying Guides',
+  },
+  {
+    id: 'robot-lawn-mower',
+    title: "How to Buy Your Robot Lawn Mower: A Smart Home Enthusiast's Guide",
+    excerpt:
+      'Discover everything you need to know about choosing the perfect robot lawn mower for your smart home, from features to installation tips.',
+    date: '2025-08-04',
+    category: 'Smart Home',
+    articleType: 'Buying Guides',
+  },
+  {
+    id: 'smart-home-protocols',
+    title: 'Wi-Fi, Zigbee, Matter? Understanding Smart Home Protocols Made Easy',
+    excerpt:
+      'Navigate the complex world of smart home protocols with our comprehensive guide to Wi-Fi, Zigbee, and Matter.',
+    date: '2025-08-04',
+    category: 'Smart Home',
+    articleType: 'Technical Articles',
+  },
+];
+
 export const LandingPageComponent = props => {
   const { inProgress, error, history } = props;
 
@@ -201,8 +253,8 @@ export const LandingPageComponent = props => {
   };
 
   const handleSecondaryCTA = () => {
-    // Navigate to blog page
-    history.push('/blog');
+    // Navigate to articles page
+    history.push('/articles');
   };
 
   const handleCategoryClick = (category) => {
@@ -212,18 +264,33 @@ export const LandingPageComponent = props => {
   };
 
   const handleFeaturedProductClick = (product) => {
-    // Navigate to listing page with product search
-    history.push(`/s?search=${encodeURIComponent(product.name)}`);
+    // Navigate to specific listing page using the listingId
+    if (product.listingId) {
+      history.push(`/l/${product.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}/${product.listingId}`);
+    } else {
+      // Fallback to search if no listingId is available
+      history.push(`/s?search=${encodeURIComponent(product.name)}`);
+    }
   };
 
   const handleBlogCTAClick = () => {
-    // Navigate to blog page
-    history.push('/blog');
+    // Navigate to articles page
+    history.push('/articles');
   };
 
   const handleBlogPostClick = (post) => {
     // Navigate to individual blog post using the specific link
     history.push(post.link);
+  };
+
+  const handleBrowseAllCategories = () => {
+    // Navigate to search page showing all categories
+    history.push('/s');
+  };
+
+  const handleAboutLearnMore = () => {
+    // Navigate to About page
+    history.push('/about');
   };
 
   if (inProgress) {
@@ -325,6 +392,11 @@ export const LandingPageComponent = props => {
                   </div>
                 ))}
               </div>
+              <div className={css.categoriesCTA}>
+                <button className={css.primaryButton} onClick={handleBrowseAllCategories}>
+                  Browse All Categories
+                </button>
+              </div>
             </div>
           </section>
 
@@ -362,13 +434,17 @@ export const LandingPageComponent = props => {
                       <h3 className={css.productName}>{product.name}</h3>
                       <p className={css.productDescription}>{product.description}</p>
                       <div className={css.productMeta}>
-                        <div className={css.productRating}>
-                          <span className={css.stars}>★★★★★</span>
-                          <span className={css.ratingText}>{product.rating}</span>
-                          <span className={css.reviewCount}>({product.reviewCount})</span>
-                        </div>
                         <div className={css.productPrice}>{product.price}</div>
                       </div>
+                      <button
+                        className={css.buyNowButton}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleFeaturedProductClick(product);
+                        }}
+                      >
+                        Buy Now
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -407,6 +483,11 @@ export const LandingPageComponent = props => {
                   <p className={css.companySubtitle}>{companyData.subtitle}</p>
                   <p className={css.companyDescription}>{companyData.description}</p>
                   <p className={css.companyMission}>{companyData.mission}</p>
+                  <div className={css.companyCTA}>
+                    <button className={css.primaryButton} onClick={handleAboutLearnMore}>
+                      Learn More
+                    </button>
+                  </div>
                 </div>
                 <div className={css.companyStats}>
                   {companyData.stats.map((stat, index) => (
@@ -428,46 +509,26 @@ export const LandingPageComponent = props => {
                 Stay updated with the latest smart home trends, tips, and expert advice
               </p>
               <div className={css.blogGrid}>
-                {blogData.map((post) => (
-                  <article
-                    key={post.id}
+                {featuredArticles.map(article => (
+                  <NamedLink
+                    key={article.id}
+                    name={getArticleRouteName(article.id)}
                     className={css.blogCard}
-                    onClick={() => handleBlogPostClick(post)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleBlogPostClick(post);
-                      }
-                    }}
                   >
-                    <div className={css.blogImage}>
-                      <div className={css.imagePlaceholder}>
-                        <span className={css.imageIcon}>📱</span>
-                        <p>Blog Post Image</p>
-                      </div>
-                    </div>
                     <div className={css.blogContent}>
                       <div className={css.blogMeta}>
-                        <span className={css.blogCategory}>{post.category}</span>
-                        <span className={css.blogDate}>{post.date}</span>
-                        <span className={css.blogReadTime}>{post.readTime}</span>
+                        <span className={css.blogReadTime}>{article.articleType}</span>
                       </div>
-                      <h3 className={css.blogTitle}>{post.title}</h3>
-                      <p className={css.blogExcerpt}>{post.excerpt}</p>
-                      <div className={css.blogAuthor}>
-                        <span className={css.authorAvatar}>👤</span>
-                        <span className={css.authorName}>By {post.author}</span>
-                      </div>
+                      <h3 className={css.blogTitle}>{article.title}</h3>
+                      <p className={css.blogExcerpt}>{article.excerpt}</p>
                     </div>
-                  </article>
+                  </NamedLink>
                 ))}
               </div>
               <div className={css.blogCTA}>
-                <button className={css.blogCTAButton} onClick={handleBlogCTAClick}>
+                <NamedLink name="ArticlesPage" className={css.blogCTAButton}>
                   Read All Articles
-                </button>
+                </NamedLink>
               </div>
             </div>
           </section>

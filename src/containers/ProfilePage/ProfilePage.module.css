@@ -176,6 +176,14 @@
       margin-top: 20px;
     }
   }
+
+  /* Hover effect for product cards */
+  transition: all 0.3s ease;
+}
+
+.listing:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15), 0 4px 15px rgba(118, 75, 162, 0.1);
 }
 
 .mobileReviewsTitle {
@@ -223,8 +231,8 @@
   }
 }
 
-/* 
- * Custom field component classes 
+/*
+ * Custom field component classes
  */
 
 .sectionHeading {

@@ -55,7 +55,7 @@ export const userFields = [
     },
     userTypeConfig: {
       limitToUserTypeIds: true,
-      userTypeIds: ['a', 'b', 'c'],
+      userTypeIds: ['customer', 'provider'],
     },
   },
   {
@@ -73,7 +73,7 @@ export const userFields = [
     },
     userTypeConfig: {
       limitToUserTypeIds: true,
-      userTypeIds: ['a', 'b', 'c'],
+      userTypeIds: ['customer', 'provider'],
     },
   },
   {
@@ -90,7 +90,7 @@ export const userFields = [
     },
     userTypeConfig: {
       limitToUserTypeIds: true,
-      userTypeIds: ['a', 'b', 'c'],
+      userTypeIds: ['customer', 'provider'],
     },
   },
   {
@@ -109,7 +109,7 @@ export const userFields = [
     userTypeConfig: {
       label: 'Description of your kitchen',
       limitToUserTypeIds: true,
-      userTypeIds: ['a', 'b', 'c'],
+      userTypeIds: ['customer', 'provider'],
     },
   },
   {
@@ -126,7 +126,7 @@ export const userFields = [
     },
     userTypeConfig: {
       limitToUserTypeIds: false,
-      userTypeIds: ['a', 'b', 'c'],
+      userTypeIds: ['customer', 'provider'],
     },
   },
   {
@@ -153,7 +153,7 @@ export const userFields = [
     },
     userTypeConfig: {
       limitToUserTypeIds: true,
-      userTypeIds: ['a', 'b', 'c'],
+      userTypeIds: ['customer', 'provider'],
     },
   },
 ];
@@ -175,19 +175,11 @@ export const userFields = [
 
 export const userTypes = [
   {
-    userType: 'a',
-    label: 'Seller',
+    userType: 'customer',
+    label: 'Customer',
   },
   {
-    userType: 'b',
-    label: 'Buyer',
-  },
-  {
-    userType: 'c',
-    label: 'Guest',
-  },
-  {
-    userType: 'd',
-    label: 'Host',
+    userType: 'provider',
+    label: 'Provider',
   },
 ];
