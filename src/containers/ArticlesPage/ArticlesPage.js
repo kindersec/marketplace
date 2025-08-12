@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   NamedLink,
   LayoutComposer,
@@ -192,9 +193,19 @@ const ArticlesPage = ({ children, params }) => {
     "Technical Articles"
   ];
 
-  // State for filtering
-  const [selectedArticleType, setSelectedArticleType] = React.useState("All Articles");
-  const [searchQuery, setSearchQuery] = React.useState("");
+  // Router hooks for shareable filters via URL
+  const history = useHistory();
+  const location = useLocation();
+
+  // Initialize state from URL params
+  const paramsFromUrl = new URLSearchParams(location.search);
+  const urlType = paramsFromUrl.get('type');
+  const urlQuery = paramsFromUrl.get('q') || '';
+  const initialType = articleTypes.includes(urlType) ? urlType : "All Articles";
+
+  // State for filtering (initialized from URL)
+  const [selectedArticleType, setSelectedArticleType] = React.useState(initialType);
+  const [searchQuery, setSearchQuery] = React.useState(urlQuery);
 
   const handleArticleTypeChange = (articleType) => {
     setSelectedArticleType(articleType);
@@ -214,6 +225,37 @@ const ArticlesPage = ({ children, params }) => {
 
     return typeMatch && searchMatch;
   });
+
+  // Keep URL in sync with filter state
+  React.useEffect(() => {
+    const sp = new URLSearchParams();
+    if (selectedArticleType && selectedArticleType !== 'All Articles') {
+      sp.set('type', selectedArticleType);
+    }
+    if (searchQuery && searchQuery.trim() !== '') {
+      sp.set('q', searchQuery.trim());
+    }
+    const qs = sp.toString();
+    const nextUrl = qs ? `${location.pathname}?${qs}` : location.pathname;
+    const currentUrl = `${location.pathname}${location.search}`;
+    if (nextUrl !== currentUrl) {
+      history.replace(nextUrl);
+    }
+  }, [selectedArticleType, searchQuery, history, location.pathname, location.search]);
+
+  // Update state if URL changes (e.g., back/forward navigation)
+  React.useEffect(() => {
+    const sp = new URLSearchParams(location.search);
+    const nextType = sp.get('type');
+    const nextQuery = sp.get('q') || '';
+    const validType = articleTypes.includes(nextType) ? nextType : 'All Articles';
+    if (validType !== selectedArticleType) {
+      setSelectedArticleType(validType);
+    }
+    if (nextQuery !== searchQuery) {
+      setSearchQuery(nextQuery);
+    }
+  }, [location.search]);
 
   // Helper function to map article IDs to route names
   const getArticleRouteName = (articleId) => {
@@ -294,10 +336,10 @@ const ArticlesPage = ({ children, params }) => {
                     className={css.filterDropdown}
                   >
                     <option value="All Articles">All Article Types</option>
-                    <option value="Buying Guides">Guides</option>
-                    <option value="How-To Guides">Reviews</option>
-                    <option value="Product Reviews">News</option>
-                    <option value="Technical Articles">Tutorials</option>
+                    <option value="Buying Guides">Buying Guides</option>
+                    <option value="How-To Guides">How-To Guides</option>
+                    <option value="Product Reviews">Product Reviews</option>
+                    <option value="Technical Articles">Technical Articles</option>
                   </select>
                 </div>
               </div>
