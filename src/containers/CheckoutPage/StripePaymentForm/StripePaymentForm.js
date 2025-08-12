@@ -692,6 +692,17 @@ class StripePaymentForm extends Component {
               id="StripePaymentForm.submitConfirmPaymentFinePrint"
               values={{ isBooking: isBookingYesNo, name: authorDisplayName }}
             />
+            {" "}
+            <span>
+              <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">
+                <FormattedMessage id="AuthenticationPage.termsAndConditionsTermsLinkText" />
+              </a>
+              {" "}&
+              {" "}
+              <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
+                <FormattedMessage id="AuthenticationPage.termsAndConditionsPrivacyLinkText" />
+              </a>
+            </span>
           </p>
         </div>
       </Form>

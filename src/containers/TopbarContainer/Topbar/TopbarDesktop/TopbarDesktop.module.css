@@ -39,12 +39,15 @@
 
 /* Search */
 .searchLink {
-  min-width: 320px;
+  min-width: 420px;
   height: 100%;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: rgba(0, 0, 0, 0.1);
+  /* Remove vertical divider between logo and search */
+  border-left: none;
   margin-right: auto;
+  display: flex;
+  align-items: center;
+  /* Make search area consume more width */
+  flex: 1 1 520px;
 }
 
 .spacer {
@@ -83,6 +86,28 @@
 
   @media (--viewportLarge) {
     padding-left: 34px;
+  }
+}
+
+/* Apply rounded container only when the search form is rendered (not spacer) */
+.searchLink .topbarSearchWithLeftPadding {
+  display: flex;
+  align-items: center;
+  height: calc(var(--topbarHeightDesktop) - 16px); /* slightly shorter than topbar */
+  padding: 0 12px;
+  border: 1px solid var(--colorGrey200);
+  border-radius: var(--borderRadiusFull);
+  background-color: var(--colorWhite);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+  width: 100%;
+
+  &:focus-within {
+    /* Match product card shadow from SearchResultsPanel */
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15), 0 4px 15px rgba(118, 75, 162, 0.1);
+  }
+
+  @media (--viewportLarge) {
+    padding: 0 14px;
   }
 }
 

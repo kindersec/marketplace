@@ -349,6 +349,29 @@
   text-align: center;
 }
 
+/* Legal links section */
+.legalLinksSection {
+  padding: 40px 0 64px;
+  border-top: 1px solid var(--colorGrey100);
+}
+
+.legalLinksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px 16px;
+  margin-top: 16px;
+}
+
+.legalLink {
+  color: var(--landingSubtleText);
+  text-decoration: none;
+}
+
+.legalLink:hover {
+  color: var(--landingAccent);
+  text-decoration: underline;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .heroTitle {

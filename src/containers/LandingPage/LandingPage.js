@@ -11,7 +11,7 @@ import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../FooterContainer/FooterContainer';
 
 import css from './LandingPage.module.css';
-import smartHomeImage from '../../assets/illustration 6.png';
+import smartHomeImage from '../../assets/illustration 7.png';
 
 // Hero section data
 const heroData = {
@@ -285,7 +285,7 @@ export const LandingPageComponent = props => {
 
   const handleBrowseAllCategories = () => {
     // Navigate to search page showing all categories
-    history.push('/s');
+    history.push('/categories');
   };
 
   const handleAboutLearnMore = () => {

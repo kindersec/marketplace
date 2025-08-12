@@ -35,6 +35,7 @@ const SearchPageWithMap = loadable(() => import(/* webpackChunkName: "SearchPage
 const SearchPageWithGrid = loadable(() => import(/* webpackChunkName: "SearchPageWithGrid" */ /* webpackPrefetch: true */  '../containers/SearchPage/SearchPageWithGrid'));
 const StripePayoutPage = loadable(() => import(/* webpackChunkName: "StripePayoutPage" */ '../containers/StripePayoutPage/StripePayoutPage'));
 const TermsOfServicePage = loadable(() => import(/* webpackChunkName: "TermsOfServicePage" */ '../containers/TermsOfServicePage/TermsOfServicePage'));
+const TermsOfServiceFallbackPage = loadable(() => import(/* webpackChunkName: "TermsOfServiceFallbackPage" */ '../containers/TermsOfServicePage/FallbackPage'));
 const TransactionPage = loadable(() => import(/* webpackChunkName: "TransactionPage" */ '../containers/TransactionPage/TransactionPage'));
 const NoAccessPage = loadable(() => import(/* webpackChunkName: "NoAccessPage" */ '../containers/NoAccessPage/NoAccessPage'));
 
@@ -45,6 +46,13 @@ const BlogPage = loadable(() => import(/* webpackChunkName: "BlogPage" */ '../co
 const CategoriesPage = loadable(() => import(/* webpackChunkName: "CategoriesPage" */ '../containers/CategoriesPage/CategoriesPage'));
 const CompatibilityPage = loadable(() => import(/* webpackChunkName: "CompatibilityPage" */ '../containers/CompatibilityPage/CompatibilityPage'));
 const AboutPage = loadable(() => import(/* webpackChunkName: "AboutPage" */ '../containers/AboutPage/AboutPage'));
+  // Static legal & trust pages
+  const ReturnRefundPolicyPage = loadable(() => import(/* webpackChunkName: "ReturnRefundPolicyPage" */ '../containers/LegalPages/ReturnRefundPolicyPage'));
+  const ShippingDeliveryPolicyPage = loadable(() => import(/* webpackChunkName: "ShippingDeliveryPolicyPage" */ '../containers/LegalPages/ShippingDeliveryPolicyPage'));
+  const PaymentBillingTermsPage = loadable(() => import(/* webpackChunkName: "PaymentBillingTermsPage" */ '../containers/LegalPages/PaymentBillingTermsPage'));
+  const ProhibitedItemsPage = loadable(() => import(/* webpackChunkName: "ProhibitedItemsPage" */ '../containers/LegalPages/ProhibitedItemsPage'));
+  const ContactPage = loadable(() => import(/* webpackChunkName: "ContactPage" */ '../containers/LegalPages/ContactPage'));
+  const FAQPage = loadable(() => import(/* webpackChunkName: "FAQPage" */ '../containers/LegalPages/FAQPage'));
 
 // Article pages
 const ArticlesPage = loadable(() => import(/* webpackChunkName: "ArticlesPage" */ '../containers/ArticlesPage/ArticlesPage'));
@@ -142,6 +150,13 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       component: CMSPage,
       loadData: pageDataLoadingAPI.CMSPage.loadData,
     },
+    // Static legal & trust pages
+    { path: '/return-and-refund', name: 'ReturnRefundPolicyPage', component: ReturnRefundPolicyPage },
+    { path: '/shipping-and-delivery', name: 'ShippingDeliveryPolicyPage', component: ShippingDeliveryPolicyPage },
+    { path: '/payment-and-billing', name: 'PaymentBillingTermsPage', component: PaymentBillingTermsPage },
+    { path: '/prohibited-items', name: 'ProhibitedItemsPage', component: ProhibitedItemsPage },
+    { path: '/contact', name: 'ContactPage', component: ContactPage },
+    { path: '/faq', name: 'FAQPage', component: FAQPage },
     // NOTE: when the private marketplace feature is enabled, the '/s' route is disallowed by the robots.txt resource.
     // If you add new routes that start with '/s*' (e.g. /support), you should add them to the robotsPrivateMarketplace.txt file.
     {
@@ -395,8 +410,13 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
     {
       path: '/terms-of-service',
       name: 'TermsOfServicePage',
-      component: TermsOfServicePage,
-      loadData: pageDataLoadingAPI.TermsOfServicePage.loadData,
+      component: TermsOfServiceFallbackPage,
+    },
+    // Alias for Terms of Service at /termsofservice (static US-law version)
+    {
+      path: '/termsofservice',
+      name: 'TermsOfServicePageAlias',
+      component: TermsOfServiceFallbackPage,
     },
     {
       path: '/privacy-policy',

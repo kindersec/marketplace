@@ -1,0 +1,49 @@
+.root {
+  padding: 24px;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--colorGrey900);
+}
+
+.updated {
+  font-size: 14px;
+  color: var(--colorGrey600);
+  margin: 0 0 24px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  margin: 24px 0 8px;
+  color: var(--colorGrey900);
+}
+
+.paragraph {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--colorGrey800);
+  margin: 0 0 12px;
+}
+
+.list {
+  padding-left: 18px;
+  margin: 8px 0 16px;
+  color: var(--colorGrey800);
+}
+
+.list li {
+  margin: 6px 0;
+}
+
+

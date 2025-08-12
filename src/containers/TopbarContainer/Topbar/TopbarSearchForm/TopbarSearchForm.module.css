@@ -65,7 +65,7 @@
 }
 
 .desktopIcon {
-  height: var(--topbarHeightDesktop);
+  height: 100%;
   border: none;
   padding-top: 2px;
 
@@ -79,7 +79,7 @@
   composes: p from global;
   flex-grow: 1;
   /* Font */
-  height: var(--topbarHeightDesktop);
+  height: 100%;
   line-height: unset;
   border: none;
   padding-top: 0;
@@ -154,7 +154,7 @@
 .desktopPredictions {
   position: absolute;
   width: 100%;
-  top: var(--topbarHeightDesktop);
+  top: 100%;
   left: 0;
   background-color: var(--marketplaceColor);
   border-bottom-left-radius: var(--borderRadius);

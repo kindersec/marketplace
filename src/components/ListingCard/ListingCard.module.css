@@ -17,12 +17,6 @@
   background: var(--colorGrey100); /* Loading BG color */
   border-radius: 20px 20px 0 0;
   overflow: hidden;
-
-  @media (--viewportMedium) {
-    &:hover {
-      transform: scale(1.02);
-    }
-  }
 }
 
 .rootForImage {

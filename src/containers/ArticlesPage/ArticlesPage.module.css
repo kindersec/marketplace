@@ -238,8 +238,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: #000000;
+  height: 2px;
+  background: rgba(93, 43, 192, 0.12); /* subtle brand accent */
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -250,8 +250,8 @@
 
 .articleCardLink:hover .articleCard {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  border-color: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(93, 43, 192, 0.08);
+  border-color: rgba(93, 43, 192, 0.18);
 }
 
 .articleContent {
@@ -271,17 +271,20 @@
 }
 
 .articleType {
-  background: #9f7aea;
-  color: var(--colorWhite);
+  background: rgba(93, 43, 192, 0.06);
+  color: var(--marketplaceColor);
   padding: var(--spacingXs) var(--spacingSm);
   border-radius: var(--borderRadiusMd);
+  border: 1px solid rgba(93, 43, 192, 0.20);
   font-weight: 600;
   font-variation-settings: 'wght' 600;
   transition: all 0.3s ease;
 }
 
 .articleCardLink:hover .articleType {
-  background: #8b5cf6;
+  background: rgba(93, 43, 192, 0.10);
+  color: var(--marketplaceColor);
+  border-color: rgba(93, 43, 192, 0.28);
 }
 
 .date {

@@ -151,6 +151,23 @@ const AboutPage = () => {
               </p>
             </div>
           </section>
+
+          {/* Policies & Legal Links */}
+          <section className={css.legalLinksSection}>
+            <div className={css.container}>
+              <h2 className={css.sectionTitle}>Policies & Legal</h2>
+              <div className={css.legalLinksGrid}>
+                <a className={css.legalLink} href="/terms-of-service">Terms of Service</a>
+                <a className={css.legalLink} href="/privacy-policy">Privacy Policy</a>
+                <a className={css.legalLink} href="/return-and-refund">Return & Refund Policy</a>
+                <a className={css.legalLink} href="/shipping-and-delivery">Shipping & Delivery Policy</a>
+                <a className={css.legalLink} href="/payment-and-billing">Payment & Billing Terms</a>
+                <a className={css.legalLink} href="/prohibited-items">Prohibited Items</a>
+                <a className={css.legalLink} href="/contact">Contact</a>
+                <a className={css.legalLink} href="/faq">FAQ</a>
+              </div>
+            </div>
+          </section>
         </div>
       </LayoutSingleColumn>
     </Page>
