@@ -44,7 +44,7 @@
 .hero {
   background: var(--heroBg);
   color: var(--landingText);
-  padding: 60px 0;
+  padding: 40px 0;
   position: relative;
   overflow: hidden;
 }
@@ -63,7 +63,7 @@
 .heroContent {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 80px;
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
@@ -156,8 +156,8 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 650px;
-  max-height: 750px;
+  max-width: 800px;
+  max-height: 900px;
   margin: auto;
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -969,12 +969,12 @@
 @media (max-width: 768px) {
   .heroContent {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 50px;
     text-align: center;
   }
 
   .heroImageContainer {
-    max-height: 400px;
+    max-height: 500px;
   }
 
   .heroTitle {
@@ -1041,11 +1041,11 @@
 
 @media (max-width: 480px) {
   .hero {
-    padding: 60px 0;
+    padding: 40px 0;
   }
 
   .heroImageContainer {
-    max-height: 300px;
+    max-height: 400px;
   }
 
   .heroTitle {

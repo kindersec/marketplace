@@ -106,13 +106,12 @@ export const pageAssetsError = error => ({
 export const fetchAppAssets = (assets, version) => (dispatch, getState, sdk) => {
   dispatch(appAssetsRequested());
 
-  // App-wide assets include 2 content assets: translations for microcopy and footer
+  // App-wide assets include translations for microcopy (footer is now static)
   const translationsPath = assets.translations;
-  const footerPath = assets.footer;
 
   // The rest of the assets are considered as configurations
   const assetEntries = Object.entries(assets);
-  const nonConfigAssets = ['translations', 'footer'];
+  const nonConfigAssets = ['translations'];
   const configPaths = pickHostedConfigPaths(assetEntries, nonConfigAssets);
 
   // If version is given fetch assets by the version,
@@ -126,22 +125,16 @@ export const fetchAppAssets = (assets, version) => (dispatch, getState, sdk) => 
     // This is a big file, better fetch it alone.
     // Then browser cache also comes into play.
     fetchAssets([translationsPath]),
-    // Not a config, and potentially a big file.
-    // It can benefit of browser cache when being a separate fetch.
-    fetchAssets([footerPath]),
     // App configs
     fetchAssets(configPaths),
   ];
 
   return Promise.all(separateAssetFetches)
-    .then(([translationAsset, footerAsset, configAssets]) => {
+    .then(([translationAsset, configAssets]) => {
       const getVersionHash = response => response?.data?.meta?.version;
       const versionInTranslationsCall = getVersionHash(translationAsset);
-      const versionInFooterCall = getVersionHash(footerAsset);
       const versionInConfigsCall = getVersionHash(configAssets);
-      const hasSameVersions =
-        versionInTranslationsCall === versionInFooterCall &&
-        versionInFooterCall === versionInConfigsCall;
+      const hasSameVersions = versionInTranslationsCall === versionInConfigsCall;
 
       // NOTE: making separate calls means that there might be version mismatch
       // when using 'latest' alias.
@@ -167,7 +160,7 @@ export const fetchAppAssets = (assets, version) => (dispatch, getState, sdk) => 
 
         if (nonConfigAssets.includes(name)) {
           // There are distinct calls for these assets
-          const assetResponse = name === 'translations' ? translationAsset : footerAsset;
+          const assetResponse = name === 'translations' ? translationAsset : null;
           return { ...collectedAssets, [name]: { path, data: getFirstAssetData(assetResponse) } };
         }
 

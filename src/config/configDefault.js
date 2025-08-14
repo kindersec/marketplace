@@ -88,7 +88,7 @@ const defaultConfig = {
   //         you should remove the unnecessary config asset from this list.
   appCdnAssets: {
     translations: '/content/translations.json',
-    footer: '/content/footer.json',
+    // footer: '/content/footer.json', // Removed - using static footer
     topbar: '/content/top-bar.json',
     branding: '/design/branding.json',
     layout: '/design/layout.json',

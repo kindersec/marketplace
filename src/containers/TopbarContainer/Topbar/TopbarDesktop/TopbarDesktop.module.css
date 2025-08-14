@@ -155,7 +155,7 @@
 
   /* Position */
   position: absolute;
-  top: 17px;
+  top: 15px;
   right: 17px;
 
   /* fill */
@@ -165,7 +165,7 @@
   animation: notificationPop 0.3s ease-out;
 
   @media (--viewportMedium) {
-    top: 23px;
+    top: 21px;
     right: 23px;
   }
 }

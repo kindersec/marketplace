@@ -65,6 +65,10 @@
     flex-direction: column;
     justify-content: flex-start;
     padding: 24px 0 0 24px;
+    /* Enhanced visibility with subtle background and border */
+    background: linear-gradient(135deg, var(--colorGrey50) 0%, var(--colorWhite) 100%);
+    border-right: 1px solid var(--colorGrey200);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
   }
   @media (--viewportLarge) {
     /* Layout */
@@ -73,8 +77,9 @@
     flex-direction: column;
     justify-content: flex-start;
     border: none;
-    box-shadow: none;
-    background-color: transparent;
+    box-shadow: 3px 0 12px rgba(0, 0, 0, 0.06);
+    background: linear-gradient(135deg, var(--colorGrey50) 0%, var(--colorWhite) 100%);
+    border-right: 1px solid var(--colorGrey200);
   }
 
   @media (min-width: 1440px) {
@@ -85,14 +90,115 @@
   }
 }
 
+/* Enhanced filter styling */
+.filter:first-child {
+  padding-top: 0;
+}
+
+.filter {
+  /* Add subtle visual separation between filters */
+  margin-bottom: 8px;
+  padding: 12px 16px;
+  background: var(--colorWhite);
+  border-radius: 8px;
+  border: 1px solid var(--colorGrey100);
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--colorGrey200);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Style filter form elements for better consistency */
+.filter :global(.FieldSelectTree),
+.filter :global(.FieldSelect),
+.filter :global(.FieldTextInput),
+.filter :global(.FieldNumber) {
+  margin-top: 8px;
+}
+
+.filter :global(.FieldSelectTree select),
+.filter :global(.FieldSelect select),
+.filter :global(.FieldTextInput input),
+.filter :global(.FieldNumber input) {
+  border: 1px solid var(--colorGrey200);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  transition: all 0.2s ease;
+
+  &:focus {
+    border-color: var(--marketplaceColor);
+    box-shadow: 0 0 0 2px rgba(93, 43, 192, 0.1);
+    outline: none;
+  }
+
+  &:hover {
+    border-color: var(--colorGrey300);
+  }
+}
+
+/* Style range sliders for better visibility */
+.filter :global(.RangeSlider) {
+  margin-top: 12px;
+}
+
+.filter :global(.RangeSlider .Track) {
+  background: var(--colorGrey200);
+  height: 4px;
+  border-radius: 2px;
+}
+
+.filter :global(.RangeSlider .Handle) {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--marketplaceColor);
+  background: var(--colorWhite);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Add subtle animation to filter sidepanel */
+.layoutWrapperFilterColumn {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Enhanced collapsed state */
 .layoutWrapperFilterColumnCollapsed {
+  animation: slideInLeft 0.3s ease-out;
+
   @media (--viewportMedium) {
     width: 60px;
     min-width: 60px;
+    background: var(--colorGrey50);
+    border-right: 1px solid var(--colorGrey200);
   }
   @media (--viewportLarge) {
     width: 60px;
     min-width: 60px;
+    background: var(--colorGrey50);
+    border-right: 1px solid var(--colorGrey200);
   }
 }
 
@@ -100,26 +206,29 @@
   position: absolute;
   top: 24px;
   right: -12px;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background-color: var(--colorWhite);
-  border: 1px solid var(--colorGrey300);
+  border: 2px solid var(--colorGrey300);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10;
   transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
   &:hover {
     background-color: var(--colorGrey50);
     border-color: var(--colorGrey400);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px var(--colorGrey300);
+    box-shadow: 0 0 0 3px var(--marketplaceColor), 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   @media (--viewportLarge) {
@@ -144,34 +253,72 @@
     padding: 8px 60px 24px 0;
   }
 }
-.filter:first-child {
-  padding-top: 0;
+
+/* Add filter section header */
+.filterColumnContent::before {
+  content: 'Filters';
+  display: block;
+  font-size: 14px;
+  font-weight: var(--fontWeightBold);
+  color: var(--colorGrey700);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--colorGrey200);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Mobile optimizations */
+@media (--viewportMedium) {
+  .filterColumnContent::before {
+    font-size: 13px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+  }
+
+  .filter {
+    margin-bottom: 6px;
+    padding: 10px 14px;
+  }
+
+  .filter :global(.FieldSelectTree),
+  .filter :global(.FieldSelect),
+  .filter :global(.FieldTextInput),
+  .filter :global(.FieldNumber) {
+    margin-top: 6px;
+  }
 }
 
 .resetAllButton {
   composes: h5 from global;
   font-weight: var(--fontWeightMedium);
-  color: var(--colorGrey300);
+  color: var(--colorGrey400);
 
   /* Layout */
   display: inline;
-  margin: 17px 0 0 0;
-  padding: 0;
+  margin: 20px 0 0 0;
+  padding: 8px 16px;
+  background: var(--colorGrey50);
+  border-radius: 6px;
+  border: 1px solid var(--colorGrey200);
 
   /* Override button styles */
   outline: none;
-  text-align: left;
+  text-align: center;
   border: none;
   cursor: pointer;
+  transition: all 0.2s ease;
 
   &:focus,
   &:hover {
     color: var(--colorGrey700);
+    background: var(--colorGrey100);
+    border-color: var(--colorGrey300);
   }
 
   @media (--viewportMedium) {
     margin: 24px 0 0 0;
-    padding: 3px 0 5px 0;
+    padding: 10px 20px;
   }
 }
 

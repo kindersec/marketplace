@@ -43,23 +43,26 @@ const SmartLivingRoomPage = () => {
         {() => (
           <>
             <TopbarContainer />
-            <article className={css.content}>
-              <div className={css.articleHeader}>
-                <div className={css.articleMeta}>
-                  <span className={css.category}>Smart Home</span>
-                  <span className={css.date}>August 4, 2025</span>
-                  <span className={css.author}>By Smart Home Blog</span>
-                </div>
-                <h1 className={css.pageTitle}>How to Make Your Living Room Smarter in 5 Easy Steps</h1>
-                <p className={css.intro}>
-                  In today's digital age, transforming your living room into a smart hub isn't just about keeping up with the latest trends—it's about enhancing convenience, efficiency, and even your home's value. Imagine walking into your living room and having the lights adjust to your mood, your favorite playlist starting automatically, and the thermostat setting itself to the perfect temperature—all without lifting a finger.
-                </p>
-              </div>
+            <main className={css.content}>
+              <article className={css.article}>
+                <header className={css.articleHeader}>
+                  <div className={css.articleMeta}>
+                    <span className={css.category}>Smart Home</span>
+                    <span className={css.date}>August 4, 2025</span>
+                    <span className={css.author}>Smart Home Blog</span>
+                  </div>
+                  <Heading as="h1" rootClassName={css.articleTitle}>
+                    How to Make Your Living Room Smarter in 5 Easy Steps
+                  </Heading>
+                  <p className={css.articleExcerpt}>
+                    In today's digital age, transforming your living room into a smart hub isn't just about keeping up with the latest trends—it's about enhancing convenience, efficiency, and even your home's value. Imagine walking into your living room and having the lights adjust to your mood, your favorite playlist starting automatically, and the thermostat setting itself to the perfect temperature—all without lifting a finger.
+                  </p>
+                </header>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>1. Upgrade to Smart Lighting</h2>
 
-                <div className={css.stepItem}>
+                <div className={css.tipItem}>
                   <h3>Why Smart Lighting?</h3>
                   <p>
                     Smart lighting is often the first step in creating a smart living room. It offers more than just convenience; it's about setting the right ambiance, improving energy efficiency, and enhancing your home's security.
@@ -85,12 +88,12 @@ const SmartLivingRoomPage = () => {
 
                   <p><strong>Practical Tip:</strong> Create a routine where your lights slowly brighten in the morning to simulate a sunrise, helping you wake up naturally.</p>
                 </div>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>2. Enhance Entertainment with Smart Devices</h2>
 
-                <div className={css.stepItem}>
+                <div className={css.tipItem}>
                   <h3>Smart TVs and Streaming Devices</h3>
                   <p>
                     Upgrade your entertainment system with a smart TV or streaming device like the <strong>Roku Streaming Stick+</strong> or <strong>Amazon Fire TV Stick 4K</strong>. These devices offer a plethora of streaming options, including Netflix, Hulu, and Disney+.
@@ -111,12 +114,12 @@ const SmartLivingRoomPage = () => {
 
                   <p><strong>Use Case:</strong> Picture this: It's Friday night, and you're ready to unwind. With a simple voice command, your smart lights dim, your TV launches Netflix, and your sound system starts playing your favorite chill-out playlist. No remote needed!</p>
                 </div>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>3. Optimize Climate Control with Smart Thermostats</h2>
 
-                <div className={css.stepItem}>
+                <div className={css.tipItem}>
                   <h3>Benefits of Smart Thermostats</h3>
                   <p>
                     Smart thermostats like the <strong>Nest Learning Thermostat</strong> or the <strong>Ecobee SmartThermostat with Voice Control</strong> optimize your home's heating and cooling, potentially saving you money on energy bills.
@@ -133,12 +136,12 @@ const SmartLivingRoomPage = () => {
 
                   <p><strong>Practical Example:</strong> Imagine adjusting your home's temperature while on vacation to prevent energy waste, then setting it back to your preferred comfort level just before you arrive home.</p>
                 </div>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>4. Secure Your Space with Smart Security</h2>
 
-                <div className={css.stepItem}>
+                <div className={css.tipItem}>
                   <h3>Smart Cameras and Doorbells</h3>
                   <p>
                     Enhance your living room's security with smart cameras like the <strong>Arlo Pro 4</strong> or smart doorbells like the <strong>Ring Video Doorbell 4</strong>. These devices offer real-time alerts and high-definition video, letting you monitor your home from anywhere.
@@ -159,12 +162,12 @@ const SmartLivingRoomPage = () => {
 
                   <p><strong>Real-World Scenario:</strong> You're at work and receive a notification that someone is at your door. You check your smart doorbell's live feed and see it's a delivery. With a quick tap, you unlock your smart lock remotely, allowing the package to be placed inside safely.</p>
                 </div>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>5. Integrate Smart Assistants for Seamless Control</h2>
 
-                <div className={css.stepItem}>
+                <div className={css.tipItem}>
                   <h3>Choosing Your Smart Assistant</h3>
                   <p>
                     Smart assistants like <strong>Amazon Alexa</strong>, <strong>Google Assistant</strong>, or <strong>Apple's Siri</strong> act as the brain of your smart home, allowing you to control all connected devices with simple voice commands.
@@ -181,9 +184,9 @@ const SmartLivingRoomPage = () => {
 
                   <p><strong>Practical Tip:</strong> Keep your smart assistant in a central location in your living room for optimal voice recognition and accessibility.</p>
                 </div>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>Conclusion: Key Takeaways for a Smart Living Room</h2>
                 <p>
                   Transforming your living room into a smart space doesn't have to be overwhelming or expensive. By following these five steps—upgrading to smart lighting, enhancing entertainment with smart devices, optimizing climate control, securing your space, and integrating smart assistants—you'll create a living room that is not only more convenient and efficient but also more enjoyable.
@@ -194,14 +197,15 @@ const SmartLivingRoomPage = () => {
                 <p>
                   Embrace the future of living, and watch as your living room becomes a dynamic hub of innovation and convenience. Happy smart living!
                 </p>
-              </section>
+                </div>
 
-              <div className={css.navigation}>
-                <NamedLink name="ArticlesPage" className={css.backLink}>
-                  ← Back to All Articles
-                </NamedLink>
-              </div>
-            </article>
+                <div className={css.navigation}>
+                  <NamedLink name="ArticlesPage" className={css.backLink}>
+                    ← Back to All Articles
+                  </NamedLink>
+                </div>
+              </article>
+            </main>
             <FooterContainer />
           </>
         )}

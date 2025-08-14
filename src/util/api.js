@@ -144,3 +144,13 @@ export const transitionPrivileged = body => {
 export const createUserWithIdp = body => {
   return post('/api/auth/create-user-with-idp', body);
 };
+
+// Chat Support endpoint
+export const chatSupport = body => {
+  // This endpoint expects JSON, not transit
+  return request('/api/chat-support', {
+    method: methods.POST,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+};

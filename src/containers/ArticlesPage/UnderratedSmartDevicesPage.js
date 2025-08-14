@@ -43,23 +43,26 @@ const UnderratedSmartDevicesPage = () => {
         {() => (
           <>
             <TopbarContainer />
-            <article className={css.content}>
-              <div className={css.articleHeader}>
-                <div className={css.articleMeta}>
-                  <span className={css.category}>Smart Home</span>
-                  <span className={css.date}>August 4, 2025</span>
-                  <span className={css.author}>By Smart Home Blog</span>
-                </div>
-                <h1 className={css.pageTitle}>The Most Underrated Smart Devices You're Not Using Yet</h1>
-                <p className={css.intro}>
-                  In the ever-evolving world of smart home technology, it's easy to get swept away by the latest and greatest gadgets. From voice assistants that manage your schedule to intelligent refrigerators that keep tabs on your grocery list, there's no shortage of innovation. However, while we're busy chasing the next big thing, some ingenious devices quietly enhance our homes without receiving the spotlight they deserve. Welcome to the world of underrated smart devices—those hidden gems that are waiting to transform your smart home experience with their unique capabilities.
-                </p>
-              </div>
+            <main className={css.content}>
+              <article className={css.article}>
+                <header className={css.articleHeader}>
+                  <div className={css.articleMeta}>
+                    <span className={css.category}>Smart Home</span>
+                    <span className={css.date}>August 4, 2025</span>
+                    <span className={css.author}>Smart Home Blog</span>
+                  </div>
+                  <Heading as="h1" rootClassName={css.articleTitle}>
+                    The Most Underrated Smart Devices You're Not Using Yet
+                  </Heading>
+                  <p className={css.articleExcerpt}>
+                    In the ever-evolving world of smart home technology, it's easy to get swept away by the latest and greatest gadgets. From voice assistants that manage your schedule to intelligent refrigerators that keep tabs on your grocery list, there's no shortage of innovation. However, while we're busy chasing the next big thing, some ingenious devices quietly enhance our homes without receiving the spotlight they deserve. Welcome to the world of underrated smart devices—those hidden gems that are waiting to transform your smart home experience with their unique capabilities.
+                  </p>
+                </header>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>The Overlooked Champions of the Smart Home</h2>
 
-                <div className={css.deviceItem}>
+                <div className={css.tipItem}>
                   <h3>1. Smart Water Leak Detectors</h3>
                   <p><strong>Why They're Underrated:</strong></p>
                   <p>
@@ -79,7 +82,7 @@ const UnderratedSmartDevicesPage = () => {
                   </p>
                 </div>
 
-                <div className={css.deviceItem}>
+                <div className={css.tipItem}>
                   <h3>2. Smart Blinds and Shades</h3>
                   <p><strong>Why They're Underrated:</strong></p>
                   <p>
@@ -99,7 +102,7 @@ const UnderratedSmartDevicesPage = () => {
                   </p>
                 </div>
 
-                <div className={css.deviceItem}>
+                <div className={css.tipItem}>
                   <h3>3. Smart Air Quality Monitors</h3>
                   <p><strong>Why They're Underrated:</strong></p>
                   <p>
@@ -119,7 +122,7 @@ const UnderratedSmartDevicesPage = () => {
                   </p>
                 </div>
 
-                <div className={css.deviceItem}>
+                <div className={css.tipItem}>
                   <h3>4. Smart Kitchen Faucets</h3>
                   <p><strong>Why They're Underrated:</strong></p>
                   <p>
@@ -139,7 +142,7 @@ const UnderratedSmartDevicesPage = () => {
                   </p>
                 </div>
 
-                <div className={css.deviceItem}>
+                <div className={css.tipItem}>
                   <h3>5. Smart Garage Door Openers</h3>
                   <p><strong>Why They're Underrated:</strong></p>
                   <p>
@@ -158,12 +161,12 @@ const UnderratedSmartDevicesPage = () => {
                     Forget to close your garage door? Receive a notification and close it from your smartphone, ensuring your home remains secure no matter where you are.
                   </p>
                 </div>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>Practical Tips for Integrating Underrated Smart Devices</h2>
 
-                <ol className={css.tipsList}>
+                <ol>
                   <li>
                     <strong>Start with a Plan:</strong><br />
                     Assess your current smart home setup and identify areas where these underrated devices could add value. Consider factors such as energy efficiency, security, and convenience.
@@ -185,27 +188,27 @@ const UnderratedSmartDevicesPage = () => {
                     Keep an eye on the data provided by devices like air quality monitors and water leak detectors. Use this information to make informed decisions and adjustments to your smart home.
                   </li>
                 </ol>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>Real-World Scenarios: Bringing It All Together</h2>
 
-                <div className={css.scenarioItem}>
+                <div className={css.tipItem}>
                   <h3>Scenario 1: The Eco-Friendly Home</h3>
                   <p>
                     Sarah, a tech-savvy homeowner, wants to reduce her carbon footprint. She integrates smart blinds, a smart thermostat, and a smart air quality monitor. By automating her blinds to manage sunlight and coordinating with her thermostat, she achieves significant energy savings. Her air quality monitor alerts her to pollutants, prompting her to use natural cleaning products.
                   </p>
                 </div>
 
-                <div className={css.scenarioItem}>
+                <div className={css.tipItem}>
                   <h3>Scenario 2: The Secure Smart Home</h3>
                   <p>
                     John travels frequently for work, leaving his home unattended. He installs smart garage door openers and water leak detectors. Now, he receives alerts if his garage door is left open or if there's a potential water leak, allowing him to take action remotely and ensuring peace of mind.
                   </p>
                 </div>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>Conclusion: Key Takeaways</h2>
                 <p>
                   In the quest for a smarter home, it's easy to overlook the unsung heroes of smart technology. Devices like water leak detectors, smart blinds, air quality monitors, kitchen faucets, and garage door openers might not grab headlines, but they offer practical, everyday benefits that can transform your living space.
@@ -216,14 +219,15 @@ const UnderratedSmartDevicesPage = () => {
                 <p>
                   Remember, the key to a successful smart home is not just about having the latest gadgets but choosing the right ones that seamlessly fit into your lifestyle. Happy smart homing!
                 </p>
-              </section>
+                </div>
 
-              <div className={css.navigation}>
-                <NamedLink name="ArticlesPage" className={css.backLink}>
-                  ← Back to All Articles
-                </NamedLink>
-              </div>
-            </article>
+                <div className={css.navigation}>
+                  <NamedLink name="ArticlesPage" className={css.backLink}>
+                    ← Back to All Articles
+                  </NamedLink>
+                </div>
+              </article>
+            </main>
             <FooterContainer />
           </>
         )}

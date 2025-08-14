@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form as FinalForm, Field } from 'react-final-form';
 import classNames from 'classnames';
 
@@ -13,7 +13,7 @@ import css from './TopbarSearchForm.module.css';
 const identity = v => v;
 
 const KeywordSearchField = props => {
-  const { keywordSearchWrapperClasses, iconClass, intl, isMobile = false, inputRef } = props;
+  const { keywordSearchWrapperClasses, iconClass, intl, isMobile = false, inputRef, placeholder } = props;
   return (
     <div className={keywordSearchWrapperClasses}>
       <button className={css.searchSubmit}>
@@ -32,9 +32,7 @@ const KeywordSearchField = props => {
               data-testid={isMobile ? 'keyword-search-mobile' : 'keyword-search'}
               ref={inputRef}
               type="text"
-              placeholder={intl.formatMessage({
-                id: 'TopbarSearchForm.placeholder',
-              })}
+              placeholder={placeholder}
               autoComplete="off"
             />
           );
@@ -45,7 +43,7 @@ const KeywordSearchField = props => {
 };
 
 const LocationSearchField = props => {
-  const { desktopInputRootClass, intl, isMobile = false, inputRef, onLocationChange } = props;
+  const { desktopInputRootClass, intl, isMobile = false, inputRef, onLocationChange, placeholder } = props;
   return (
     <Field
       name="location"
@@ -69,7 +67,7 @@ const LocationSearchField = props => {
             inputClassName={isMobile ? css.mobileInput : css.desktopInput}
             predictionsClassName={isMobile ? css.mobilePredictions : css.desktopPredictions}
             predictionsAttributionClassName={isMobile ? css.mobilePredictionsAttribution : null}
-            placeholder={intl.formatMessage({ id: 'TopbarSearchForm.placeholder' })}
+            placeholder={placeholder}
             closeOnBlur={!isMobile}
             inputRef={inputRef}
             input={{ ...restInput, onChange: searchOnChange }}
@@ -98,6 +96,79 @@ const TopbarSearchForm = props => {
   const searchInpuRef = useRef(null);
   const intl = useIntl();
   const { appConfig, onSubmit, ...restOfProps } = props;
+
+  // Dynamic placeholder logic (typewriter effect)
+  const defaultBasePlaceholder = intl.formatMessage({ id: 'TopbarSearchForm.placeholder' });
+  const configuredExamples = appConfig?.topbar?.searchBar?.placeholderExamples;
+  const placeholderExamples = Array.isArray(configuredExamples) && configuredExamples.length > 0
+    ? configuredExamples
+    : [
+        'Search smart home devices…',
+        "Try 'Philips Hue' or 'Ring'…",
+        'Search by brand, category, or feature…',
+        "E.g., 'HomeKit plug', 'Matter light'…",
+      ];
+  const typingSpeedMs = Number(appConfig?.topbar?.searchBar?.typingSpeedMs) > 0
+    ? Number(appConfig?.topbar?.searchBar?.typingSpeedMs)
+    : 40;
+  const deletingSpeedMs = Number(appConfig?.topbar?.searchBar?.deletingSpeedMs) > 0
+    ? Number(appConfig?.topbar?.searchBar?.deletingSpeedMs)
+    : 25;
+  const pauseAtEndMs = Number(appConfig?.topbar?.searchBar?.pauseAtEndMs) > 0
+    ? Number(appConfig?.topbar?.searchBar?.pauseAtEndMs)
+    : 700;
+  const pauseBeforeStartMs = Number(appConfig?.topbar?.searchBar?.pauseBeforeStartMs) > 0
+    ? Number(appConfig?.topbar?.searchBar?.pauseBeforeStartMs)
+    : 300;
+
+  const [exampleIndex, setExampleIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [displayText, setDisplayText] = useState('');
+
+  useEffect(() => {
+    // If there are no examples, skip effect
+    if (!placeholderExamples || placeholderExamples.length === 0) return;
+
+    // Stop animating when user is interacting with the input
+    const inputEl = searchInpuRef?.current;
+    const userIsTyping = !!inputEl && (document.activeElement === inputEl || (inputEl.value || '').length > 0);
+    if (userIsTyping) return;
+
+    const current = placeholderExamples[exampleIndex] || '';
+
+    let timeoutId;
+    if (!isDeleting && charIndex < current.length) {
+      // Typing forward
+      timeoutId = setTimeout(() => {
+        setDisplayText(current.slice(0, charIndex + 1));
+        setCharIndex(charIndex + 1);
+      }, typingSpeedMs);
+    } else if (!isDeleting && charIndex === current.length) {
+      // Pause at full text, then start deleting
+      timeoutId = setTimeout(() => {
+        setIsDeleting(true);
+      }, pauseAtEndMs);
+    } else if (isDeleting && charIndex > 0) {
+      // Deleting characters
+      timeoutId = setTimeout(() => {
+        setDisplayText(current.slice(0, charIndex - 1));
+        setCharIndex(charIndex - 1);
+      }, deletingSpeedMs);
+    } else if (isDeleting && charIndex === 0) {
+      // Switch to next example, pause briefly before typing again
+      timeoutId = setTimeout(() => {
+        setIsDeleting(false);
+        setExampleIndex(i => (i + 1) % placeholderExamples.length);
+      }, pauseBeforeStartMs);
+    }
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [placeholderExamples, exampleIndex, charIndex, isDeleting, typingSpeedMs, deletingSpeedMs, pauseAtEndMs, pauseBeforeStartMs, searchInpuRef]);
+
+  const placeholder = displayText || defaultBasePlaceholder;
 
   const onChange = location => {
     if (!isMainSearchTypeKeywords(appConfig) && location.selectedPlace) {
@@ -154,6 +225,7 @@ const TopbarSearchForm = props => {
                 intl={intl}
                 isMobile={isMobile}
                 inputRef={searchInpuRef}
+                placeholder={placeholder || defaultBasePlaceholder}
               />
             ) : (
               <LocationSearchField
@@ -162,6 +234,7 @@ const TopbarSearchForm = props => {
                 isMobile={isMobile}
                 inputRef={searchInpuRef}
                 onLocationChange={onChange}
+                placeholder={placeholder || defaultBasePlaceholder}
               />
             )}
           </Form>

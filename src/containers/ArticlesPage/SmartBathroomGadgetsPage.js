@@ -43,20 +43,23 @@ const SmartBathroomGadgetsPage = () => {
         {() => (
           <>
             <TopbarContainer />
-            <article className={css.content}>
-              <div className={css.articleHeader}>
-                <div className={css.articleMeta}>
-                  <span className={css.category}>Smart Home</span>
-                  <span className={css.date}>August 4, 2025</span>
-                  <span className={css.author}>By Smart Home Blog</span>
-                </div>
-                <h1 className={css.pageTitle}>Smart Bathroom Gadgets That Actually Make a Difference</h1>
-                <p className={css.intro}>
-                  Welcome to the future of home automation, where even your bathroom can join the smart revolution. For many, the bathroom is a sanctuary—a place to relax and refresh. But how often do we think about optimizing this space with technology? In this article, we'll explore a range of smart bathroom gadgets that truly make a difference, enhancing convenience, efficiency, and even the overall ambiance of your personal oasis.
-                </p>
-              </div>
+            <main className={css.content}>
+              <article className={css.article}>
+                <header className={css.articleHeader}>
+                  <div className={css.articleMeta}>
+                    <span className={css.category}>Smart Home</span>
+                    <span className={css.date}>August 4, 2025</span>
+                    <span className={css.author}>Smart Home Blog</span>
+                  </div>
+                  <Heading as="h1" rootClassName={css.articleTitle}>
+                    Smart Bathroom Gadgets That Actually Make a Difference
+                  </Heading>
+                  <p className={css.articleExcerpt}>
+                    Welcome to the future of home automation, where even your bathroom can join the smart revolution. For many, the bathroom is a sanctuary—a place to relax and refresh. But how often do we think about optimizing this space with technology? In this article, we'll explore a range of smart bathroom gadgets that truly make a difference, enhancing convenience, efficiency, and even the overall ambiance of your personal oasis.
+                  </p>
+                </header>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>Why Smart Bathroom Gadgets?</h2>
 
                 <h3>The Rise of Home Automation</h3>
@@ -68,12 +71,12 @@ const SmartBathroomGadgetsPage = () => {
                 <p>
                   The bathroom, often overlooked in the smart home conversation, is ripe for technological innovation. By integrating smart gadgets, you can transform your bathroom into a high-tech haven where functionality meets luxury. Imagine a bathroom that adjusts the lighting to suit your mood, a shower that remembers your preferred water temperature, or a mirror that offers daily news updates while you brush your teeth.
                 </p>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>Must-Have Smart Bathroom Gadgets</h2>
 
-                <div className={css.gadgetItem}>
+                <div className={css.tipItem}>
                   <h3>1. Smart Shower Systems</h3>
                   <p><strong>Product Recommendation:</strong> <a href="https://www.moen.com/u" target="_blank" rel="noopener noreferrer">Moen U Smart Shower</a></p>
                   <p>
@@ -87,7 +90,7 @@ const SmartBathroomGadgetsPage = () => {
                   </ul>
                 </div>
 
-                <div className={css.gadgetItem}>
+                <div className={css.tipItem}>
                   <h3>2. Intelligent Toilets</h3>
                   <p><strong>Product Recommendation:</strong> <a href="https://www.totousa.com/neorest-nx2-dual-flush-toilet" target="_blank" rel="noopener noreferrer">TOTO Neorest NX2</a></p>
                   <p>
@@ -101,7 +104,7 @@ const SmartBathroomGadgetsPage = () => {
                   </ul>
                 </div>
 
-                <div className={css.gadgetItem}>
+                <div className={css.tipItem}>
                   <h3>3. Smart Mirrors</h3>
                   <p><strong>Product Recommendation:</strong> <a href="https://www.simplehuman.com/products/sensor-mirror-hi-fi" target="_blank" rel="noopener noreferrer">Simplehuman Sensor Mirror Hi-Fi</a></p>
                   <p>
@@ -115,7 +118,7 @@ const SmartBathroomGadgetsPage = () => {
                   </ul>
                 </div>
 
-                <div className={css.gadgetItem}>
+                <div className={css.tipItem}>
                   <h3>4. Smart Scales</h3>
                   <p><strong>Product Recommendation:</strong> <a href="https://www.withings.com/us/en/body-plus" target="_blank" rel="noopener noreferrer">Withings Body+</a></p>
                   <p>
@@ -129,7 +132,7 @@ const SmartBathroomGadgetsPage = () => {
                   </ul>
                 </div>
 
-                <div className={css.gadgetItem}>
+                <div className={css.tipItem}>
                   <h3>5. Voice-Activated Bathroom Assistants</h3>
                   <p><strong>Product Recommendation:</strong> <a href="https://www.amazon.com/echo-dot" target="_blank" rel="noopener noreferrer">Amazon Echo Dot</a></p>
                   <p>
@@ -142,9 +145,9 @@ const SmartBathroomGadgetsPage = () => {
                     <li><strong>Integration:</strong> Easily connects with other smart home devices.</li>
                   </ul>
                 </div>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>Practical Tips for Implementing Smart Bathroom Gadgets</h2>
 
                 <h3>Assess Your Needs</h3>
@@ -171,9 +174,9 @@ const SmartBathroomGadgetsPage = () => {
                 <p>
                   Many smart bathroom devices are designed for easy DIY installation. However, for more complex systems like smart showers or toilets, consider professional installation to ensure optimal performance and safety.
                 </p>
-              </section>
+                </div>
 
-              <section className={css.section}>
+                <div className={css.articleContent}>
                 <h2>Conclusion</h2>
                 <p>
                   Smart bathroom gadgets are more than just a novelty—they are practical tools that enhance the functionality and enjoyment of one of the most important spaces in your home. From saving water and energy to providing a personalized experience, these devices offer tangible benefits that align with modern lifestyles.
@@ -184,14 +187,15 @@ const SmartBathroomGadgetsPage = () => {
                 <p>
                   By embracing these innovations, you're not just investing in technology—you're investing in a better quality of life. So why wait? Dive into the world of smart bathroom gadgets and experience the future today.
                 </p>
-              </section>
+                </div>
 
-              <div className={css.navigation}>
-                <NamedLink name="ArticlesPage" className={css.backLink}>
-                  ← Back to All Articles
-                </NamedLink>
-              </div>
-            </article>
+                <div className={css.navigation}>
+                  <NamedLink name="ArticlesPage" className={css.backLink}>
+                    ← Back to All Articles
+                  </NamedLink>
+                </div>
+              </article>
+            </main>
             <FooterContainer />
           </>
         )}

@@ -46,6 +46,7 @@ const BlogPage = loadable(() => import(/* webpackChunkName: "BlogPage" */ '../co
 const CategoriesPage = loadable(() => import(/* webpackChunkName: "CategoriesPage" */ '../containers/CategoriesPage/CategoriesPage'));
 const CompatibilityPage = loadable(() => import(/* webpackChunkName: "CompatibilityPage" */ '../containers/CompatibilityPage/CompatibilityPage'));
 const AboutPage = loadable(() => import(/* webpackChunkName: "AboutPage" */ '../containers/AboutPage/AboutPage'));
+const ContactPageNew = loadable(() => import(/* webpackChunkName: "ContactPageNew" */ '../containers/ContactPage/ContactPage'));
   // Static legal & trust pages
   const ReturnRefundPolicyPage = loadable(() => import(/* webpackChunkName: "ReturnRefundPolicyPage" */ '../containers/LegalPages/ReturnRefundPolicyPage'));
   const ShippingDeliveryPolicyPage = loadable(() => import(/* webpackChunkName: "ShippingDeliveryPolicyPage" */ '../containers/LegalPages/ShippingDeliveryPolicyPage'));
@@ -74,6 +75,7 @@ const SmartLockPage = loadable(() => import(/* webpackChunkName: "SmartLockPage"
 const SmartHomeMythsPage = loadable(() => import(/* webpackChunkName: "SmartHomeMythsPage" */ '../containers/ArticlesPage/SmartHomeMythsPage'));
 const SmartBulbGlossaryPage = loadable(() => import(/* webpackChunkName: "SmartBulbGlossaryPage" */ '../containers/ArticlesPage/SmartBulbGlossaryPage'));
 const SmartLockGlossaryPage = loadable(() => import(/* webpackChunkName: "SmartLockGlossaryPage" */ '../containers/ArticlesPage/SmartLockGlossaryPage'));
+const ChatSupportPage = loadable(() => import(/* webpackChunkName: "ChatSupportPage" */ '../containers/ChatSupportPage/ChatSupportPage'));
 
 export const ACCOUNT_SETTINGS_PAGES = [
   'ContactDetailsPage',
@@ -140,6 +142,11 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       component: AboutPage,
     },
     {
+      path: '/support',
+      name: 'ChatSupportPage',
+      component: ChatSupportPage,
+    },
+    {
       path: '/landing-page',
       name: 'LandingPageAlt',
       component: LandingPage,
@@ -155,7 +162,7 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
     { path: '/shipping-and-delivery', name: 'ShippingDeliveryPolicyPage', component: ShippingDeliveryPolicyPage },
     { path: '/payment-and-billing', name: 'PaymentBillingTermsPage', component: PaymentBillingTermsPage },
     { path: '/prohibited-items', name: 'ProhibitedItemsPage', component: ProhibitedItemsPage },
-    { path: '/contact', name: 'ContactPage', component: ContactPage },
+    { path: '/contact', name: 'ContactPage', component: ContactPageNew },
     { path: '/faq', name: 'FAQPage', component: FAQPage },
     // NOTE: when the private marketplace feature is enabled, the '/s' route is disallowed by the robots.txt resource.
     // If you add new routes that start with '/s*' (e.g. /support), you should add them to the robotsPrivateMarketplace.txt file.

@@ -2,12 +2,12 @@
 
 .root {
   position: relative;
-  padding-top: 24px;
-  padding-bottom: 17px;
+  padding-top: 16px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--colorGrey100);
 
   @media (--viewportMedium) {
-    padding-top: 16px;
+    padding-top: 12px;
     padding-bottom: 0;
     border-bottom: 0;
   }
@@ -26,6 +26,7 @@
   border: none;
   padding: 0;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .labelButtonContent {
@@ -51,15 +52,18 @@
 .labelSelected {
   composes: marketplaceSmallFontStyles from global;
   font-weight: var(--fontWeightBold);
-  font-size: 9px;
-  line-height: 14px;
+  font-size: 11px;
+  line-height: 16px;
 
   /* Baseline adjustment for label text */
   margin-top: 0;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+  color: var(--colorGrey700);
 
   @media (--viewportMedium) {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 18px;
   }
 }
 
@@ -70,10 +74,12 @@
 .labelSelected {
   color: var(--marketplaceColor);
   margin-left: 5px;
+  font-weight: var(--fontWeightBold);
 }
 
 .openSign {
   float: right;
+  transition: transform 0.2s ease;
 }
 
 .clearButton {
@@ -81,14 +87,16 @@
   margin: 0;
   display: block;
   font-weight: var(--fontWeightMedium);
-  color: var(--colorGrey300);
-  padding: 2px 0 4px 12px;
+  color: var(--colorGrey400);
+  padding: 4px 0 4px 12px;
+  font-size: 11px;
 
   /* Override button styles */
   outline: none;
   text-align: left;
   border: none;
   cursor: pointer;
+  transition: all 0.2s ease;
 
   &:focus,
   &:hover {
@@ -96,14 +104,16 @@
   }
 
   @media (--viewportMedium) {
-    padding: 4px 0 4px 12px;
+    padding: 6px 0 6px 12px;
     margin-top: 8px;
+    font-size: 12px;
   }
 }
 
 .plain {
   width: 100%;
   display: none;
+  padding: 8px 0;
 
   @media (--viewportMedium) {
     padding-bottom: 16px;

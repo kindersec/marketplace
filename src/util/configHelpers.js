@@ -1531,9 +1531,8 @@ export const mergeConfig = (configAsset = {}, defaultConfigs = {}) => {
     //     but secondary links are always behind dropdown menu.
     topbar: configAsset.topbar, // defaultConfigs.topbar,
 
-    // Include hosted footer config, if it exists
-    // Note: if footer asset is not set, Footer is not rendered.
-    footer: configAsset.footer,
+    // Footer is now static (no longer using CMS)
+    // footer: configAsset.footer,
 
     // Check if all the mandatory info have been retrieved from hosted assets
     hasMandatoryConfigurations: hasMandatoryConfigs(configAsset),

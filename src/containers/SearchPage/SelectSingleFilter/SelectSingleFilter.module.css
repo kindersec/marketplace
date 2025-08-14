@@ -1,8 +1,13 @@
 @import '../../../styles/customMediaQueries.css';
 
 .labelPlain {
+  color: var(--colorGrey700);
+  font-weight: var(--fontWeightMedium);
+  transition: color 0.2s ease;
 }
 
 .labelPlainSelected {
   color: var(--marketplaceColor);
+  font-weight: var(--fontWeightBold);
+  transition: color 0.2s ease;
 }

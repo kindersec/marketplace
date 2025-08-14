@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from '../../util/reactIntl';
-import { Page, LayoutSingleColumn } from '../../components';
+import { Page, LayoutSingleColumn, NamedLink, PrimaryButton } from '../../components';
 import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../FooterContainer/FooterContainer';
 import css from './AboutPage.module.css';
@@ -149,6 +149,13 @@ const AboutPage = () => {
                   defaultMessage="Have questions about smart home devices or need help with your setup? Our team of experts is here to help you create the perfect smart home experience."
                 />
               </p>
+              <div style={{ textAlign: 'center', marginTop: 24 }}>
+                <NamedLink name="ContactPage">
+                  <PrimaryButton>
+                    <FormattedMessage id="AboutPage.contactCta" defaultMessage="Contact us" />
+                  </PrimaryButton>
+                </NamedLink>
+              </div>
             </div>
           </section>
 

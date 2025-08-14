@@ -15,6 +15,8 @@ const loginAs = require('./api/login-as');
 const transactionLineItems = require('./api/transaction-line-items');
 const initiatePrivileged = require('./api/initiate-privileged');
 const transitionPrivileged = require('./api/transition-privileged');
+const contactHandler = require('./api/contact');
+const chatSupport = require('./api/chat-support');
 
 const createUserWithIdp = require('./api/auth/createUserWithIdp');
 
@@ -47,6 +49,14 @@ router.use((req, res, next) => {
   next();
 });
 
+// Also support JSON for selected endpoints (e.g., chat support)
+router.use(
+  bodyParser.json({
+    // Use defaults so we accept application/json and application/*+json
+    limit: '200kb',
+  })
+);
+
 // ================ API router endpoints: ================ //
 
 router.get('/initiate-login-as', initiateLoginAs);
@@ -54,6 +64,8 @@ router.get('/login-as', loginAs);
 router.post('/transaction-line-items', transactionLineItems);
 router.post('/initiate-privileged', initiatePrivileged);
 router.post('/transition-privileged', transitionPrivileged);
+router.post('/contact', contactHandler);
+router.post('/chat-support', chatSupport);
 
 // Create user with identity provider (e.g. Facebook or Google)
 // This endpoint is called to create a new user after user has confirmed
