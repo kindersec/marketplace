@@ -3,6 +3,7 @@ import { bool, string } from 'prop-types';
 import classNames from 'classnames';
 import ReactMarkdown from 'react-markdown';
 import { chatSupport } from '../../util/api';
+import { SuggestionChip, SuggestionChipContainer } from '..';
 import css from './FloatingChatBubble.module.css';
 
 const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
@@ -12,6 +13,7 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isMinimized, setIsMinimized] = useState(true);
+  const [suggestion, setSuggestion] = useState(null);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -41,16 +43,19 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
   const sendMessage = useCallback(async () => {
     const text = input.trim();
     if (!text || isSending) return;
-    
+
     const nextMessages = [...messages, { role: 'user', content: text }];
     setMessages(nextMessages);
     setInput('');
     setIsSending(true);
-    
+
     try {
       const res = await chatSupport({ messages: nextMessages });
       if (res?.message) {
         setMessages([...nextMessages, res.message]);
+        if (res?.suggestedLink?.url) {
+          setSuggestion(res.suggestedLink);
+        }
       } else if (res?.error) {
         setMessages([
           ...nextMessages,
@@ -155,6 +160,15 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
                 <span></span>
                 <span></span>
                 <span></span>
+              </div>
+            </div>
+          )}
+          {suggestion && (
+            <div className={classNames(css.message, css.assistantMessage)}>
+              <div className={css.messageContent}>
+                <SuggestionChipContainer>
+                  <SuggestionChip label={`Recommended: ${suggestion.title}`} href={suggestion.url} />
+                </SuggestionChipContainer>
               </div>
             </div>
           )}

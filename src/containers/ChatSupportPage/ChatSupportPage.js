@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
 import { chatSupport } from '../../util/api';
-import { Page, LayoutSingleColumn } from '../../components';
+import { Page, LayoutSingleColumn, SuggestionChip, SuggestionChipContainer } from '../../components';
 import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../FooterContainer/FooterContainer';
 import css from './ChatSupportPage.module.css';
@@ -19,6 +19,7 @@ const ChatSupportPage = () => {
   ]);
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [suggestion, setSuggestion] = useState(null);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const ChatSupportPage = () => {
       const res = await chatSupport({ messages: nextMessages });
       if (res?.message) {
         setMessages([...nextMessages, res.message]);
+        if (res?.suggestedLink?.url) setSuggestion(res.suggestedLink);
       } else if (res?.error) {
         setMessages([
           ...nextMessages,
@@ -100,6 +102,15 @@ const ChatSupportPage = () => {
                       <span></span>
                       <span></span>
                       <span></span>
+                    </div>
+                  </div>
+                )}
+                {suggestion && (
+                  <div className={`${css.message} ${css.assistant}`}>
+                    <div className={css.messageContent}>
+                      <SuggestionChipContainer>
+                        <SuggestionChip label={`Recommended: ${suggestion.title}`} href={suggestion.url} />
+                      </SuggestionChipContainer>
                     </div>
                   </div>
                 )}

@@ -19,17 +19,17 @@ const MenuIcon = props => {
   return (
     <svg
       className={classes}
-      width="18"
-      height="12"
-      viewBox="0 0 18 12"
+      width="20"
+      height="16"
+      viewBox="0 0 20 16"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label={ariaLabel}
     >
       <g fillRule="evenodd">
-        <rect width="18" height="2" rx="1" />
-        <rect y="5" width="18" height="2" rx="1" />
-        <rect y="10" width="18" height="2" rx="1" />
+        <rect width="20" height="2" rx="1" />
+        <rect y="7" width="20" height="2" rx="1" />
+        <rect y="14" width="20" height="2" rx="1" />
       </g>
     </svg>
   );

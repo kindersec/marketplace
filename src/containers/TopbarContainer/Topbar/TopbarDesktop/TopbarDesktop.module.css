@@ -116,7 +116,7 @@
   flex-shrink: 0;
 
   border-bottom: 0px solid;
-  transition: var(--transitionStyleButton);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   font-weight: var(--fontWeightMedium);
   font-size: 16px;
@@ -127,11 +127,21 @@
 
   height: 100%;
   padding: 0 12px 0 12px;
+  border-radius: 8px;
+  margin: 0 4px;
 
   &:hover {
-    border-bottom: 4px solid var(--marketplaceColor);
-    border-radius: 0;
+    border-bottom: 3px solid var(--marketplaceColor);
+    border-radius: 8px 8px 0 0;
     text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.02);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   }
 
   @media (--viewportMedium) {
@@ -159,7 +169,8 @@
   right: 17px;
 
   /* fill */
-  background-color: var(--colorAttention);
+  background: linear-gradient(135deg, var(--colorAttention) 0%, #ff6b6b 100%);
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
 
   /* animation */
   animation: notificationPop 0.3s ease-out;
@@ -189,35 +200,55 @@
   height: 100%;
   padding: 0 12px 0 12px;
   border-bottom: 0px solid;
-  transition: var(--transitionStyleButton);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 16px;
+  border-radius: 8px;
+  margin: 0 4px;
 
   &:hover {
-    border-bottom: 4px solid var(--marketplaceColor);
-    border-radius: 0;
+    border-bottom: 3px solid var(--marketplaceColor);
+    border-radius: 8px 8px 0 0;
+    background-color: rgba(0, 0, 0, 0.02);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 
   &:active {
-    border-bottom: 4px solid var(--marketplaceColor);
-    border-radius: 0;
+    border-bottom: 3px solid var(--marketplaceColor);
+    border-radius: 8px 8px 0 0;
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   }
 }
 
 .profileMenuIsOpen {
   &:hover {
-    border-bottom: 4px solid var(--marketplaceColor);
-    border-radius: 0;
+    border-bottom: 3px solid var(--marketplaceColor);
+    border-radius: 8px 8px 0 0;
+    background-color: rgba(0, 0, 0, 0.02);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 }
 
 .avatar {
   width: 32px;
   height: 32px;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profileMenuLabel:hover .avatar {
+  transform: scale(1.05);
 }
 
 .profileIcon {
   width: 24px;
   height: 24px;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profileMenuLabel:hover .profileIcon {
+  transform: scale(1.05);
 }
 
 .profileMenuContent {
@@ -249,10 +280,12 @@
   position: relative;
   display: block;
   text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     color: var(--marketplaceColor);
     background-color: rgba(0, 0, 0, 0.02);
+    transform: translateX(2px);
 
     & .menuItemBorder {
       border-bottom: 1px solid var(--colorGrey200);
@@ -280,10 +313,12 @@
   width: 100%;
   text-align: left;
   cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     color: var(--colorFail);
     background-color: rgba(220, 53, 69, 0.05);
+    transform: translateX(2px);
 
     & .menuItemBorder {
       border-bottom: 1px solid var(--colorGrey200);
@@ -293,6 +328,7 @@
   &:active {
     color: var(--colorFail);
     background-color: rgba(220, 53, 69, 0.1);
+    transform: translateX(1px);
   }
 
   @media (--viewportMedium) {

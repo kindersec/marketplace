@@ -1,4 +1,5 @@
 // Use native fetch available in Node 18+
+const sdkUtils = require('../api-util/sdk');
 
 // In-memory, naive rate limiter per IP. Suitable for a single-process server.
 // For multi-instance deployments, replace with a shared store (Redis) or a dedicated rate limiter.
@@ -35,6 +36,47 @@ Style:
 - Be concise, clear, and actionable. Offer step-by-step troubleshooting where helpful.
 - Prefer vendor-agnostic guidance and note when steps differ by brand/firmware.
 `;
+
+// Try to extract a concise search query from free-form text
+const extractSearchQuery = text => {
+  if (!text || typeof text !== 'string') return null;
+  const trimmed = text.trim();
+  if (!trimmed) return null;
+  // Keep it short to improve relevance
+  return trimmed.length > 160 ? trimmed.slice(0, 160) : trimmed;
+};
+
+// Lightweight helpers to score relevance
+const STOPWORDS = new Set([
+  'the', 'a', 'an', 'and', 'or', 'for', 'to', 'of', 'in', 'on', 'with', 'my', 'your', 'our', 'is', 'are', 'be', 'can', 'how', 'what', 'which', 'best', 'about'
+]);
+
+const tokenize = text =>
+  (text || '')
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(t => t && t.length >= 3 && !STOPWORDS.has(t));
+
+// Fetch related marketplace listings using keyword search
+const fetchRelatedListings = async (req, res, query) => {
+  try {
+    const sdk = sdkUtils.getSdk(req, res);
+    const response = await sdk.listings.query({ keywords: query, perPage: 3 });
+    const listings = response?.data?.data || [];
+    if (!listings.length) return [];
+    return listings.map(l => {
+      const id = l?.id?.uuid;
+      const title = l?.attributes?.title || 'Listing';
+      const description = l?.attributes?.description || '';
+      // Use canonical relative path which redirects to slugged URL
+      const url = `/l/${id}`;
+      return { id, title, description, url };
+    });
+  } catch (e) {
+    // Swallow errors silently; chat should still work without listings
+    return [];
+  }
+};
 
 // Basic input hygiene checks
 const isContentAcceptable = text => {
@@ -143,8 +185,36 @@ module.exports = async (req, res) => {
       // but do not block all usage.
     }
 
+    // Look up related listings from the last user message and pick a single strong match
+    const searchQuery = extractSearchQuery(lastUser.content);
+    const relatedListings = searchQuery ? await fetchRelatedListings(req, res, searchQuery) : [];
+    let topRelated = null;
+    if (searchQuery && relatedListings.length) {
+      const tokens = tokenize(searchQuery);
+      const scored = relatedListings
+        .map(l => {
+          const haystack = `${l.title}\n${l.description}`.toLowerCase();
+          let hits = 0;
+          Array.from(new Set(tokens)).forEach(t => {
+            if (haystack.includes(t)) hits += 1;
+          });
+          const coverage = tokens.length ? hits / tokens.length : 0;
+          return { l, hits, coverage };
+        })
+        .sort((a, b) => (b.hits - a.hits) || (b.coverage - a.coverage));
+
+      const top = scored[0];
+      const strong = top && ((tokens.length <= 3 && top.hits >= 1 && top.coverage >= 0.4) || top.hits >= 2);
+      topRelated = strong ? top.l : null;
+    }
+
+    // Build a short, structured note for the model about a matching listing
+    const listingsNote = topRelated
+      ? `When relevant, you may suggest this marketplace listing if it clearly fits the user's need:\n- ${topRelated.title} — ${topRelated.url}\n\nOnly include a listing if it clearly helps with the user's question.`
+      : 'If user asks for products/listings, suggest using our marketplace search.';
+
     const chatMessages = [
-      { role: 'system', content: systemPrompt },
+      { role: 'system', content: `${systemPrompt}\n\nContext:\n${listingsNote}` },
       ...sanitizedMessages,
     ];
 
@@ -160,12 +230,14 @@ module.exports = async (req, res) => {
       20000
     );
 
-    const text = completion?.choices?.[0]?.message?.content || '';
+    let text = completion?.choices?.[0]?.message?.content || '';
     if (!text) {
       return res.status(502).json({ error: 'Empty response from model.' });
     }
 
-    return res.json({ message: { role: 'assistant', content: text } });
+    // Return a single strongly related link separately so UI can show it as a toast
+    const suggestedLink = topRelated ? { title: topRelated.title, url: topRelated.url } : null;
+    return res.json({ message: { role: 'assistant', content: text }, suggestedLink });
   } catch (e) {
     return res.status(500).json({ error: 'Unexpected error.' });
   }
