@@ -8,28 +8,33 @@
   height: var(--topbarHeightDesktop);
 }
 
+/* Enhanced mobile icon styling */
 .mobileIcon {
   margin-left: 24px;
   padding: 13px 0 15px 0;
-
   display: flex;
   width: 24px;
   align-self: stretch;
   background-color: transparent;
+  transition: none;
+  color: var(--colorGrey800);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
 
   @media (--viewportMedium) {
     margin-left: 0;
   }
 }
 
+/* Enhanced font input styling */
 .fontInput {
-  font-weight: var(--fontWeightBlack);
+  font-weight: var(--fontWeightMedium);
   font-size: 18px;
   line-height: 22px;
-
-  /* Layout */
   margin: 0 24px 0 0;
   padding: 4px 13px 10px 13px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (--viewportMedium) {
     font-size: 22px;
@@ -39,20 +44,25 @@
   }
 }
 
+/* Enhanced mobile input styling */
 .mobileInput {
-  /* Font */
   composes: fontInput;
-
-  /* Layout */
   height: 50px;
-
-  /* Borders */
   border: 0;
   border-radius: 0;
+  background: transparent;
+  color: var(--colorGrey800);
+
+  /* Enhanced placeholder styling */
+  &::placeholder {
+    color: var(--colorGrey500);
+    transition: color 0.3s ease;
+  }
 
   /* Safari bugfix: without this Safari will print placeholder to a wrong place */
   &::-webkit-input-placeholder {
     line-height: normal;
+    color: var(--colorGrey500);
   }
 
   &:hover,
@@ -61,152 +71,212 @@
     border: 0;
     outline: none;
     box-shadow: none;
+
+    &::placeholder {
+      color: var(--colorGrey600);
+    }
   }
 }
 
+/* Enhanced desktop icon styling */
 .desktopIcon {
   height: 100%;
   border: none;
   padding-top: 8px;
-
   display: flex;
   width: 24px;
   align-self: stretch;
   background-color: transparent;
+  transition: none;
+  color: var(--colorGrey800);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
 }
 
+/* Enhanced desktop input styling */
 .desktopInput {
   composes: p from global;
   flex-grow: 1;
-  /* Font */
   height: 100%;
   line-height: 22px;
   font-size: 16px;
   border: none;
   padding-top: 8px;
   padding-bottom: 8px;
-  padding-left: 10px;
+  padding-left: 16px;
+  padding-right: 16px;
+
+  /* Enhanced text styling */
+  color: var(--colorGrey800);
+  font-weight: var(--fontWeightMedium);
 
   /* Search text gets ellipsis if it's too wide */
   text-overflow: ellipsis;
   overflow-x: hidden;
-
   margin-top: 0;
   margin-bottom: 0;
 
   /* Transparent background to match topbar */
   background-color: transparent;
 
-  &:hover,
-  &:focus {
-    border-bottom-color: var(--marketplaceColor);
-    outline: none;
-    border: 0;
-    box-shadow: none;
-  }
-
-  &:hover::placeholder,
-  &:focus::placeholder {
-    color: var(--colorGrey700);
-  }
-
-  /* Placeholder text might be too wide */
+  /* Enhanced placeholder styling */
   &::placeholder {
-    text-overflow: ellipsis;
-    overflow-x: hidden;
-    transition: var(--transitionStyleButton);
+    color: var(--colorGrey500);
+    transition: all 0.3s ease;
+    font-weight: var(--fontWeightNormal);
   }
-
-  @media (--viewportMedium) {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-}
-
-.mobilePredictions {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  /* searchContainer margin-top (94px) + mobileInput height (50px) = 144px */
-  min-height: calc(100vh - 144px);
-  width: 100%;
-  background-color: var(--marketplaceColor);
-  border-bottom-left-radius: var(--borderRadius);
-  border-bottom-right-radius: var(--borderRadius);
-  box-shadow: var(--boxShadowPopup);
-  z-index: calc(var(--zIndexPopup) + 1);
-
-  @media (--viewportMedium) {
-    min-height: unset;
-  }
-}
-
-.mobilePredictionsAttribution {
-  /* When using the Google Maps Places geocoder, the "Powered by Google"
-   text is hidden in Mobile Safari without giving some extra space to
-   it. */
-  margin-bottom: 100px;
-
-  @media (--viewportMedium) {
-    margin-bottom: 0;
-  }
-}
-
-.desktopPredictions {
-  position: absolute;
-  width: 100%;
-  top: 100%;
-  left: 0;
-  background-color: var(--marketplaceColor);
-  border-bottom-left-radius: var(--borderRadius);
-  border-bottom-right-radius: var(--borderRadius);
-  box-shadow: var(--boxShadowPopup);
-  z-index: calc(var(--zIndexPopup) + 1);
-
-  margin-top: 0;
-  max-width: 434px;
-}
-
-/**
- * Keyword search
- */
-.keywordSearchWrapper {
-  position: relative;
-  display: flex;
-}
-
-.searchSubmit {
-  border: 0;
-  padding: 0;
-  cursor: pointer;
 
   &:hover,
   &:focus {
     outline: none;
+    box-shadow: none;
+    border: none;
 
-    & .iconSvgGroup {
-      stroke: var(--colorGrey700);
+    &::placeholder {
+      color: var(--colorGrey600);
+      transform: translateX(2px);
+    }
+  }
+
+  /* Enhanced focus state */
+  &:focus {
+    color: var(--colorGrey900);
+    outline: none;
+    border: none;
+
+    &::placeholder {
+      color: var(--colorGrey700);
     }
   }
 }
 
-.icon {
+/* Enhanced search submit button */
+.searchSubmit {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: none;
+  margin-right: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.searchSubmit:hover {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+.searchSubmit:active {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Enhanced keyword search wrapper */
+.keywordSearchWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 16px;
+  border-radius: 20px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.7) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.keywordSearchWrapper:hover {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.7) 100%);
+  transform: none;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Enhanced focus state */
+.keywordSearchWrapper:focus-within {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.8) 100%);
+  border-color: transparent;
+  box-shadow:
+    0 12px 40px rgba(102, 126, 234, 0.2),
+    0 6px 20px rgba(118, 75, 162, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: none;
+}
+
+/* Enhanced icon styling */
+.icon {
   width: 24px;
-  align-self: stretch;
-  border-bottom: 2px solid var(--marketplaceColor);
-  background-color: transparent;
+  height: 24px;
+  color: var(--colorGrey800);
+  transition: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
 }
 
-.iconSvg {
-  margin: auto;
+.searchSubmit:hover .icon {
+  color: var(--colorGrey800);
+  transform: none;
 }
 
-.iconSvgGroup {
-  stroke: var(--marketplaceColor);
-  stroke-width: 2.5px;
+/* Enhanced mobile predictions */
+.mobilePredictions {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 8px 25px rgba(0, 0, 0, 0.1);
+}
 
-  @media (--viewportMedium) {
-    stroke-width: 2px;
-  }
+/* Enhanced desktop predictions */
+.desktopPredictions {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced mobile predictions attribution */
+.mobilePredictionsAttribution {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.8) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0 0 16px 16px;
 }

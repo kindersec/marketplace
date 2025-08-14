@@ -1,10 +1,8 @@
 @import '../../../styles/customMediaQueries.css';
 
-/* MODERN TOPBAR STYLES - GRADIENT BACKGROUND */
+/* MODERN TOPBAR STYLES - ENHANCED GLASSMORPHISM */
 .root {
   width: 100%;
-
-  /* Top Bar's drop shadow should always be visible */
   z-index: var(--zIndexTopbar);
   position: relative;
 }
@@ -20,14 +18,27 @@
   justify-content: space-between;
   align-items: center;
 
-  /* Modern elegant gradient background - Apple/Tesla inspired */
-  background: linear-gradient(135deg, rgba(248, 249, 250, 0.7) 0%, rgba(236, 236, 236, 0.7) 100%) !important;
+  /* Enhanced glassmorphism background */
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.05) 100%) !important;
   background-color: transparent !important;
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(220, 220, 220, 0.5);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 
-  /* Enhanced shadows */
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07) !important;
+  /* Enhanced border with gradient */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+
+  /* Enhanced shadows with multiple layers */
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+
+  /* Smooth transitions */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (--viewportMedium) {
     height: var(--topbarHeightDesktop);
@@ -38,11 +49,33 @@
   }
 }
 
+/* Add subtle animated background pattern */
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  animation: subtleFloat 20s ease-in-out infinite;
+}
+
+@keyframes subtleFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(1deg); }
+  66% { transform: translateY(5px) rotate(-1deg); }
+}
+
 .logoutButton {
   margin: 0;
 }
 
-/* Child component's size (and positioning) should be given here */
+/* Enhanced button styles with modern interactions */
 .menu,
 .searchMenu {
   /* Font */
@@ -54,28 +87,61 @@
   width: 66px;
   margin: 0;
   border-width: 0px;
-  background-color: transparent;
-  border-radius: 12px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  /* Enhanced transitions */
+  transition: none;
+  position: relative;
+  overflow: hidden;
 
   /* Hovers */
   &:enabled {
     cursor: pointer;
   }
+
   &:enabled:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: transparent;
+    transform: none;
+    box-shadow: none;
+    border-color: rgba(255, 255, 255, 0.2);
   }
+
   &:enabled:active {
-    background-color: rgba(0, 0, 0, 0.08);
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    background: transparent;
+    transform: none;
+    box-shadow: none;
   }
+
   &:disabled {
-    background-color: transparent;
+    background: transparent;
     cursor: auto;
   }
+}
+
+/* Add subtle shine effect on hover */
+.menu::after,
+.searchMenu::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transform: rotate(45deg) translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu:hover::after,
+.searchMenu:hover::after {
+  transform: rotate(45deg) translateX(100%);
 }
 
 .menu {
@@ -86,6 +152,7 @@
     padding: 21px 24px;
   }
 }
+
 .searchMenu {
   padding: 12px 24px;
 
@@ -97,8 +164,10 @@
 .menuIcon,
 .searchMenuIcon {
   margin: 9px 0;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--colorGrey600) !important;
+  position: relative;
+  z-index: 1;
 }
 
 .menuIcon {
@@ -111,10 +180,11 @@
 
 .menu:hover .menuIcon,
 .searchMenu:hover .searchMenuIcon {
-  transform: scale(1.05);
-  color: var(--colorGrey800);
+  transform: none;
+  color: var(--colorGrey600);
 }
 
+/* Enhanced notification dot with pulsing animation */
 .notificationDot {
   /* Dimensions */
   width: 12px;
@@ -126,12 +196,19 @@
   top: 17px;
   right: 17px;
 
-  /* fill */
-  background: linear-gradient(135deg, var(--colorAttention) 0%, #ff6b6b 100%);
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+  /* Enhanced gradient fill */
+  background: linear-gradient(135deg,
+    var(--colorAttention) 0%,
+    #ff6b6b 50%,
+    #ff8e8e 100%);
+  box-shadow:
+    0 0 0 0 rgba(255, 107, 107, 0.7),
+    0 4px 12px rgba(255, 107, 107, 0.4);
 
-  /* animation */
-  animation: notificationPop 0.3s ease-out;
+  /* Enhanced animations */
+  animation:
+    notificationPop 0.4s ease-out,
+    notificationPulse 2s infinite;
 
   @media (--viewportMedium) {
     top: 23px;
@@ -141,13 +218,34 @@
 
 @keyframes notificationPop {
   0% {
-    transform: scale(0);
+    transform: scale(0) rotate(180deg);
+    opacity: 0;
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.2) rotate(90deg);
+    opacity: 0.8;
   }
   100% {
-    transform: scale(1);
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes notificationPulse {
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(255, 107, 107, 0.7),
+      0 4px 12px rgba(255, 107, 107, 0.4);
+  }
+  70% {
+    box-shadow:
+      0 0 0 10px rgba(255, 107, 107, 0),
+      0 4px 12px rgba(255, 107, 107, 0.4);
+  }
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(255, 107, 107, 0),
+      0 4px 12px rgba(255, 107, 107, 0.4);
   }
 }
 
@@ -161,13 +259,13 @@
 
 .rootMenuIcon {
   color: var(--colorGrey600) !important;
-  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   fill: currentColor !important;
 }
 
 .rootSearchIcon {
   color: var(--colorGrey600) !important;
-  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   stroke: currentColor !important;
 }
 
@@ -183,7 +281,9 @@
   align-items: center;
   padding: 0 24px;
   height: 100%;
-  border-top: 1px solid var(--colorGrey100);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
 
   @media (--viewportMedium) {
     padding: 0 24px;

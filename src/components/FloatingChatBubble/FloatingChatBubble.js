@@ -1,10 +1,16 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { bool, string } from 'prop-types';
+import { bool, string, func } from 'prop-types';
 import classNames from 'classnames';
 import ReactMarkdown from 'react-markdown';
 import { chatSupport } from '../../util/api';
 import { SuggestionChip, SuggestionChipContainer } from '..';
 import css from './FloatingChatBubble.module.css';
+
+const STORAGE_KEYS = {
+  messages: 'aiChat.messages',
+  minimized: 'aiChat.minimized',
+  suggestion: 'aiChat.suggestion',
+};
 
 const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
   const [messages, setMessages] = useState([
@@ -17,7 +23,67 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
-  const classes = classNames(rootClassName, className);
+  const classes = classNames(rootClassName, className, { [css.open]: !isMinimized });
+
+  // Load persisted chat state on mount
+  useEffect(() => {
+    try {
+      if (typeof window === 'undefined') return;
+      const storedMessages = window.sessionStorage.getItem(STORAGE_KEYS.messages);
+      const storedMinimized = window.sessionStorage.getItem(STORAGE_KEYS.minimized);
+      const storedSuggestion = window.sessionStorage.getItem(STORAGE_KEYS.suggestion);
+
+      if (storedMessages) {
+        const parsed = JSON.parse(storedMessages);
+        if (Array.isArray(parsed) && parsed.length > 0) setMessages(parsed);
+      }
+      if (storedMinimized != null) {
+        setIsMinimized(storedMinimized === 'true');
+      }
+      if (storedSuggestion) {
+        const parsedSuggestion = JSON.parse(storedSuggestion);
+        if (parsedSuggestion && typeof parsedSuggestion === 'object') setSuggestion(parsedSuggestion);
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('Failed to load persisted chat state', e);
+    }
+  }, []);
+
+  // Persist chat state whenever it changes
+  useEffect(() => {
+    try {
+      if (typeof window === 'undefined') return;
+      window.sessionStorage.setItem(STORAGE_KEYS.messages, JSON.stringify(messages));
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('Failed to persist chat messages', e);
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    try {
+      if (typeof window === 'undefined') return;
+      window.sessionStorage.setItem(STORAGE_KEYS.minimized, String(isMinimized));
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('Failed to persist chat minimized state', e);
+    }
+  }, [isMinimized]);
+
+  useEffect(() => {
+    try {
+      if (typeof window === 'undefined') return;
+      if (suggestion) {
+        window.sessionStorage.setItem(STORAGE_KEYS.suggestion, JSON.stringify(suggestion));
+      } else {
+        window.sessionStorage.removeItem(STORAGE_KEYS.suggestion);
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('Failed to persist chat suggestion', e);
+    }
+  }, [suggestion]);
 
   useEffect(() => {
     if (containerRef?.current && !isMinimized) {
@@ -91,6 +157,7 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
       { role: 'assistant', content: 'Hi! I\'m SmartHome Support. How can I help with your smart home today?' },
     ]);
     setInput('');
+    setSuggestion(null);
     inputRef.current?.focus();
   };
 
@@ -133,7 +200,7 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
               title="Minimize chat"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" className={css.actionIcon}>
-                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                <path d="M6 13h12v-2H6v2z"/>
               </svg>
             </button>
           </div>
@@ -211,7 +278,7 @@ FloatingChatBubble.defaultProps = {
 
 FloatingChatBubble.propTypes = {
   isOpen: bool,
-  onToggle: bool,
+  onToggle: func,
   className: string,
   rootClassName: string,
 };

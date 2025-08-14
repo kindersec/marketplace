@@ -1,6 +1,6 @@
 @import '../../../../styles/customMediaQueries.css';
 
-/* Desktop */
+/* Desktop - Enhanced Modern Design */
 .root {
   /* Size */
   width: 100%;
@@ -13,41 +13,85 @@
   align-items: flex-start;
   padding: 0 12px 0 0;
 
-  /* Modern gradient background - override any existing backgrounds */
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(248, 249, 250, 0.7) 100%) !important;
+  /* Enhanced glassmorphism background */
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.05) 100%) !important;
   background-color: transparent !important;
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(25px) saturate(200%);
+  -webkit-backdrop-filter: blur(25px) saturate(200%);
 
-  /* Enhanced shadows */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  /* Enhanced border with subtle gradient */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  position: relative;
+
+  /* Enhanced shadows with depth */
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    0 6px 20px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+
+  /* Smooth transitions */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (--viewportLarge) {
     padding: 0 24px 0 0;
   }
 }
 
-/* logo */
+/* Add subtle animated background pattern */
+.root::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 15% 30%, rgba(120, 119, 198, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 85% 70%, rgba(255, 119, 198, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(120, 219, 255, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+  animation: desktopFloat 25s ease-in-out infinite;
+}
+
+@keyframes desktopFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(0.5deg); }
+  50% { transform: translateY(5px) rotate(-0.5deg); }
+  75% { transform: translateY(-3px) rotate(0.3deg); }
+}
+
+/* Enhanced logo styling */
 .logoLink {
   border-bottom: 0px solid;
-  transition: var(--transitionStyleButton);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+
+  /* Add subtle glow effect */
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
 }
+
 .logoLink:hover {
   border-bottom: 4px solid var(--marketplaceColor);
   border-radius: 0;
+  transform: translateY(-1px) scale(1.02);
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.15));
 }
 
-/* Search */
+/* Enhanced search styling */
 .searchLink {
   min-width: 420px;
   height: 100%;
-  /* Remove vertical divider between logo and search */
   border-left: none;
   margin-right: auto;
   display: flex;
   align-items: center;
-  /* Make search area consume more width */
   flex: 1 1 520px;
+  position: relative;
+  z-index: 1;
 }
 
 .spacer {
@@ -74,8 +118,6 @@
 
 .takeAvailableSpace {
   flex-grow: 1;
-
-  /* At 1024px, the translations might need more space than what searchLink otherwise gets. */
   min-width: 220px;
 }
 
@@ -89,34 +131,80 @@
   }
 }
 
-/* Apply rounded container only when the search form is rendered (not spacer) */
+/* Enhanced search container with modern styling */
 .searchLink .topbarSearchWithLeftPadding {
   display: flex;
   align-items: center;
-  height: calc(var(--topbarHeightDesktop) - 16px); /* slightly shorter than topbar */
-  padding: 0 12px;
-  border: 1px solid var(--colorGrey200);
-  border-radius: var(--borderRadiusFull);
-  background-color: var(--colorWhite);
-  transition: border-color 120ms ease, box-shadow 120ms ease;
+  height: calc(var(--topbarHeightDesktop) - 16px);
+  padding: 0 16px;
+
+  /* Enhanced glassmorphism container */
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.7) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+
+  /* Enhanced shadows */
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
+  position: relative;
+  overflow: hidden;
+}
 
-  &:focus-within {
-    /* Match product card shadow from SearchResultsPanel */
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15), 0 4px 15px rgba(118, 75, 162, 0.1);
-  }
+/* Add subtle shine effect to search container */
+.searchLink .topbarSearchWithLeftPadding::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  @media (--viewportLarge) {
-    padding: 0 14px;
+.searchLink .topbarSearchWithLeftPadding:hover::before {
+  left: 100%;
+}
+
+.searchLink .topbarSearchWithLeftPadding:focus-within {
+  /* Enhanced focus state */
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.8) 100%);
+  border-color: transparent;
+  box-shadow:
+    0 12px 40px rgba(102, 126, 234, 0.2),
+    0 6px 20px rgba(118, 75, 162, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+@media (--viewportLarge) {
+  .searchLink .topbarSearchWithLeftPadding {
+    padding: 0 20px;
   }
 }
 
-/* These is used with Inbox, Sign up, and Log in */
+/* Enhanced topbar links with modern interactions */
 .topbarLink {
   flex-shrink: 0;
-
   border-bottom: 0px solid;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   font-weight: var(--fontWeightMedium);
   font-size: 16px;
@@ -126,27 +214,62 @@
   text-decoration: none;
 
   height: 100%;
-  padding: 0 12px 0 12px;
-  border-radius: 8px;
-  margin: 0 4px;
+  padding: 0 16px 0 16px;
+  border-radius: 16px;
+  margin: 0 6px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+
+  /* Enhanced background */
+  background: transparent;
+  border: 1px solid transparent;
 
   &:hover {
     border-bottom: 3px solid var(--marketplaceColor);
-    border-radius: 8px 8px 0 0;
+    border-radius: 16px 16px 0 0;
     text-decoration: none;
-    background-color: rgba(0, 0, 0, 0.02);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+      0 8px 25px rgba(102, 126, 234, 0.15),
+      0 4px 15px rgba(118, 75, 162, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--colorGrey700);
   }
 
   &:active {
-    transform: translateY(0);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    transform: translateY(0) scale(0.98);
+    box-shadow:
+      0 4px 15px rgba(102, 126, 234, 0.1),
+      0 2px 8px rgba(118, 75, 162, 0.08);
   }
 
   @media (--viewportMedium) {
-    padding: 0 16px 0 16px;
+    padding: 0 20px 0 20px;
   }
+}
+
+/* Add subtle shine effect to links */
+.topbarLink::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transform: rotate(45deg) translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.topbarLink:hover::after {
+  transform: rotate(45deg) translateX(100%);
 }
 
 .topbarLinkLabel {
@@ -155,25 +278,31 @@
   justify-content: center;
   height: 100%;
   position: relative;
+  z-index: 1;
 }
 
+/* Enhanced notification dot */
 .notificationDot {
-  /* Dimensions */
   width: 12px;
   height: 12px;
   border-radius: 50%;
-
-  /* Position */
   position: absolute;
   top: 15px;
   right: 17px;
 
-  /* fill */
-  background: linear-gradient(135deg, var(--colorAttention) 0%, #ff6b6b 100%);
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+  /* Enhanced gradient fill */
+  background: linear-gradient(135deg,
+    var(--colorAttention) 0%,
+    #ff6b6b 50%,
+    #ff8e8e 100%);
+  box-shadow:
+    0 0 0 0 rgba(255, 107, 107, 0.7),
+    0 4px 12px rgba(255, 107, 107, 0.4);
 
-  /* animation */
-  animation: notificationPop 0.3s ease-out;
+  /* Enhanced animations */
+  animation:
+    notificationPop 0.4s ease-out,
+    notificationPulse 2s infinite;
 
   @media (--viewportMedium) {
     top: 21px;
@@ -183,81 +312,175 @@
 
 @keyframes notificationPop {
   0% {
-    transform: scale(0);
+    transform: scale(0) rotate(180deg);
+    opacity: 0;
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.2) rotate(90deg);
+    opacity: 0.8;
   }
   100% {
-    transform: scale(1);
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
   }
 }
 
+@keyframes notificationPulse {
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(255, 107, 107, 0.7),
+      0 4px 12px rgba(255, 107, 107, 0.4);
+  }
+  70% {
+    box-shadow:
+      0 0 0 10px rgba(255, 107, 107, 0),
+      0 4px 12px rgba(255, 107, 107, 0.4);
+  }
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(255, 107, 107, 0),
+      0 4px 12px rgba(255, 107, 107, 0.4);
+  }
+}
+
+/* Enhanced profile menu */
 .profileMenuLabel {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 0 12px 0 12px;
+  padding: 0 16px 0 16px;
   border-bottom: 0px solid;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: none;
   font-size: 16px;
-  border-radius: 8px;
-  margin: 0 4px;
+  border-radius: 16px;
+  margin: 0 6px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+
+  /* Enhanced background */
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   &:hover {
     border-bottom: 3px solid var(--marketplaceColor);
-    border-radius: 8px 8px 0 0;
-    background-color: rgba(0, 0, 0, 0.02);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-radius: 16px 16px 0 0;
+    background: transparent;
+    transform: none;
+    box-shadow: none;
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
   &:active {
     border-bottom: 3px solid var(--marketplaceColor);
-    border-radius: 8px 8px 0 0;
-    transform: translateY(0);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    border-radius: 16px 16px 0 0;
+    transform: none;
+    box-shadow: none;
   }
 }
 
 .profileMenuIsOpen {
   &:hover {
     border-bottom: 3px solid var(--marketplaceColor);
-    border-radius: 8px 8px 0 0;
-    background-color: rgba(0, 0, 0, 0.02);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-radius: 16px 16px 0 0;
+    background: transparent;
+    transform: none;
+    box-shadow: none;
   }
+}
+
+/* Add shine effect to profile menu */
+.profileMenuLabel::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transform: rotate(45deg) translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profileMenuLabel:hover::after {
+  transform: rotate(45deg) translateX(100%);
 }
 
 .avatar {
   width: 32px;
   height: 32px;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: none;
+  filter: none;
 }
 
 .profileMenuLabel:hover .avatar {
-  transform: scale(1.05);
+  transform: none;
+  filter: none;
 }
 
 .profileIcon {
   width: 24px;
   height: 24px;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: none;
+  filter: none;
 }
 
 .profileMenuLabel:hover .profileIcon {
-  transform: scale(1.05);
+  transform: none;
+  filter: none;
 }
 
+/* Enhanced profile menu content */
 .profileMenuContent {
   margin-top: 8px;
-  border-radius: 8px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+
+  /* Enhanced glassmorphism */
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.85) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  /* Enhanced shadows */
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 8px 25px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
+  /* Smooth transitions */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Add subtle border glow */
+  position: relative;
+}
+
+.profileMenuContent::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.2) 100%);
+  border-radius: 16px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.profileMenuContent:hover::before {
+  opacity: 1;
 }
 
 .menuItemBorder {
@@ -266,9 +489,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border-bottom: 1px solid var(--colorGrey100);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s ease;
 }
 
+/* Enhanced menu links */
 .menuLink {
   composes: marketplaceBodyFontStyles from global;
   color: var(--colorGrey700);
@@ -276,27 +501,35 @@
   font-size: 16px;
   line-height: 18px;
   letter-spacing: 0;
-  padding: 12px 16px;
+  padding: 16px 20px;
   position: relative;
   display: block;
   text-decoration: none;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
+  margin: 4px 8px;
 
   &:hover {
     color: var(--marketplaceColor);
-    background-color: rgba(0, 0, 0, 0.02);
-    transform: translateX(2px);
+    background: linear-gradient(135deg,
+      rgba(102, 126, 234, 0.05) 0%,
+      rgba(102, 126, 234, 0.02) 100%);
+    transform: translateX(4px) scale(1.02);
+    box-shadow:
+      0 4px 15px rgba(102, 126, 234, 0.1),
+      0 2px 8px rgba(102, 126, 234, 0.05);
 
     & .menuItemBorder {
-      border-bottom: 1px solid var(--colorGrey200);
+      border-bottom: 1px solid rgba(102, 126, 234, 0.2);
     }
   }
 
   @media (--viewportMedium) {
-    padding: 16px 20px;
+    padding: 18px 24px;
   }
 }
 
+/* Enhanced logout button */
 .logoutButton {
   composes: marketplaceBodyFontStyles from global;
   color: var(--colorGrey700);
@@ -304,7 +537,7 @@
   font-size: 16px;
   line-height: 18px;
   letter-spacing: 0;
-  padding: 12px 16px;
+  padding: 16px 20px;
   position: relative;
   display: block;
   text-decoration: none;
@@ -313,37 +546,53 @@
   width: 100%;
   text-align: left;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
+  margin: 4px 8px;
 
   &:hover {
     color: var(--colorFail);
-    background-color: rgba(220, 53, 69, 0.05);
-    transform: translateX(2px);
+    background: linear-gradient(135deg,
+      rgba(220, 53, 69, 0.08) 0%,
+      rgba(220, 53, 69, 0.03) 100%);
+    transform: translateX(4px) scale(1.02);
+    box-shadow:
+      0 4px 15px rgba(220, 53, 69, 0.1),
+      0 2px 8px rgba(220, 53, 69, 0.05);
 
     & .menuItemBorder {
-      border-bottom: 1px solid var(--colorGrey200);
+      border-bottom: 1px solid rgba(220, 53, 69, 0.2);
     }
   }
 
   &:active {
     color: var(--colorFail);
-    background-color: rgba(220, 53, 69, 0.1);
-    transform: translateX(1px);
+    background: linear-gradient(135deg,
+      rgba(220, 53, 69, 0.12) 0%,
+      rgba(220, 53, 69, 0.06) 100%);
+    transform: translateX(2px) scale(0.98);
   }
 
   @media (--viewportMedium) {
-    padding: 16px 20px;
+    padding: 18px 24px;
   }
 }
 
 .currentPage {
   color: var(--marketplaceColor);
+  background: linear-gradient(135deg,
+    rgba(102, 126, 234, 0.08) 0%,
+    rgba(102, 126, 234, 0.03) 100%);
 
   & .menuItemBorder {
     border-bottom: 1px solid var(--marketplaceColor);
   }
 
   &:hover {
+    background: linear-gradient(135deg,
+      rgba(102, 126, 234, 0.12) 0%,
+      rgba(102, 126, 234, 0.06) 100%);
+
     & .menuItemBorder {
       border-bottom: 1px solid var(--marketplaceColor);
     }

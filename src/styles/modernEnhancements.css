@@ -82,6 +82,42 @@
   --colorGray700: #374151;
   --colorGray800: #1f2937;
   --colorGray900: #111827;
+
+  /* ================ Top Bar Specific Variables ================ */
+  --topbarGlassmorphismBlur: 20px;
+  --topbarGlassmorphismSaturation: 180%;
+  --topbarTransitionTiming: cubic-bezier(0.4, 0, 0.2, 1);
+  --topbarHoverScale: 1.02;
+  --topbarHoverTranslateY: -2px;
+  --topbarActiveScale: 0.98;
+
+  /* ================ Enhanced Animation Durations ================ */
+  --animationDurationFast: 0.2s;
+  --animationDurationNormal: 0.3s;
+  --animationDurationSlow: 0.6s;
+  --animationDurationVerySlow: 1.2s;
+
+  /* ================ Enhanced Animation Easing ================ */
+  --easeOutQuart: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
+  --easeInOutQuart: cubic-bezier(0.76, 0, 0.24, 1);
+  --easeInOutQuint: cubic-bezier(0.83, 0, 0.17, 1);
+
+  /* ================ Glassmorphism Effects ================ */
+  --glassmorphismBlurLight: 10px;
+  --glassmorphismBlurMedium: 20px;
+  --glassmorphismBlurHeavy: 30px;
+  --glassmorphismOpacityLight: 0.1;
+  --glassmorphismOpacityMedium: 0.2;
+  --glassmorphismOpacityHeavy: 0.3;
+
+  /* ================ Enhanced Shadow System ================ */
+  --shadowGlassmorphism: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadowGlassmorphismHover: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --shadowGlassmorphismActive: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadowInsetLight: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --shadowInsetMedium: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  --shadowInsetHeavy: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* ================ Global Typography Overrides ================ */
@@ -434,4 +470,209 @@ label {
   border-radius: var(--borderRadiusMd);
   font-weight: 500;
   font-variation-settings: 'wght' 500;
+}
+
+/* ================ Top Bar Specific Animations ================ */
+
+@keyframes topbarFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-8px) rotate(0.5deg);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateY(5px) rotate(-0.5deg);
+    opacity: 0.98;
+  }
+  75% {
+    transform: translateY(-3px) rotate(0.3deg);
+    opacity: 0.96;
+  }
+}
+
+@keyframes topbarShine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+@keyframes topbarGlow {
+  0%, 100% {
+    box-shadow:
+      0 4px 20px rgba(102, 126, 234, 0.1),
+      0 2px 10px rgba(118, 75, 162, 0.05);
+  }
+  50% {
+    box-shadow:
+      0 8px 30px rgba(102, 126, 234, 0.2),
+      0 4px 15px rgba(118, 75, 162, 0.1);
+  }
+}
+
+@keyframes topbarPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes topbarSlideIn {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes topbarSlideOut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* ================ Enhanced Hover Effects ================ */
+
+.hoverLift {
+  transition: all var(--animationDurationNormal) var(--easeOutQuart);
+}
+
+.hoverLift:hover {
+  transform: translateY(var(--topbarHoverTranslateY)) scale(var(--topbarHoverScale));
+  box-shadow: var(--shadowGlassmorphismHover);
+}
+
+.hoverGlow {
+  transition: all var(--animationDurationNormal) var(--easeOutQuart);
+}
+
+.hoverGlow:hover {
+  box-shadow:
+    0 8px 30px rgba(102, 126, 234, 0.2),
+    0 4px 15px rgba(118, 75, 162, 0.1);
+}
+
+.hoverShine {
+  position: relative;
+  overflow: hidden;
+}
+
+.hoverShine::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transform: rotate(45deg) translateX(-100%);
+  transition: transform var(--animationDurationSlow) var(--easeInOutQuart);
+}
+
+.hoverShine:hover::before {
+  transform: rotate(45deg) translateX(100%);
+}
+
+/* ================ Enhanced Focus States ================ */
+
+.focusGlow:focus-within {
+  box-shadow:
+    0 0 0 3px rgba(102, 126, 234, 0.1),
+    0 8px 30px rgba(102, 126, 234, 0.2),
+    0 4px 15px rgba(118, 75, 162, 0.1);
+  border-color: var(--marketplaceColor);
+}
+
+/* ================ Enhanced Active States ================ */
+
+.activePress:active {
+  transform: scale(var(--topbarActiveScale));
+  transition: transform var(--animationDurationFast) var(--easeOutQuart);
+}
+
+/* ================ Enhanced Loading States ================ */
+
+.loadingPulse {
+  animation: topbarPulse 2s infinite;
+}
+
+.loadingFloat {
+  animation: topbarFloat 3s infinite;
+}
+
+/* ================ Enhanced Transition Classes ================ */
+
+.transitionFast {
+  transition: all var(--animationDurationFast) var(--easeOutQuart);
+}
+
+.transitionNormal {
+  transition: all var(--animationDurationNormal) var(--easeOutQuart);
+}
+
+.transitionSlow {
+  transition: all var(--animationDurationSlow) var(--easeInOutQuart);
+}
+
+/* ================ Enhanced Glassmorphism Classes ================ */
+
+.glassmorphismLight {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(var(--glassmorphismBlurLight));
+  -webkit-backdrop-filter: blur(var(--glassmorphismBlurLight));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadowGlassmorphism);
+}
+
+.glassmorphismMedium {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(var(--glassmorphismBlurMedium));
+  -webkit-backdrop-filter: blur(var(--glassmorphismBlurMedium));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadowGlassmorphismHover);
+}
+
+.glassmorphismHeavy {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.15) 100%);
+  backdrop-filter: blur(var(--glassmorphismBlurHeavy));
+  -webkit-backdrop-filter: blur(var(--glassmorphismBlurHeavy));
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--shadowGlassmorphismHover), var(--shadowInsetMedium);
 }

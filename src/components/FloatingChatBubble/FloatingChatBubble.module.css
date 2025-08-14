@@ -353,6 +353,11 @@
     height: 56px;
   }
 
+  /* Hide the floating open button on mobile when chat is open */
+  .open .chatButton {
+    display: none;
+  }
+
   .chatIcon {
     width: 22px;
     height: 22px;

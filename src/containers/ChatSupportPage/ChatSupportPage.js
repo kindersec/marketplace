@@ -15,7 +15,7 @@ const scrollToBottom = containerRef => {
 
 const ChatSupportPage = () => {
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Hi! I’m SmartHome Support. How can I help with your smart home today?' },
+    { role: 'assistant', content: 'Hi! I\'m SmartHome Support. How can I help with your smart home today?' },
   ]);
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
@@ -41,7 +41,7 @@ const ChatSupportPage = () => {
       } else if (res?.error) {
         setMessages([
           ...nextMessages,
-          { role: 'assistant', content: `Sorry, I couldn’t process that: ${res.error}` },
+          { role: 'assistant', content: `Sorry, I couldn't process that: ${res.error}` },
         ]);
       } else {
         setMessages([
@@ -57,7 +57,7 @@ const ChatSupportPage = () => {
       console.error('ChatSupport error:', e);
       setMessages([
         ...nextMessages,
-        { role: 'assistant', content: `Sorry, I couldn’t process that: ${serverMsg}` },
+        { role: 'assistant', content: `Sorry, I couldn't process that: ${serverMsg}` },
       ]);
     } finally {
       setIsSending(false);
@@ -68,6 +68,17 @@ const ChatSupportPage = () => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
+    }
+  };
+
+  const handleInputFocus = () => {
+    setSuggestion(null);
+  };
+
+  const handleInputChange = e => {
+    setInput(e.target.value);
+    if (e.target.value.trim() && suggestion) {
+      setSuggestion(null);
     }
   };
 
@@ -120,8 +131,9 @@ const ChatSupportPage = () => {
                 <textarea
                   className={css.textarea}
                   value={input}
-                  onChange={e => setInput(e.target.value)}
+                  onChange={handleInputChange}
                   onKeyDown={onKeyDown}
+                  onFocus={handleInputFocus}
                   placeholder="Ask about setup, troubleshooting, Wi‑Fi, automations, compatibility…"
                   rows={3}
                 />

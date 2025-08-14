@@ -1,9 +1,24 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import css from './SuggestionChip.module.css';
 
 export const SuggestionChip = ({ label, href, onClick }) => {
+  const history = useHistory();
   const handleClick = e => {
     if (onClick) onClick(e);
+    // Prefer SPA navigation for same-origin links
+    if (href) {
+      try {
+        const url = new URL(href, window.location.origin);
+        const isSameOrigin = url.origin === window.location.origin;
+        if (isSameOrigin) {
+          e.preventDefault();
+          history.push(`${url.pathname}${url.search}${url.hash}`);
+        }
+      } catch (_) {
+        // If parsing fails, fall back to default browser navigation
+      }
+    }
   };
   return (
     <a
