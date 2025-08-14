@@ -18,6 +18,7 @@ import css from './LinkedLogo.module.css';
  * @param {Object} props.linkToExternalSite
  * @param {string} props.linkToExternalSite.href
  * @param {string?} props.alt alt text for logo image
+ * @param {string?} props.subtitle subtitle text to display below the logo
  * @returns {JSX.Element} linked logo component
  */
 const LinkedLogo = props => {
@@ -29,6 +30,7 @@ const LinkedLogo = props => {
     layout = 'desktop',
     linkToExternalSite,
     alt,
+    subtitle,
     ...rest
   } = props;
   const classes = classNames(rootClassName || css.root, className);
@@ -40,6 +42,7 @@ const LinkedLogo = props => {
         className={logoClassName}
         logoImageClassName={logoImageClassName}
         alt={alt}
+        subtitle={subtitle}
       />
     </ExternalLink>
   ) : (
@@ -49,6 +52,7 @@ const LinkedLogo = props => {
         className={logoClassName}
         logoImageClassName={logoImageClassName}
         alt={alt}
+        subtitle={subtitle}
       />
     </NamedLink>
   );

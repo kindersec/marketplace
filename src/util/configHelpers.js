@@ -229,6 +229,7 @@ const mergeBranding = (brandingConfig, defaultBranding) => {
     logoSettings,
     loginBackgroundImage,
     socialSharingImage,
+    logoSubtitle,
     ...rest
   } = brandingConfig || {};
 
@@ -263,6 +264,7 @@ const mergeBranding = (brandingConfig, defaultBranding) => {
     brandImage: loginBackgroundImage,
     facebookImage,
     twitterImage,
+    logoSubtitle: logoSubtitle || defaultBranding.logoSubtitle,
     ...rest,
   };
 };

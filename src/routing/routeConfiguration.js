@@ -164,21 +164,38 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
     { path: '/prohibited-items', name: 'ProhibitedItemsPage', component: ProhibitedItemsPage },
     { path: '/contact', name: 'ContactPage', component: ContactPageNew },
     { path: '/faq', name: 'FAQPage', component: FAQPage },
-    // NOTE: when the private marketplace feature is enabled, the '/s' route is disallowed by the robots.txt resource.
-    // If you add new routes that start with '/s*' (e.g. /support), you should add them to the robotsPrivateMarketplace.txt file.
+    // NOTE: when the private marketplace feature is enabled, the '/products' route is disallowed by the robots.txt resource.
+    // If you add new routes that start with '/products*' (e.g. /support), you should add them to the robotsPrivateMarketplace.txt file.
     {
-      path: '/s',
+      path: '/products',
       name: 'SearchPage',
       ...authForPrivateMarketplace,
       component: SearchPage,
       loadData: pageDataLoadingAPI.SearchPage.loadData,
     },
     {
-      path: '/s/:listingType',
+      path: '/products/:listingType',
       name: 'SearchPageWithListingType',
       ...authForPrivateMarketplace,
       component: SearchPage,
       loadData: pageDataLoadingAPI.SearchPage.loadData,
+    },
+    // Backward compatibility redirects from legacy '/s' paths
+    {
+      path: '/s',
+      name: 'SearchPageRedirect',
+      component: props => <NamedRedirect name="SearchPage" search={props.location?.search} />,
+    },
+    {
+      path: '/s/:listingType',
+      name: 'SearchPageWithListingTypeRedirect',
+      component: props => (
+        <NamedRedirect
+          name="SearchPageWithListingType"
+          params={{ listingType: props.params?.listingType }}
+          search={props.location?.search}
+        />
+      ),
     },
     {
       path: '/l',

@@ -1,0 +1,418 @@
+@import '../../../../../styles/customMediaQueries.css';
+
+/* Mega Menu Label - Modern and sober styling */
+.megaMenuLabel {
+  /* Font */
+  composes: h5 from global;
+  color: var(--colorGrey700);
+  font-size: 16px;
+  font-weight: var(--fontWeightMedium);
+
+  /* Layout */
+  display: flex;
+  align-items: center;
+  height: var(--topbarHeightDesktop);
+  padding: 0 24px;
+  margin: 0 4px;
+  border-bottom: 0px solid;
+  background-color: transparent;
+  min-width: 100px;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+
+  /* Hovers */
+  &:enabled {
+    cursor: pointer;
+  }
+  &:enabled:hover,
+  &:enabled:active {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--colorGrey900);
+  }
+  &:disabled {
+    background-color: transparent;
+    cursor: auto;
+  }
+}
+
+.megaMenuIsOpen {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--colorGrey900);
+}
+
+.megaMenuLabelWrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.arrowIcon {
+  color: var(--colorGrey700);
+  transition: transform 0.2s ease;
+}
+
+.megaMenuLabel:hover .arrowIcon {
+  transform: rotate(180deg);
+}
+
+/* Mega Menu Content - Wide panel with modern design */
+.megaMenuContent {
+  /* Layout */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: var(--zIndexPopup);
+
+  /* Size */
+  min-width: 600px;
+  width: 600px;
+  max-width: 600px;
+  margin-top: 8px;
+
+  /* Scrolling */
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--colorGrey300) transparent;
+
+  /* Webkit scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--colorGrey300);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--colorGrey400);
+  }
+
+  /* Colors and styling */
+  background-color: var(--colorWhite);
+  border: 1px solid var(--colorGrey100);
+  border-radius: 12px;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Ensure content doesn't touch edges when scrolling */
+  padding-bottom: 8px;
+
+  /* Typography */
+  font-size: 14px;
+  line-height: 18px;
+
+  /* Smooth transitions */
+  transition: all 0.2s ease;
+}
+
+/* Mega Menu Header */
+.megaMenuHeaderItem {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: default;
+}
+
+.megaMenuHeaderItem:hover {
+  background: none;
+}
+
+.megaMenuHeader {
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid var(--colorGrey100);
+}
+
+.megaMenuTitle {
+  composes: h3 from global;
+  margin: 0 0 8px 0;
+  color: var(--colorGrey900);
+  font-size: 20px;
+  font-weight: var(--fontWeightSemiBold);
+}
+
+.megaMenuSubtitle {
+  margin: 0;
+  color: var(--colorGrey600);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* Mega Menu Sections */
+.megaMenuSectionItem {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: default;
+}
+
+.megaMenuSectionItem:hover {
+  background: none;
+}
+
+.megaMenuSection {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--colorGrey100);
+}
+
+.megaMenuSection:last-of-type {
+  border-bottom: none;
+}
+
+.megaMenuSectionTitle {
+  composes: h4 from global;
+  margin: 0 0 16px 0;
+  color: var(--colorGrey800);
+  font-size: 16px;
+  font-weight: var(--fontWeightMedium);
+}
+
+/* Mega Menu Grid Wrapper */
+.megaMenuGridWrapper {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: default;
+}
+
+.megaMenuGridWrapper:hover {
+  background: none;
+}
+
+/* Mega Menu Grid */
+.megaMenuGridItem {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: default;
+}
+
+.megaMenuGridItem:hover {
+  background: none;
+}
+
+.megaMenuGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+  width: 100%;
+}
+
+/* Mega Menu Items */
+.megaMenuItem {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 16px 20px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: fit-content;
+
+  /* Typography */
+  text-align: left;
+  font-size: 14px;
+  line-height: 18px;
+
+  /* Hovers */
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
+  }
+  &:active {
+    background: rgba(0, 0, 0, 0.08);
+    transform: translateY(0);
+  }
+}
+
+/* Brand specific styling */
+.brandLogoContainer {
+  margin-right: 12px;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brandLogo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.brandFallback {
+  width: 48px;
+  height: 48px;
+  background-color: var(--colorGrey200);
+  color: var(--colorGrey700);
+  font-size: 18px;
+  font-weight: var(--fontWeightMedium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.brandName {
+  color: var(--colorGrey900);
+  font-weight: var(--fontWeightMedium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Category specific styling */
+.categoryIcon {
+  font-size: 20px;
+  margin-right: 12px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.categoryContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.categoryName {
+  color: var(--colorGrey900);
+  font-weight: var(--fontWeightMedium);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.categoryDescription {
+  color: var(--colorGrey600);
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Compatibility specific styling */
+.compatibilityIcon {
+  font-size: 20px;
+  margin-right: 12px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.compatibilityContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.compatibilityName {
+  color: var(--colorGrey900);
+  font-weight: var(--fontWeightMedium);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compatibilityDescription {
+  color: var(--colorGrey600);
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mega Menu Footer */
+.megaMenuFooterItem {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: default;
+}
+
+.megaMenuFooterItem:hover {
+  background: none;
+}
+
+.megaMenuFooter {
+  padding: 16px 24px 24px 24px;
+  border-top: 1px solid var(--colorGrey100);
+  text-align: center;
+}
+
+.viewAllLink {
+  composes: h5 from global;
+  color: var(--marketplaceColor);
+  text-decoration: none;
+  font-weight: var(--fontWeightMedium);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--marketplaceColorDark);
+    text-decoration: underline;
+  }
+}
+
+/* Current page styling */
+.currentPage {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--marketplaceColor);
+}
+
+/* Responsive adjustments */
+@media (--viewportMedium) {
+  .megaMenuContent {
+    min-width: 600px;
+    width: 600px;
+    max-width: 600px;
+  }
+
+  .megaMenuGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (--viewportLarge) {
+  .megaMenuContent {
+    min-width: 700px;
+    width: 700px;
+    max-width: 700px;
+  }
+
+  .megaMenuGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}

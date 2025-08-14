@@ -142,11 +142,11 @@
 
 .categoryIconContainer {
   width: 100%;
-  height: 80px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   position: relative;
 }
 

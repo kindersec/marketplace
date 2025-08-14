@@ -38,6 +38,10 @@ export const logoSettings = {
   format: 'image',
 };
 
+// Subtitle text that appears below the logo in the navbar
+// This provides additional branding context and can be customized per marketplace
+export const logoSubtitle = 'Smart Home Solutions';
+
 // brandImageURL is used as a background image on the "hero" section of several pages.
 // Used on AuthenticationPage, EmailVerificationPage, PasswordRecoveryPage, PasswordResetPage etc.
 // NOTE: Those pages use ResponsiveBackgroundImageContainer component,

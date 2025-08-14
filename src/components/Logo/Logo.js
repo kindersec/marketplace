@@ -44,6 +44,7 @@ export const LogoComponent = props => {
     logoImageDesktop,
     logoImageMobile,
     logoSettings,
+    subtitle,
     ...rest
   } = props;
 
@@ -78,16 +79,19 @@ export const LogoComponent = props => {
     const variantNames = getVariantNames(variants);
     const { width } = getVariantData(variants);
     return (
-      <div className={logoClasses} style={{ width: `${width}px` }}>
-        <ResponsiveImage
-          rootClassName={logoImageClasses}
-          alt={marketplaceName}
-          image={logoImageDesktop}
-          variants={variantNames}
-          sizes={`${width}px`}
-          width={width}
-          height={logoSettings?.height}
-        />
+      <div className={logoClasses}>
+        <div className={css.logoContainer}>
+          <ResponsiveImage
+            rootClassName={logoImageClasses}
+            alt={marketplaceName}
+            image={logoImageDesktop}
+            variants={variantNames}
+            sizes={`${width}px`}
+            width={width}
+            height={logoSettings?.height}
+          />
+          {subtitle && <div className={css.subtitle}>{subtitle}</div>}
+        </div>
       </div>
     );
   } else if (isImageAsset(logoImageMobile) && hasValidLogoSettings && layout === 'mobile') {
@@ -103,37 +107,46 @@ export const LogoComponent = props => {
       width <= 188 ? `${width}px` : `(max-width: 500px) calc(100vw - 132px), ${width}px`;
     return (
       <div className={logoClasses}>
-        <ResponsiveImage
-          rootClassName={logoImageClasses}
-          alt={marketplaceName}
-          image={logoImageMobile}
-          variants={variantNames}
-          sizes={sizes}
-          width={width}
-        />
+        <div className={css.logoContainer}>
+          <ResponsiveImage
+            rootClassName={logoImageClasses}
+            alt={marketplaceName}
+            image={logoImageMobile}
+            variants={variantNames}
+            sizes={sizes}
+            width={width}
+          />
+          {subtitle && <div className={css.subtitle}>{subtitle}</div>}
+        </div>
       </div>
     );
   } else if (layout === 'desktop') {
     return (
       <div className={logoClasses}>
-        <img
-          className={logoImageClasses}
-          src={logoImageDesktop}
-          alt={marketplaceName}
-          {...rest}
-        />
+        <div className={css.logoContainer}>
+          <img
+            className={logoImageClasses}
+            src={logoImageDesktop}
+            alt={marketplaceName}
+            {...rest}
+          />
+          {subtitle && <div className={css.subtitle}>{subtitle}</div>}
+        </div>
       </div>
     );
   }
 
   return (
     <div className={logoClasses}>
-      <img
-        className={logoImageClasses}
-        src={logoImageMobile}
-        alt={marketplaceName}
-        {...rest}
-      />
+      <div className={css.logoContainer}>
+        <img
+          className={logoImageClasses}
+          src={logoImageMobile}
+          alt={marketplaceName}
+          {...rest}
+        />
+        {subtitle && <div className={css.subtitle}>{subtitle}</div>}
+      </div>
     </div>
   );
 };
@@ -147,13 +160,17 @@ export const LogoComponent = props => {
  * @param {string?} props.rootClassName overwrite components own css.root
  * @param {('desktop' | 'mobile')} props.layout
  * @param {string?} props.alt alt text for logo image
+ * @param {string?} props.subtitle subtitle text to display below the logo
  * @returns {JSX.Element} logo component
  */
 const Logo = props => {
   const config = useConfiguration();
-  const { layout = 'desktop', ...rest } = props;
+  const { layout = 'desktop', subtitle, ...rest } = props;
   // NOTE: logo images are set in hosted branding.json asset or src/config/brandingConfig.js
-  const { logoImageDesktop, logoImageMobile, logoSettings } = config.branding;
+  const { logoImageDesktop, logoImageMobile, logoSettings, logoSubtitle } = config.branding;
+
+  // Use provided subtitle or fall back to config default
+  const displaySubtitle = subtitle || logoSubtitle;
 
   return (
     <LogoComponent
@@ -163,6 +180,7 @@ const Logo = props => {
       logoImageMobile={logoImageMobile}
       logoSettings={logoSettings}
       marketplaceName={config.marketplaceName}
+      subtitle={displaySubtitle}
     />
   );
 };

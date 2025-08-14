@@ -120,29 +120,7 @@ const TopbarMobileMenu = props => {
             {signupOrLogin}
           </div>
 
-          <div className={css.navigationLinksWrapper}>
-            <NamedLink
-              className={classNames(css.navigationLink, currentPageClass('SearchPage'))}
-              name="SearchPage"
-            >
-              <span className={css.menuItemBorder} />
-              <FormattedMessage id="TopbarMobileMenu.allDevices" />
-            </NamedLink>
-            <NamedLink
-              className={classNames(css.navigationLink, currentPageClass('ArticlesPage'))}
-              name="ArticlesPage"
-            >
-              <span className={css.menuItemBorder} />
-              <FormattedMessage id="TopbarMobileMenu.guidesAndTutorials" />
-            </NamedLink>
-            <NamedLink
-              className={classNames(css.navigationLink, currentPageClass('AboutPage'))}
-              name="AboutPage"
-            >
-              <span className={css.menuItemBorder} />
-              <FormattedMessage id="TopbarMobileMenu.aboutDomee" />
-            </NamedLink>
-          </div>
+
 
           <div className={css.shopBySection}>
             <div className={css.shopByLabel}>
@@ -153,21 +131,21 @@ const TopbarMobileMenu = props => {
               name="BrandsPage"
             >
               <span className={css.menuItemBorder} />
-              <FormattedMessage id="TopbarDesktop.shopBy.brands" />
+              <FormattedMessage id="TopbarDesktop.brands.label" />
             </NamedLink>
             <NamedLink
               className={classNames(css.navigationLink, currentPageClass('CategoriesPage'))}
               name="CategoriesPage"
             >
               <span className={css.menuItemBorder} />
-              <FormattedMessage id="TopbarDesktop.shopBy.categories" />
+              <FormattedMessage id="TopbarDesktop.categories.label" />
             </NamedLink>
             <NamedLink
               className={classNames(css.navigationLink, currentPageClass('CompatibilityPage'))}
               name="CompatibilityPage"
             >
               <span className={css.menuItemBorder} />
-              <FormattedMessage id="TopbarDesktop.shopBy.compatibility" />
+              <FormattedMessage id="TopbarDesktop.compatibility.label" />
             </NamedLink>
           </div>
 
@@ -235,29 +213,7 @@ const TopbarMobileMenu = props => {
           </NamedLink>
         </div>
 
-        <div className={css.navigationLinksWrapper}>
-          <NamedLink
-            className={classNames(css.navigationLink, currentPageClass('SearchPage'))}
-            name="SearchPage"
-          >
-            <span className={css.menuItemBorder} />
-            <FormattedMessage id="TopbarMobileMenu.allDevices" />
-          </NamedLink>
-          <NamedLink
-            className={classNames(css.navigationLink, currentPageClass('ArticlesPage'))}
-            name="ArticlesPage"
-          >
-            <span className={css.menuItemBorder} />
-            <FormattedMessage id="TopbarMobileMenu.guidesAndTutorials" />
-          </NamedLink>
-          <NamedLink
-            className={classNames(css.navigationLink, currentPageClass('AboutPage'))}
-            name="AboutPage"
-          >
-            <span className={css.menuItemBorder} />
-            <FormattedMessage id="TopbarMobileMenu.aboutDomee" />
-          </NamedLink>
-        </div>
+
 
         <div className={css.shopBySection}>
           <div className={css.shopByLabel}>
@@ -268,21 +224,21 @@ const TopbarMobileMenu = props => {
             name="BrandsPage"
           >
             <span className={css.menuItemBorder} />
-            <FormattedMessage id="TopbarDesktop.shopBy.brands" />
+            <FormattedMessage id="TopbarDesktop.brands.label" />
           </NamedLink>
           <NamedLink
             className={classNames(css.navigationLink, currentPageClass('CategoriesPage'))}
             name="CategoriesPage"
           >
             <span className={css.menuItemBorder} />
-            <FormattedMessage id="TopbarDesktop.shopBy.categories" />
-          </NamedLink>
+            <FormattedMessage id="TopbarDesktop.categories.label" />
+            </NamedLink>
           <NamedLink
             className={classNames(css.navigationLink, currentPageClass('CompatibilityPage'))}
             name="CompatibilityPage"
           >
             <span className={css.menuItemBorder} />
-            <FormattedMessage id="TopbarDesktop.shopBy.compatibility" />
+            <FormattedMessage id="TopbarDesktop.compatibility.label" />
           </NamedLink>
         </div>
 

@@ -12,9 +12,9 @@ const companyData = {
   description: "We're passionate about bringing the future of home automation to everyone. Our platform connects homeowners with the latest smart devices from world-renowned brands, making it easy to create a connected, efficient, and secure living environment.",
   mission: "Our mission is to simplify smart home adoption by providing expert guidance, comprehensive product selection, and exceptional customer support.",
   stats: [
-    { number: "10,000+", label: "Happy Customers" },
-    { number: "500+", label: "Smart Products" },
-    { number: "50+", label: "Top Brands" },
+    { number: "100+", label: "Happy Customers" },
+    { number: "200+", label: "Smart Products" },
+    { number: "25+", label: "Top Brands" },
     { number: "24/7", label: "Expert Support" }
   ],
   values: [
@@ -25,13 +25,13 @@ const companyData = {
     },
     {
       icon: "🤝",
-      title: "Expert Support",
-      description: "Our team of smart home specialists is here to help you make the right choices for your home."
+      title: "Personal Touch",
+      description: "As a solo founder, I'm personally involved in every aspect of your smart home journey."
     },
     {
       icon: "🌱",
-      title: "Sustainability",
-      description: "We promote energy-efficient solutions that help you save money while protecting the environment."
+      title: "Growing Together",
+      description: "We're building this platform alongside our community, learning and improving every day."
     },
     {
       icon: "🔒",
@@ -41,7 +41,84 @@ const companyData = {
   ]
 };
 
+// Founder story
+const founderData = {
+  name: "Your Name",
+  role: "Founder & CEO",
+  bio: "I'm a passionate smart home enthusiast and entrepreneur who believes that everyone deserves access to smart, efficient, and secure home technology. After experiencing the frustration of complex smart home setups and compatibility issues, I decided to create Domee - a platform that makes smart home adoption simple and enjoyable.",
+  background: [
+    "Smart home technology enthusiast for 5+ years",
+    "Experience in product management and user experience",
+    "Passionate about making technology accessible to everyone",
+    "Committed to building a community-driven platform"
+  ],
+  vision: "My vision is to create the most user-friendly smart home platform that not only helps people find the right products but also guides them through their entire smart home journey with personalized support and expert advice."
+};
+
+// Company timeline - more realistic for early stage
+const timelineData = [
+  {
+    year: "2024",
+    title: "Platform Launch",
+    description: "Launched Domee with initial product catalog and basic features"
+  },
+  {
+    year: "2024",
+    title: "First Customers",
+    description: "Welcomed our first 100 customers and started building our community"
+  },
+  {
+    year: "2024",
+    title: "Product Expansion",
+    description: "Expanded to 200+ products from 25+ trusted smart home brands"
+  },
+  {
+    year: "2024",
+    title: "Community Growth",
+    description: "Building relationships with customers and gathering feedback for improvements"
+  }
+];
+
+// Customer testimonials - more realistic for early stage
+const testimonialsData = [
+  {
+    name: "Jennifer Martinez",
+    location: "Austin, TX",
+    rating: 5,
+    text: "Domee helped me find the perfect smart bulbs for my apartment. The founder personally helped me with setup questions!",
+    avatar: "👩‍🦰"
+  },
+  {
+    name: "Robert Chen",
+    location: "Seattle, WA",
+    rating: 5,
+    text: "As someone new to smart homes, I appreciate how simple Domee makes everything. Great personal service!",
+    avatar: "👨‍🦱"
+  },
+  {
+    name: "Amanda Foster",
+    location: "Miami, FL",
+    rating: 5,
+    text: "The founder really knows smart home tech and helped me choose products that work together perfectly.",
+    avatar: "👩‍🦳"
+  }
+];
+
+// Technology partners - realistic for early stage
+const partnersData = [
+  { name: "Philips Hue", logo: "💡", category: "Lighting" },
+  { name: "Nest", logo: "🏠", category: "Climate" },
+  { name: "Ring", logo: "🔔", category: "Security" },
+  { name: "Samsung", logo: "📱", category: "Electronics" },
+  { name: "Amazon", logo: "📦", category: "Voice Control" },
+  { name: "Google", logo: "🔍", category: "AI & Assistant" }
+];
+
 const AboutPage = () => {
+  const renderStars = (rating) => {
+    return "⭐".repeat(rating);
+  };
+
   return (
     <Page
       title="About Domee"
@@ -50,7 +127,7 @@ const AboutPage = () => {
     >
       <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
         <div className={css.root}>
-          {/* Company/About Section - matching landing page layout */}
+          {/* Company/About Section - keeping the first section as requested */}
           <section className={css.companySection}>
             <div className={css.container}>
               <div className={css.companyContent}>
@@ -85,76 +162,147 @@ const AboutPage = () => {
             </div>
           </section>
 
-          {/* What We Do Section */}
-          <section className={css.whatWeDoSection}>
+          {/* Founder Story Section */}
+          <section className={css.founderSection}>
             <div className={css.container}>
-              <div className={css.whatWeDoContent}>
-                <h2 className={css.sectionTitle}>
-                  <FormattedMessage id="AboutPage.whatWeDoTitle" defaultMessage="What We Do" />
-                </h2>
-                <p className={css.sectionDescription}>
-                  <FormattedMessage
-                    id="AboutPage.whatWeDoText"
-                    defaultMessage="Domee is your comprehensive marketplace for smart home devices. We curate the best products from leading brands, provide expert guidance through our guides and tutorials, and ensure compatibility across different smart home ecosystems."
-                  />
-                </p>
+              <h2 className={css.sectionTitle}>Meet the Founder</h2>
+              <p className={css.sectionDescription}>
+                Domee is built with passion and personal commitment to making smart home technology accessible to everyone.
+              </p>
+              <div className={css.founderCard}>
+                <div className={css.founderAvatar}>{founderData.name.charAt(0)}</div>
+                <div className={css.founderContent}>
+                  <h3 className={css.founderName}>{founderData.name}</h3>
+                  <p className={css.founderRole}>{founderData.role}</p>
+                  <p className={css.founderBio}>{founderData.bio}</p>
+                  <div className={css.founderBackground}>
+                    <h4>Background & Experience</h4>
+                    <ul>
+                      {founderData.background.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className={css.founderVision}>
+                    <h4>Vision</h4>
+                    <p>{founderData.vision}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
 
-          {/* Why Choose Us Section */}
-          <section className={css.whyChooseUsSection}>
+          {/* Company Timeline */}
+          <section className={css.timelineSection}>
             <div className={css.container}>
-              <h2 className={css.sectionTitle}>
-                <FormattedMessage id="AboutPage.whyChooseUsTitle" defaultMessage="Why Choose Domee" />
-              </h2>
-              <ul className={css.featureList}>
-                <li className={css.featureItem}>
-                  <FormattedMessage
-                    id="AboutPage.feature1"
-                    defaultMessage="Curated Selection: We carefully select only the best smart home devices from trusted brands"
-                  />
-                </li>
-                <li className={css.featureItem}>
-                  <FormattedMessage
-                    id="AboutPage.feature2"
-                    defaultMessage="Expert Guidance: Comprehensive guides and tutorials to help you make informed decisions"
-                  />
-                </li>
-                <li className={css.featureItem}>
-                  <FormattedMessage
-                    id="AboutPage.feature3"
-                    defaultMessage="Compatibility Focus: Detailed compatibility information to ensure your devices work together seamlessly"
-                  />
-                </li>
-                <li className={css.featureItem}>
-                  <FormattedMessage
-                    id="AboutPage.feature4"
-                    defaultMessage="Community Driven: Real user reviews and experiences to guide your smart home journey"
-                  />
-                </li>
-              </ul>
+              <h2 className={css.sectionTitle}>Our Journey So Far</h2>
+              <p className={css.sectionDescription}>
+                We're just getting started, but every step forward is building toward our vision.
+              </p>
+              <div className={css.timeline}>
+                {timelineData.map((milestone, index) => (
+                  <div key={index} className={css.timelineItem}>
+                    <div className={css.timelineYear}>{milestone.year}</div>
+                    <div className={css.timelineContent}>
+                      <h3 className={css.timelineTitle}>{milestone.title}</h3>
+                      <p className={css.timelineDescription}>{milestone.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
 
-          {/* Contact Section */}
-          <section className={css.contactSection}>
+          {/* Customer Testimonials */}
+          <section className={css.testimonialsSection}>
             <div className={css.container}>
-              <h2 className={css.sectionTitle}>
-                <FormattedMessage id="AboutPage.contactTitle" defaultMessage="Get in Touch" />
-              </h2>
-              <p className={css.contactDescription}>
-                <FormattedMessage
-                  id="AboutPage.contactText"
-                  defaultMessage="Have questions about smart home devices or need help with your setup? Our team of experts is here to help you create the perfect smart home experience."
-                />
+              <h2 className={css.sectionTitle}>What Our Early Customers Say</h2>
+              <p className={css.sectionDescription}>
+                We're grateful for the trust of our first customers and their valuable feedback.
               </p>
-              <div style={{ textAlign: 'center', marginTop: 24 }}>
-                <NamedLink name="ContactPage">
-                  <PrimaryButton>
-                    <FormattedMessage id="AboutPage.contactCta" defaultMessage="Contact us" />
-                  </PrimaryButton>
-                </NamedLink>
+              <div className={css.testimonialsGrid}>
+                {testimonialsData.map((testimonial, index) => (
+                  <div key={index} className={css.testimonialCard}>
+                    <div className={css.testimonialAvatar}>{testimonial.avatar}</div>
+                    <div className={css.testimonialRating}>{renderStars(testimonial.rating)}</div>
+                    <p className={css.testimonialText}>"{testimonial.text}"</p>
+                    <div className={css.testimonialAuthor}>
+                      <strong>{testimonial.name}</strong>
+                      <span>{testimonial.location}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Technology Partners */}
+          <section className={css.partnersSection}>
+            <div className={css.container}>
+              <h2 className={css.sectionTitle}>Trusted Technology Partners</h2>
+              <p className={css.sectionDescription}>
+                We're building partnerships with leading smart home brands to bring you the best products.
+              </p>
+              <div className={css.partnersGrid}>
+                {partnersData.map((partner, index) => (
+                  <div key={index} className={css.partnerCard}>
+                    <div className={css.partnerLogo}>{partner.logo}</div>
+                    <h3 className={css.partnerName}>{partner.name}</h3>
+                    <span className={css.partnerCategory}>{partner.category}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Contact CTA Section */}
+          <section className={css.contactCtaSection}>
+            <div className={css.container}>
+              <div className={css.contactCtaContent}>
+                <h2 className={css.contactCtaTitle}>Let's Build Something Amazing Together</h2>
+                <p className={css.contactCtaDescription}>
+                  As a solo founder, I'm personally committed to helping you create the perfect smart home experience.
+                  Whether you have questions, need advice, or want to share feedback, I'd love to hear from you.
+                </p>
+                <div className={css.contactCtaButtons}>
+                  <NamedLink name="ContactPage">
+                    <PrimaryButton className={css.contactCtaButtonPrimary}>
+                      Get in Touch
+                    </PrimaryButton>
+                  </NamedLink>
+                  <NamedLink name="SearchPage">
+                    <PrimaryButton className={css.contactCtaButtonSecondary}>
+                      Explore Products
+                    </PrimaryButton>
+                  </NamedLink>
+                </div>
+                <div className={css.contactCtaPersonal}>
+                  <p>💬 <strong>Personal Response Guaranteed:</strong> I read and respond to every message personally within 24 hours.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Call to Action */}
+          <section className={css.ctaSection}>
+            <div className={css.container}>
+              <div className={css.ctaContent}>
+                <h2 className={css.ctaTitle}>Ready to Start Your Smart Home Journey?</h2>
+                <p className={css.ctaDescription}>
+                  Join our growing community of smart home enthusiasts and let's build the future together.
+                </p>
+                <div className={css.ctaButtons}>
+                  <NamedLink name="SearchPage">
+                    <PrimaryButton className={css.ctaButtonPrimary}>
+                      Explore Products
+                    </PrimaryButton>
+                  </NamedLink>
+                  <NamedLink name="ContactPage">
+                    <PrimaryButton className={css.ctaButtonSecondary}>
+                      Get Expert Advice
+                    </PrimaryButton>
+                  </NamedLink>
+                </div>
               </div>
             </div>
           </section>

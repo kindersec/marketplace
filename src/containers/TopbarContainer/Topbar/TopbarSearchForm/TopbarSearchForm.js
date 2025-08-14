@@ -8,12 +8,13 @@ import { isMainSearchTypeKeywords } from '../../../../util/search';
 import { Form, LocationAutocompleteInput } from '../../../../components';
 
 import IconSearchDesktop from './IconSearchDesktop';
+import TrendySearchesMegaMenu from './TrendySearchesMegaMenu';
 import css from './TopbarSearchForm.module.css';
 
 const identity = v => v;
 
 const KeywordSearchField = props => {
-  const { keywordSearchWrapperClasses, iconClass, intl, isMobile = false, inputRef, placeholder } = props;
+  const { keywordSearchWrapperClasses, iconClass, intl, isMobile = false, inputRef, placeholder, onFocus, onBlur } = props;
   return (
     <div className={keywordSearchWrapperClasses}>
       <button className={css.searchSubmit}>
@@ -34,6 +35,8 @@ const KeywordSearchField = props => {
               type="text"
               placeholder={placeholder}
               autoComplete="off"
+              onFocus={onFocus}
+              onBlur={onBlur}
             />
           );
         }}
@@ -43,7 +46,7 @@ const KeywordSearchField = props => {
 };
 
 const LocationSearchField = props => {
-  const { desktopInputRootClass, intl, isMobile = false, inputRef, onLocationChange, placeholder } = props;
+  const { desktopInputRootClass, intl, isMobile = false, inputRef, onLocationChange, placeholder, onFocus, onBlur } = props;
   return (
     <Field
       name="location"
@@ -70,7 +73,7 @@ const LocationSearchField = props => {
             placeholder={placeholder}
             closeOnBlur={!isMobile}
             inputRef={inputRef}
-            input={{ ...restInput, onChange: searchOnChange }}
+            input={{ ...restInput, onChange: searchOnChange, onFocus, onBlur }}
             meta={meta}
           />
         );
@@ -125,6 +128,30 @@ const TopbarSearchForm = props => {
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [displayText, setDisplayText] = useState('');
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [showTrendySearches, setShowTrendySearches] = useState(false);
+
+  // Handle input focus - stop animation and clear placeholder
+  const handleInputFocus = () => {
+    setIsInputFocused(true);
+    setShowTrendySearches(true);
+    setDisplayText('');
+    setCharIndex(0);
+    setIsDeleting(false);
+  };
+
+  // Handle input blur - resume animation after a delay
+  const handleInputBlur = () => {
+    setIsInputFocused(false);
+    // Delay hiding trendy searches to allow clicking on them
+    setTimeout(() => {
+      setShowTrendySearches(false);
+    }, 200);
+    // Reset animation state to start fresh
+    setCharIndex(0);
+    setIsDeleting(false);
+    setDisplayText('');
+  };
 
   useEffect(() => {
     // If there are no examples, skip effect
@@ -133,7 +160,9 @@ const TopbarSearchForm = props => {
     // Stop animating when user is interacting with the input
     const inputEl = searchInpuRef?.current;
     const userIsTyping = !!inputEl && (document.activeElement === inputEl || (inputEl.value || '').length > 0);
-    if (userIsTyping) return;
+    const shouldStopAnimation = userIsTyping || isInputFocused;
+
+    if (shouldStopAnimation) return;
 
     const current = placeholderExamples[exampleIndex] || '';
 
@@ -166,7 +195,7 @@ const TopbarSearchForm = props => {
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [placeholderExamples, exampleIndex, charIndex, isDeleting, typingSpeedMs, deletingSpeedMs, pauseAtEndMs, pauseBeforeStartMs, searchInpuRef]);
+  }, [placeholderExamples, exampleIndex, charIndex, isDeleting, typingSpeedMs, deletingSpeedMs, pauseAtEndMs, pauseBeforeStartMs, searchInpuRef, isInputFocused]);
 
   const placeholder = displayText || defaultBasePlaceholder;
 
@@ -185,6 +214,15 @@ const TopbarSearchForm = props => {
   const onKeywordSubmit = values => {
     if (isMainSearchTypeKeywords(appConfig)) {
       onSubmit({ keywords: values.keywords });
+      // blur search input to hide software keyboard
+      searchInpuRef?.current?.blur();
+    }
+  };
+
+  const handleTrendySearchSelect = (searchTerm) => {
+    if (isMainSearchTypeKeywords(appConfig)) {
+      onSubmit({ keywords: searchTerm });
+      setShowTrendySearches(false);
       // blur search input to hide software keyboard
       searchInpuRef?.current?.blur();
     }
@@ -217,27 +255,40 @@ const TopbarSearchForm = props => {
         );
 
         return (
-          <Form className={classes} onSubmit={submitFormFn} enforcePagePreloadFor="SearchPage">
-            {isKeywordsSearch ? (
-              <KeywordSearchField
-                keywordSearchWrapperClasses={keywordSearchWrapperClasses}
-                iconClass={classNames(isMobile ? css.mobileIcon : css.desktopIcon || css.icon)}
-                intl={intl}
-                isMobile={isMobile}
-                inputRef={searchInpuRef}
-                placeholder={placeholder || defaultBasePlaceholder}
-              />
-            ) : (
-              <LocationSearchField
-                desktopInputRootClass={desktopInputRootClass}
-                intl={intl}
-                isMobile={isMobile}
-                inputRef={searchInpuRef}
-                onLocationChange={onChange}
-                placeholder={placeholder || defaultBasePlaceholder}
+          <div className={css.searchFormContainer}>
+            <Form className={classes} onSubmit={submitFormFn} enforcePagePreloadFor="SearchPage">
+              {isKeywordsSearch ? (
+                <KeywordSearchField
+                  keywordSearchWrapperClasses={keywordSearchWrapperClasses}
+                  iconClass={classNames(isMobile ? css.mobileIcon : css.desktopIcon || css.icon)}
+                  intl={intl}
+                  isMobile={isMobile}
+                  inputRef={searchInpuRef}
+                  placeholder={placeholder || defaultBasePlaceholder}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                />
+              ) : (
+                <LocationSearchField
+                  desktopInputRootClass={desktopInputRootClass}
+                  intl={intl}
+                  isMobile={isMobile}
+                  inputRef={searchInpuRef}
+                  onLocationChange={onChange}
+                  placeholder={placeholder || defaultBasePlaceholder}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                />
+              )}
+            </Form>
+
+            {!isMobile && (
+              <TrendySearchesMegaMenu
+                isVisible={showTrendySearches}
+                onSearchSelect={handleTrendySearchSelect}
               />
             )}
-          </Form>
+          </div>
         );
       }}
     />

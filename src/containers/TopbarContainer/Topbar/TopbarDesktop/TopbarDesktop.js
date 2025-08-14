@@ -17,7 +17,9 @@ import {
 
 import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
 import CustomLinksMenu from './CustomLinksMenu/CustomLinksMenu';
-import ShopByMenu from './CustomLinksMenu/ShopByMenu';
+import BrandsMegaMenu from './CustomLinksMenu/BrandsMegaMenu';
+import CategoriesMegaMenu from './CustomLinksMenu/CategoriesMegaMenu';
+import CompatibilityMegaMenu from './CustomLinksMenu/CompatibilityMegaMenu';
 
 import css from './TopbarDesktop.module.css';
 
@@ -43,35 +45,7 @@ const InboxLink = ({ notificationCount, inboxTab }) => {
   );
 };
 
-const GuidesAndTutorialsLink = ({ intl }) => {
-  return (
-    <NamedLink className={css.topbarLink} name="ArticlesPage">
-      <span className={css.topbarLinkLabel}>
-        <FormattedMessage id="TopbarDesktop.guidesAndTutorials" />
-      </span>
-    </NamedLink>
-  );
-};
 
-const AllDevicesLink = ({ intl }) => {
-  return (
-    <NamedLink className={css.topbarLink} name="SearchPage">
-      <span className={css.topbarLinkLabel}>
-        <FormattedMessage id="TopbarDesktop.allDevices" />
-      </span>
-    </NamedLink>
-  );
-};
-
-const AboutDomeeLink = ({ intl }) => {
-  return (
-    <NamedLink className={css.topbarLink} name="AboutPage">
-      <span className={css.topbarLinkLabel}>
-        <FormattedMessage id="TopbarDesktop.aboutDomee" />
-      </span>
-    </NamedLink>
-  );
-};
 
 const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLink }) => {
   const currentPageClass = page => {
@@ -164,6 +138,8 @@ const TopbarDesktop = props => {
     showSearchForm,
     showCreateListingsLink,
     inboxTab,
+    history,
+    routeConfiguration,
   } = props;
   const [mounted, setMounted] = useState(false);
 
@@ -228,10 +204,24 @@ const TopbarDesktop = props => {
       />
 
       {inboxLinkMaybe}
-      <AllDevicesLink intl={intl} />
-      <ShopByMenu currentPage={currentPage} intl={intl} />
-      <GuidesAndTutorialsLink intl={intl} />
-      <AboutDomeeLink intl={intl} />
+      <BrandsMegaMenu
+        currentPage={currentPage}
+        intl={intl}
+        history={history}
+        routeConfiguration={routeConfiguration}
+      />
+      <CategoriesMegaMenu
+        currentPage={currentPage}
+        intl={intl}
+        history={history}
+        routeConfiguration={routeConfiguration}
+      />
+      <CompatibilityMegaMenu
+        currentPage={currentPage}
+        intl={intl}
+        history={history}
+        routeConfiguration={routeConfiguration}
+      />
       {profileMenuMaybe}
       {profileIconLinkMaybe}
     </nav>

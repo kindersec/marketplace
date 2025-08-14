@@ -354,6 +354,8 @@ const TopbarComponent = props => {
           showSearchForm={showSearchForm}
           showCreateListingsLink={showCreateListingsLink}
           inboxTab={topbarInboxTab}
+          history={history}
+          routeConfiguration={routeConfiguration}
         />
       </div>
       <Modal

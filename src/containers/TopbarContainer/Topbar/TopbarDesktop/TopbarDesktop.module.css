@@ -135,7 +135,7 @@
 .searchLink .topbarSearchWithLeftPadding {
   display: flex;
   align-items: center;
-  height: calc(var(--topbarHeightDesktop) - 16px);
+  height: calc(var(--topbarHeightDesktop) - 24px);
   padding: 0 16px;
 
   /* Enhanced glassmorphism container */

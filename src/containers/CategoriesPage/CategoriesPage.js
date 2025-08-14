@@ -18,73 +18,73 @@ const categoriesData = [
     category: "Lights",
     description: "Smart lighting solutions",
     icon: "💡",
-    url: "/s/lights"
+    url: "/products/lights"
   },
   {
     category: "Security Cameras",
     description: "Home security and surveillance",
     icon: "📹",
-    url: "/s/security-cameras"
+    url: "/products/security-cameras"
   },
   {
     category: "Doorbell",
     description: "Smart doorbell systems",
     icon: "🚪",
-    url: "/s/doorbell"
+    url: "/products/doorbell"
   },
   {
     category: "Robot Vacuums",
     description: "Automated cleaning devices",
     icon: "🤖",
-    url: "/s/robot-vacuums"
+    url: "/products/robot-vacuums"
   },
   {
     category: "Sensors",
     description: "Environmental monitoring",
     icon: "📡",
-    url: "/s/sensors"
+    url: "/products/sensors"
   },
   {
     category: "Smart Locks",
     description: "Keyless entry systems",
     icon: "🔒",
-    url: "/s/smart-locks"
+    url: "/products/smart-locks"
   },
   {
     category: "Irrigation",
     description: "Automated watering systems",
     icon: "💧",
-    url: "/s/irrigation"
+    url: "/products/irrigation"
   },
   {
     category: "Blinds & Curtains",
     description: "Automated window coverings",
     icon: "🪟",
-    url: "/s/blinds-curtains"
+    url: "/products/blinds-curtains"
   },
   {
     category: "Kitchen Appliances",
     description: "Smart kitchen devices",
     icon: "🍳",
-    url: "/s/kitchen-appliances"
+    url: "/products/kitchen-appliances"
   },
   {
     category: "Pet Care",
     description: "Automated pet solutions",
     icon: "🐾",
-    url: "/s/pet-care"
+    url: "/products/pet-care"
   },
   {
     category: "Water Management",
     description: "Smart water systems",
     icon: "🚰",
-    url: "/s/water-management"
+    url: "/products/water-management"
   },
   {
     category: "Climate Control",
     description: "Smart HVAC systems",
     icon: "🌡️",
-    url: "/s/climate-control"
+    url: "/products/climate-control"
   }
 ];
 

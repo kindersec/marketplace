@@ -4,7 +4,7 @@
 
 User-agent: *
 Allow: /sitemap
-Disallow: /s
+Disallow: /products
 Disallow: /u/
 Disallow: /l/
 Disallow: /profile-settings

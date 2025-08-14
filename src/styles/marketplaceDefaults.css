@@ -133,14 +133,14 @@
 
   /* ================ Topbar related ================ */
 
-  --topbarHeight: 60px;
-  --topbarHeightDesktop: 64px;
+  --topbarHeight: 72px;
+  --topbarHeightDesktop: 80px;
 
-  --TopbarMobileMenu_topMargin: 96px;
+  --TopbarMobileMenu_topMargin: 108px;
 
-  --Topbar_logoHeight: 25px;
-  --CheckoutPage_logoHeight: 25px;
-  --CheckoutPage_logoHeightDesktop: 27px;
+  --Topbar_logoHeight: 32px;
+  --CheckoutPage_logoHeight: 32px;
+  --CheckoutPage_logoHeightDesktop: 35px;
 
   /* ================ Modal default padding ================ */
 

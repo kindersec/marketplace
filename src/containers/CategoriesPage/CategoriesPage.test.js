@@ -80,7 +80,7 @@ describe('CategoriesPageComponent', () => {
       category: 'Lights',
       description: 'Smart lighting solutions',
       icon: '💡',
-      url: '/s/lights'
+      url: '/products/lights'
     });
 
     consoleSpy.mockRestore();

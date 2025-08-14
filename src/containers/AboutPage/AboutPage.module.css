@@ -253,106 +253,546 @@
   line-height: 1.6;
 }
 
-/* What We Do Section */
-.whatWeDoSection {
+/* Founder Section */
+.founderSection {
+  padding: 80px 0;
+  background: rgba(255, 255, 255, 0.3);
+  color: var(--landingText);
+}
+
+.founderCard {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 50px 40px;
+  border-radius: 25px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  max-width: 800px;
+  margin: 50px auto 0;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.founderCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentDarkGray);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.founderCard:hover::before {
+  transform: scaleX(1);
+}
+
+.founderCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.founderAvatar {
+  background: var(--accentDarkGray);
+  color: white;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.founderContent {
+  flex: 1;
+}
+
+.founderName {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--landingText);
+}
+
+.founderRole {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--landingAccent);
+}
+
+.founderBio {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--landingSubtleText);
+  margin-bottom: 25px;
+}
+
+.founderBackground {
+  margin-bottom: 25px;
+}
+
+.founderBackground h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--landingText);
+}
+
+.founderBackground ul {
+  list-style: none;
+  padding: 0;
+}
+
+.founderBackground li {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--landingSubtleText);
+  margin-bottom: 8px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.founderBackground li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--landingAccent);
+  font-weight: 700;
+}
+
+.founderVision h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--landingText);
+}
+
+.founderVision p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--landingSubtleText);
+  font-style: italic;
+}
+
+/* Timeline Section */
+.timelineSection {
   padding: 80px 0;
   background: var(--gradientLight);
   color: var(--landingText);
 }
 
-.whatWeDoContent {
-  max-width: 800px;
-  margin: 0 auto;
+.timeline {
+  margin-top: 50px;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--accentDarkGray);
+  transform: translateX(-50%);
+}
+
+.timelineItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.timelineItem:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.timelineYear {
+  background: var(--accentDarkGray);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 2;
+  min-width: 80px;
   text-align: center;
 }
 
+.timelineContent {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin: 0 30px;
+  flex: 1;
+  max-width: 400px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.timelineContent:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.timelineTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--landingText);
+}
+
+.timelineDescription {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--landingSubtleText);
+}
+
+/* Testimonials Section */
+.testimonialsSection {
+  padding: 80px 0;
+  background: rgba(255, 255, 255, 0.3);
+  color: var(--landingText);
+}
+
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.testimonialCard {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonialCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accentDarkGray);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.testimonialCard:hover::before {
+  transform: scaleX(1);
+}
+
+.testimonialCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.testimonialAvatar {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.testimonialRating {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #fbbf24;
+}
+
+.testimonialText {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--landingSubtleText);
+  margin-bottom: 25px;
+  font-style: italic;
+}
+
+.testimonialAuthor {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.testimonialAuthor strong {
+  color: var(--landingText);
+  font-size: 1.1rem;
+}
+
+.testimonialAuthor span {
+  color: var(--landingSubtleText);
+  font-size: 0.9rem;
+}
+
+/* Partners Section */
+.partnersSection {
+  padding: 80px 0;
+  background: var(--gradientLight);
+  color: var(--landingText);
+}
+
+.partnersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.partnerCard {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 30px 20px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.partnerCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accentDarkGray);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.partnerCard:hover::before {
+  transform: scaleX(1);
+}
+
+.partnerCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.partnerLogo {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.partnerName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--landingText);
+}
+
+.partnerCategory {
+  font-size: 0.9rem;
+  color: var(--landingSubtleText);
+  background: rgba(71, 85, 105, 0.1);
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+/* Contact CTA Section */
+.contactCtaSection {
+  padding: 80px 0;
+  background: var(--gradientAccent);
+  color: white;
+  text-align: center;
+}
+
+.contactCtaContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contactCtaTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.contactCtaDescription {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.contactCtaButtons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.contactCtaButtonPrimary {
+  background: white !important;
+  color: var(--accentCharcoal) !important;
+  border: 2px solid white !important;
+  padding: 15px 30px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  border-radius: 25px !important;
+  transition: all 0.3s ease !important;
+}
+
+.contactCtaButtonPrimary:hover {
+  background: transparent !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+}
+
+.contactCtaButtonSecondary {
+  background: transparent !important;
+  color: white !important;
+  border: 2px solid white !important;
+  padding: 15px 30px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  border-radius: 25px !important;
+  transition: all 0.3s ease !important;
+}
+
+.contactCtaButtonSecondary:hover {
+  background: white !important;
+  color: var(--accentCharcoal) !important;
+  transform: translateY(-2px) !important;
+}
+
+.contactCtaPersonal {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.contactCtaPersonal p {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Call to Action Section */
+.ctaSection {
+  padding: 80px 0;
+  background: var(--gradientDark);
+  color: white;
+  text-align: center;
+}
+
+.ctaContent {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.ctaDescription {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ctaButtonPrimary {
+  background: white !important;
+  color: var(--accentCharcoal) !important;
+  border: 2px solid white !important;
+  padding: 15px 30px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  border-radius: 25px !important;
+  transition: all 0.3s ease !important;
+}
+
+.ctaButtonPrimary:hover {
+  background: transparent !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+}
+
+.ctaButtonSecondary {
+  background: transparent !important;
+  color: white !important;
+  border: 2px solid white !important;
+  padding: 15px 30px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  border-radius: 25px !important;
+  transition: all 0.3s ease !important;
+}
+
+.ctaButtonSecondary:hover {
+  background: white !important;
+  color: var(--accentCharcoal) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Common section styles */
 .sectionTitle {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 30px;
   color: var(--landingText);
   line-height: 1.2;
+  text-align: center;
 }
 
 .sectionDescription {
   font-size: 1.2rem;
   line-height: 1.6;
   color: var(--landingSubtleText);
-}
-
-/* Why Choose Us Section */
-.whyChooseUsSection {
-  padding: 80px 0;
-  background: var(--gradientLight);
-  color: var(--landingText);
-}
-
-.featureList {
-  list-style: none;
-  padding: 0;
-  margin: 50px 0 0 0;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.featureItem {
-  font-size: 1.1rem;
-  font-weight: var(--fontWeightNormal);
-  line-height: 1.6;
-  color: var(--landingSubtleText);
-  margin: 0 0 20px 0;
-  padding: 20px 30px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 15px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  position: relative;
-  padding-left: 60px;
-}
-
-.featureItem::before {
-  content: "✓";
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  color: var(--landingAccent);
-  font-weight: var(--fontWeightBold);
-  font-size: 20px;
-}
-
-.featureItem:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  background: rgba(255, 255, 255, 0.95);
-}
-
-.featureItem:last-child {
-  margin: 0;
-}
-
-/* Contact Section */
-.contactSection {
-  padding: 80px 0;
-  background: rgba(255, 255, 255, 0.5);
-  color: var(--landingText);
-}
-
-.contactDescription {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: var(--landingSubtleText);
-  max-width: 600px;
-  margin: 0 auto;
   text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 /* Legal links section */
 .legalLinksSection {
   padding: 40px 0 64px;
   border-top: 1px solid var(--colorGrey100);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .legalLinksGrid {
@@ -399,12 +839,59 @@
     grid-template-columns: 1fr;
   }
 
-  .whatWeDoContent {
-    padding: 0 20px;
+  .teamGrid {
+    grid-template-columns: 1fr;
   }
 
-  .featureList {
-    padding: 0 20px;
+  .timeline::before {
+    left: 20px;
+  }
+
+  .timelineItem {
+    flex-direction: column !important;
+    align-items: flex-start;
+    margin-left: 20px;
+  }
+
+  .timelineContent {
+    margin: 20px 0 0 0;
+    max-width: none;
+  }
+
+  .testimonialsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .partnersGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ctaTitle {
+    font-size: 2rem;
+  }
+
+  .founderCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 30px;
+  }
+
+  .founderAvatar {
+    margin: 0 auto 20px;
+  }
+
+  .contactCtaButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contactCtaTitle {
+    font-size: 2rem;
   }
 }
 
@@ -445,15 +932,47 @@
     font-size: 1.2rem;
   }
 
-  .featureItem {
-    padding: 15px 20px;
-    padding-left: 50px;
-    font-size: 1rem;
+  .teamCard {
+    padding: 30px 20px;
   }
 
-  .featureItem::before {
-    left: 15px;
-    top: 15px;
-    font-size: 18px;
+  .teamAvatar {
+    font-size: 3rem;
+  }
+
+  .timelineContent {
+    padding: 20px 25px;
+  }
+
+  .testimonialCard {
+    padding: 30px 20px;
+  }
+
+  .partnersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaTitle {
+    font-size: 1.8rem;
+  }
+
+  .ctaDescription {
+    font-size: 1.1rem;
+  }
+
+  .founderCard {
+    padding: 30px 20px;
+  }
+
+  .founderName {
+    font-size: 1.6rem;
+  }
+
+  .contactCtaTitle {
+    font-size: 1.8rem;
+  }
+
+  .contactCtaDescription {
+    font-size: 1.1rem;
   }
 }

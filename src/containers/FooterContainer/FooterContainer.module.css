@@ -39,18 +39,23 @@
   }
 
   @media (--viewportLarge) {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 56px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 64px;
     padding: 100px 32px 80px 32px;
   }
 }
 
-/* Logo Section */
+/* Logo Section - Better balanced distribution */
 .logoSection {
   grid-column: 1 / -1;
 
+  @media (--viewportMedium) {
+    grid-column: 1 / 2;
+  }
+
   @media (--viewportLarge) {
     grid-column: 1 / 2;
+    max-width: 280px;
   }
 }
 
@@ -70,6 +75,10 @@
 
   @media (--viewportMedium) {
     max-width: 250px;
+  }
+
+  @media (--viewportLarge) {
+    max-width: 280px;
   }
 }
 
@@ -92,6 +101,11 @@
   @media (--viewportMedium) {
     font-size: 16px;
     line-height: 26px;
+    max-width: 280px;
+  }
+
+  @media (--viewportLarge) {
+    max-width: 280px;
   }
 }
 
@@ -146,6 +160,11 @@
   height: 20px;
 }
 
+/* Customer Support */
+.customerSupport {
+  /* Styles inherited from common section styling */
+}
+
 /* Section Titles */
 .sectionTitle {
   font-size: 18px;
@@ -169,7 +188,7 @@
   border-radius: 2px;
 }
 
-/* Link Lists */
+/* Link Lists - Consistent spacing */
 .linkList {
   list-style: none;
   padding: 0;
@@ -218,7 +237,7 @@
   }
 }
 
-/* Bottom Section */
+/* Bottom Section - Consistent with main content */
 .bottomSection {
   border-top: 1px solid var(--colorGrey200);
   background: var(--colorWhite);
@@ -249,6 +268,10 @@
     justify-content: space-between;
     align-items: center;
     padding: 36px 32px;
+  }
+
+  @media (--viewportLarge) {
+    padding: 40px 32px;
   }
 }
 
@@ -311,11 +334,18 @@
   }
 }
 
-/* Responsive adjustments for smaller screens */
+/* Responsive adjustments for better content distribution */
 @media (max-width: 480px) {
   .content {
     padding: 40px 16px 32px 16px;
     gap: 32px;
+    grid-template-columns: 1fr;
+  }
+
+  .logoSection,
+  .quickLinks,
+  .customerSupport {
+    grid-column: 1 / -1;
   }
 
   .bottomContent {
@@ -334,6 +364,55 @@
       width: 18px;
       height: 18px;
     }
+  }
+}
+
+/* Enhanced responsive grid for better content distribution */
+@media (--viewportMedium) {
+  .content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+  }
+
+  .logoSection {
+    grid-column: 1 / 2;
+  }
+
+  .quickLinks {
+    grid-column: 2 / 3;
+  }
+
+  .customerSupport {
+    grid-column: 1 / 3;
+    justify-self: center;
+    max-width: 400px;
+  }
+}
+
+@media (--viewportLarge) {
+  .content {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 64px;
+  }
+
+  .logoSection {
+    grid-column: 1 / 2;
+    max-width: 280px;
+  }
+
+  .quickLinks {
+    grid-column: 2 / 3;
+  }
+
+  .customerSupport {
+    grid-column: 3 / 4;
+  }
+
+  /* Ensure consistent spacing between all columns */
+  .quickLinks,
+  .customerSupport {
+    min-width: 0;
+    max-width: 280px;
   }
 }
 

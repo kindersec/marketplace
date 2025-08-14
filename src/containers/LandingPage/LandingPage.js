@@ -48,11 +48,11 @@ const featuresData = [
 
 // Categories section data
 const categoriesData = [
-  { name: "Smart Lighting", icon: "💡", count: "500+ Products", url: "/s?pub_categoryLevel1=lights" },
-  { name: "Security Cameras", icon: "📹", count: "200+ Products", url: "/s?pub_categoryLevel1=security-cameras" },
-  { name: "Smart Locks", icon: "🔒", count: "100+ Products", url: "/s?pub_categoryLevel1=smart-locks" },
-  { name: "Doorbells", icon: "🚪", count: "75+ Products", url: "/s?pub_categoryLevel1=doorbells" },
-  { name: "Robot Vacuums", icon: "🤖", count: "45+ Products", url: "/s?pub_categoryLevel1=robot-vacuum" }
+  { name: "Smart Lighting", icon: "💡", count: "500+ Products", url: "/products?pub_categoryLevel1=lights" },
+  { name: "Security Cameras", icon: "📹", count: "200+ Products", url: "/products?pub_categoryLevel1=security-cameras" },
+  { name: "Smart Locks", icon: "🔒", count: "100+ Products", url: "/products?pub_categoryLevel1=smart-locks" },
+  { name: "Doorbells", icon: "🚪", count: "75+ Products", url: "/products?pub_categoryLevel1=doorbells" },
+  { name: "Robot Vacuums", icon: "🤖", count: "45+ Products", url: "/products?pub_categoryLevel1=robot-vacuum" }
 ];
 
 // Testimonials data
@@ -249,7 +249,7 @@ export const LandingPageComponent = props => {
 
   const handlePrimaryCTA = () => {
     // Navigate to search page
-    history.push('/s');
+    history.push('/products');
   };
 
   const handleSecondaryCTA = () => {
@@ -269,7 +269,7 @@ export const LandingPageComponent = props => {
       history.push(`/l/${product.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}/${product.listingId}`);
     } else {
       // Fallback to search if no listingId is available
-      history.push(`/s?search=${encodeURIComponent(product.name)}`);
+      history.push(`/products?search=${encodeURIComponent(product.name)}`);
     }
   };
 
@@ -345,6 +345,58 @@ export const LandingPageComponent = props => {
             </div>
           </section>
 
+          {/* Featured Products Section */}
+          <section className={css.featuredProducts}>
+            <div className={css.container}>
+              <h2 className={css.sectionTitle}>Featured Products</h2>
+              <p className={css.sectionSubtitle}>
+                Discover our most popular smart home devices
+              </p>
+              <div className={css.featuredProductsGrid}>
+                {featuredProductsData.map((product, index) => (
+                  <div
+                    key={index}
+                    className={css.featuredProductCard}
+                    onClick={() => handleFeaturedProductClick(product)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleFeaturedProductClick(product);
+                      }
+                    }}
+                  >
+                    <div className={css.productImageContainer}>
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className={css.productImage}
+                      />
+                    </div>
+                    <div className={css.productInfo}>
+                      <div className={css.productBrand}>{product.brand}</div>
+                      <h3 className={css.productName}>{product.name}</h3>
+                      <p className={css.productDescription}>{product.description}</p>
+                      <div className={css.productMeta}>
+                        <div className={css.productPrice}>{product.price}</div>
+                      </div>
+                      <button
+                        className={css.buyNowButton}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleFeaturedProductClick(product);
+                        }}
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* Features Section */}
           <section className={css.features}>
             <div className={css.container}>
@@ -396,58 +448,6 @@ export const LandingPageComponent = props => {
                 <button className={css.primaryButton} onClick={handleBrowseAllCategories}>
                   Browse All Categories
                 </button>
-              </div>
-            </div>
-          </section>
-
-          {/* Featured Products Section */}
-          <section className={css.featuredProducts}>
-            <div className={css.container}>
-              <h2 className={css.sectionTitle}>Featured Products</h2>
-              <p className={css.sectionSubtitle}>
-                Discover our most popular smart home devices
-              </p>
-              <div className={css.featuredProductsGrid}>
-                {featuredProductsData.map((product, index) => (
-                  <div
-                    key={index}
-                    className={css.featuredProductCard}
-                    onClick={() => handleFeaturedProductClick(product)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleFeaturedProductClick(product);
-                      }
-                    }}
-                  >
-                    <div className={css.productImageContainer}>
-                      <img
-                        src={product.imageUrl}
-                        alt={product.name}
-                        className={css.productImage}
-                      />
-                    </div>
-                    <div className={css.productInfo}>
-                      <div className={css.productBrand}>{product.brand}</div>
-                      <h3 className={css.productName}>{product.name}</h3>
-                      <p className={css.productDescription}>{product.description}</p>
-                      <div className={css.productMeta}>
-                        <div className={css.productPrice}>{product.price}</div>
-                      </div>
-                      <button
-                        className={css.buyNowButton}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleFeaturedProductClick(product);
-                        }}
-                      >
-                        Buy Now
-                      </button>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </section>

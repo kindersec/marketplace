@@ -55,7 +55,7 @@ const defaultPublicPaths = {
   faq: { url: '/faq' },
   signup: { url: '/signup' },
   login: { url: '/login' },
-  search: { url: '/s' },
+  search: { url: '/products' },
 };
 
 // Time-to-live (ttl) is set to one day aka 86400 seconds

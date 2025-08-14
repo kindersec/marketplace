@@ -17,8 +17,8 @@ describe('util/routes.js', () => {
   describe('createResourceLocatorString', () => {
     it('should return meaningful strings if parameters are not needed', () => {
       // default links without params in path or search query
-      expect(createResourceLocatorString('SearchPage', routes, undefined, undefined)).toEqual('/s');
-      expect(createResourceLocatorString('SearchPage', routes, {}, {})).toEqual('/s');
+      expect(createResourceLocatorString('SearchPage', routes, undefined, undefined)).toEqual('/products');
+      expect(createResourceLocatorString('SearchPage', routes, {}, {})).toEqual('/products');
     });
 
     it('should return meaningful strings with path parameters', () => {
@@ -38,11 +38,11 @@ describe('util/routes.js', () => {
 
     it('should return meaningful strings with search parameters', () => {
       expect(createResourceLocatorString('SearchPage', routes, {}, { page: 2 })).toEqual(
-        '/s?page=2'
+        '/products?page=2'
       );
       expect(
         createResourceLocatorString('SearchPage', routes, {}, { address: 'Helsinki', page: 2 })
-      ).toEqual('/s?address=Helsinki&page=2');
+      ).toEqual('/products?address=Helsinki&page=2');
     });
 
     it('should return meaningful strings with path and search parameters', () => {

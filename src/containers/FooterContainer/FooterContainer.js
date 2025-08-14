@@ -46,7 +46,7 @@ const FooterComponent = () => {
             <h3 className={css.sectionTitle}>Quick Links</h3>
             <nav className={css.linkList}>
               <a href="/" className={css.footerLink}>Home</a>
-              <a href="/s" className={css.footerLink}>Browse Products</a>
+              <a href="/products" className={css.footerLink}>Browse Products</a>
               <a href="/categories" className={css.footerLink}>Categories</a>
               <a href="/brands" className={css.footerLink}>Brands</a>
               <a href="/about" className={css.footerLink}>About Us</a>
