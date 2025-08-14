@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
 import { chatSupport } from '../../util/api';
-import { Page } from '../../components';
+import { Page, LayoutSingleColumn } from '../../components';
+import TopbarContainer from '../TopbarContainer/TopbarContainer';
+import FooterContainer from '../FooterContainer/FooterContainer';
 import css from './ChatSupportPage.module.css';
 
 const scrollToBottom = containerRef => {
@@ -68,40 +70,62 @@ const ChatSupportPage = () => {
   };
 
   return (
-    <Page title="Chat Support">
-      <Helmet>
-        <title>Chat Support</title>
-        <meta name="robots" content="noindex" />
-      </Helmet>
-      <div className={css.root}>
-        <h1 className={css.title}>Chat Support</h1>
-        <div className={css.chatContainer} ref={containerRef}>
-          {messages.map((m, idx) => (
-            <div key={idx} className={`${css.message} ${m.role === 'assistant' ? css.assistant : ''}`}>
-              <div className={css.messageContent}>
-                <ReactMarkdown>{m.content}</ReactMarkdown>
+    <Page
+      title="Chat Support"
+      description="Get expert help with your smart home setup, troubleshooting, and automation questions."
+      scrollingDisabled={false}
+    >
+      <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
+        <div className={css.root}>
+          <div className={css.container}>
+            <div className={css.header}>
+              <h1 className={css.title}>Chat Support</h1>
+              <p className={css.subtitle}>
+                Get instant help from our AI assistant for all your smart home questions
+              </p>
+            </div>
+
+            <div className={css.chatSection}>
+              <div className={css.chatContainer} ref={containerRef}>
+                {messages.map((m, idx) => (
+                  <div key={idx} className={`${css.message} ${m.role === 'assistant' ? css.assistant : ''}`}>
+                    <div className={css.messageContent}>
+                      <ReactMarkdown>{m.content}</ReactMarkdown>
+                    </div>
+                  </div>
+                ))}
+                {isSending && (
+                  <div className={`${css.message} ${css.assistant}`}>
+                    <div className={css.typingIndicator}>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className={css.inputContainer}>
+                <textarea
+                  className={css.textarea}
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={onKeyDown}
+                  placeholder="Ask about setup, troubleshooting, Wi‑Fi, automations, compatibility…"
+                  rows={3}
+                />
+                <button
+                  className={css.sendButton}
+                  onClick={sendMessage}
+                  disabled={isSending || !input.trim()}
+                >
+                  {isSending ? 'Sending…' : 'Send'}
+                </button>
               </div>
             </div>
-          ))}
+          </div>
         </div>
-        <div className={css.inputContainer}>
-          <textarea
-            className={css.textarea}
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={onKeyDown}
-            placeholder="Ask about setup, troubleshooting, Wi‑Fi, automations, compatibility…"
-            rows={3}
-          />
-          <button 
-            className={css.sendButton} 
-            onClick={sendMessage} 
-            disabled={isSending || !input.trim()}
-          >
-            {isSending ? 'Sending…' : 'Send'}
-          </button>
-        </div>
-      </div>
+      </LayoutSingleColumn>
     </Page>
   );
 };
