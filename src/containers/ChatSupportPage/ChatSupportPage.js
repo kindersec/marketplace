@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import ReactMarkdown from 'react-markdown';
 import { chatSupport } from '../../util/api';
 import { Page } from '../../components';
+import css from './ChatSupportPage.module.css';
 
 const scrollToBottom = containerRef => {
   if (containerRef?.current) {
@@ -71,46 +73,31 @@ const ChatSupportPage = () => {
         <title>Chat Support</title>
         <meta name="robots" content="noindex" />
       </Helmet>
-      <div style={{ maxWidth: 800, margin: '0 auto', padding: 16 }}>
-        <h1>Chat Support</h1>
-        <div
-          ref={containerRef}
-          style={{
-            border: '1px solid #ddd',
-            borderRadius: 8,
-            height: 420,
-            overflowY: 'auto',
-            padding: 12,
-            background: '#fafafa',
-          }}
-        >
+      <div className={css.root}>
+        <h1 className={css.title}>Chat Support</h1>
+        <div className={css.chatContainer} ref={containerRef}>
           {messages.map((m, idx) => (
-            <div key={idx} style={{ margin: '8px 0', display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
-              <div
-                style={{
-                  maxWidth: '80%',
-                  whiteSpace: 'pre-wrap',
-                  background: m.role === 'user' ? '#DCF2FF' : '#fff',
-                  border: '1px solid #e5e5e5',
-                  borderRadius: 8,
-                  padding: '8px 12px',
-                }}
-              >
-                {m.content}
+            <div key={idx} className={`${css.message} ${m.role === 'assistant' ? css.assistant : ''}`}>
+              <div className={css.messageContent}>
+                <ReactMarkdown>{m.content}</ReactMarkdown>
               </div>
             </div>
           ))}
         </div>
-        <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+        <div className={css.inputContainer}>
           <textarea
+            className={css.textarea}
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="Ask about setup, troubleshooting, Wi‑Fi, automations, compatibility…"
             rows={3}
-            style={{ flex: 1, padding: 8 }}
           />
-          <button onClick={sendMessage} disabled={isSending || !input.trim()} style={{ padding: '8px 16px' }}>
+          <button 
+            className={css.sendButton} 
+            onClick={sendMessage} 
+            disabled={isSending || !input.trim()}
+          >
             {isSending ? 'Sending…' : 'Send'}
           </button>
         </div>

@@ -22,7 +22,7 @@ import { IntlProvider } from './util/reactIntl';
 import { includeCSSProperties } from './util/style';
 import { IncludeScripts } from './util/includeScripts';
 
-import { MaintenanceMode } from './components';
+import { MaintenanceMode, FloatingChatBubble } from './components';
 
 // routing
 import routeConfiguration from './routing/routeConfiguration';
@@ -253,6 +253,7 @@ export const ClientApp = props => {
             <IncludeScripts config={appConfig} />
             <BrowserRouter>
               <Routes logLoadDataCalls={logLoadDataCalls} />
+              <FloatingChatBubble />
             </BrowserRouter>
           </HelmetProvider>
         </Provider>
@@ -291,6 +292,7 @@ export const ServerApp = props => {
             <IncludeScripts config={appConfig} />
             <StaticRouter location={url} context={context}>
               <Routes />
+              <FloatingChatBubble />
             </StaticRouter>
           </HelmetProvider>
         </Provider>

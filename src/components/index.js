@@ -46,6 +46,7 @@ export { Heading, H1, H2, H3, H4, H5, H6  } from './Heading/Heading';
 export { default as AspectRatioWrapper } from './AspectRatioWrapper/AspectRatioWrapper';
 export { default as ExternalLink } from './ExternalLink/ExternalLink';
 export { default as ExpandingTextarea } from './ExpandingTextarea/ExpandingTextarea';
+export { default as FloatingChatBubble } from './FloatingChatBubble/FloatingChatBubble';
 export { default as Form } from './Form/Form';
 export { default as LimitedAccessBanner } from './LimitedAccessBanner/LimitedAccessBanner';
 export { default as Logo } from './Logo/Logo';

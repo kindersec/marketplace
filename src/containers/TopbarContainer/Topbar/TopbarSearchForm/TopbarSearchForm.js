@@ -116,7 +116,7 @@ const TopbarSearchForm = props => {
     : 25;
   const pauseAtEndMs = Number(appConfig?.topbar?.searchBar?.pauseAtEndMs) > 0
     ? Number(appConfig?.topbar?.searchBar?.pauseAtEndMs)
-    : 700;
+    : 1300;
   const pauseBeforeStartMs = Number(appConfig?.topbar?.searchBar?.pauseBeforeStartMs) > 0
     ? Number(appConfig?.topbar?.searchBar?.pauseBeforeStartMs)
     : 300;
