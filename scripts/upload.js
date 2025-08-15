@@ -725,7 +725,7 @@ async function setDefaultStock(listingId, stockAmount) {
   try {
     console.log(`Setting stock to ${stockAmount} for listing ${listingId}`);
 
-    // Create stock adjustment to set the total stock
+    // Use the stock adjustment API to set the total stock
     const stockAdjustment = {
       listingId: new types.UUID(listingId),
       quantity: stockAmount,

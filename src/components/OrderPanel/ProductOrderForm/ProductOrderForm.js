@@ -148,7 +148,7 @@ const QuantitySelector = props => {
 const ShippingInfo = props => {
   const { publicData, intl, price } = props;
   const { shippingPriceInSubunitsOneItem, shippingPriceInSubunitsAdditionalItems, shippingConditions } = publicData || {};
-  
+
   if (!shippingPriceInSubunitsOneItem && !shippingPriceInSubunitsAdditionalItems) {
     return null;
   }
@@ -297,6 +297,8 @@ const renderForm = formRenderProps => {
     values,
     listing,
     reviews,
+    shippingEnabled,
+    pickupEnabled,
   } = formRenderProps;
 
   // Add missing variables that are referenced in the form
@@ -307,32 +309,31 @@ const renderForm = formRenderProps => {
     </InlineTextButton>
   ) : null;
 
-  useEffect(() => {
-    setMounted(true);
+  // Calculate stock-related variables early to avoid initialization errors
+  const hasNoStockLeft = typeof currentStock != null && currentStock === 0;
+  const hasStock = currentStock && currentStock > 0;
+  const hasOneItemLeft = currentStock === 1;
+  const selectableStock =
+    currentStock > MAX_QUANTITY_FOR_DROPDOWN ? MAX_QUANTITY_FOR_DROPDOWN : currentStock;
+  const quantities = hasStock ? [...Array(selectableStock).keys()].map(i => i + 1) : [];
 
-    const { quantity, deliveryMethod } = values;
-    if (quantity) {
-      setLocalQuantity(Number.parseInt(quantity, 10) || 1);
-    } else if (hasOneItemLeft || !allowOrdersOfMultipleItems) {
-      setLocalQuantity(1);
-    }
+  // Validate line items before showing breakdown
+  const showBreakdown = lineItems &&
+    lineItems.length > 0 &&
+    !fetchLineItemsInProgress &&
+    lineItems.every(item =>
+      item.lineTotal &&
+      typeof item.lineTotal.amount === 'number' &&
+      !isNaN(item.lineTotal.amount) &&
+      item.lineTotal.amount > 0
+    );
+  const breakdownData = lineItems ? lineItems[0] : null;
+  const quantityRequiredMsg = intl.formatMessage({ id: 'ProductOrderForm.quantityRequired' });
 
-    // Always fetch line items on mount to show shipping costs automatically
-    const initialQuantity = quantity || (hasOneItemLeft || !allowOrdersOfMultipleItems ? 1 : 1);
-    const initialDeliveryMethod = deliveryMethod || (shippingEnabled ? 'shipping' : pickupEnabled ? 'pickup' : undefined);
-    
-    if (mounted) {
-      handleFetchLineItems({
-        quantity: initialQuantity.toString(),
-        deliveryMethod: initialDeliveryMethod,
-        displayDeliveryMethod,
-        listingId,
-        isOwnListing,
-        fetchLineItemsInProgress,
-        onFetchTransactionLineItems,
-      });
-    }
-  }, [mounted, values, hasOneItemLeft, allowOrdersOfMultipleItems, displayDeliveryMethod, listingId, isOwnListing, fetchLineItemsInProgress, onFetchTransactionLineItems]);
+  const submitInProgress = fetchLineItemsInProgress;
+  const submitDisabled = !hasStock || fetchLineItemsInProgress || !lineItems || lineItems.length === 0;
+
+  const publicData = listing?.attributes?.publicData || {};
 
   const handleOnChange = formValues => {
     const { quantity, deliveryMethod } = formValues.values;
@@ -362,6 +363,25 @@ const renderForm = formRenderProps => {
       return;
     }
 
+    // Prevent submission if line items are still being fetched or if they're invalid
+    if (fetchLineItemsInProgress || !lineItems || lineItems.length === 0) {
+      e.preventDefault();
+      return;
+    }
+
+    // Validate that line items have valid prices
+    const hasValidPrices = lineItems.every(item =>
+      item.lineTotal &&
+      typeof item.lineTotal.amount === 'number' &&
+      !isNaN(item.lineTotal.amount) &&
+      item.lineTotal.amount > 0
+    );
+
+    if (!hasValidPrices) {
+      e.preventDefault();
+      return;
+    }
+
     e.preventDefault();
     const formValues = { quantity: finalQuantity.toString(), deliveryMethod };
     handleSubmit(formValues);
@@ -385,21 +405,33 @@ const renderForm = formRenderProps => {
     }
   };
 
-  const showBreakdown = lineItems && lineItems.length > 0;
-  const breakdownData = lineItems ? lineItems[0] : null;
-  const quantityRequiredMsg = intl.formatMessage({ id: 'ProductOrderForm.quantityRequired' });
+  // useEffect moved here after all variables and functions are defined
+  useEffect(() => {
+    setMounted(true);
 
-  const hasNoStockLeft = typeof currentStock != null && currentStock === 0;
-  const hasStock = currentStock && currentStock > 0;
-  const hasOneItemLeft = currentStock === 1;
-  const selectableStock =
-    currentStock > MAX_QUANTITY_FOR_DROPDOWN ? MAX_QUANTITY_FOR_DROPDOWN : currentStock;
-  const quantities = hasStock ? [...Array(selectableStock).keys()].map(i => i + 1) : [];
+    const { quantity, deliveryMethod } = values;
+    if (quantity) {
+      setLocalQuantity(Number.parseInt(quantity, 10) || 1);
+    } else if (hasOneItemLeft || !allowOrdersOfMultipleItems) {
+      setLocalQuantity(1);
+    }
 
-  const submitInProgress = fetchLineItemsInProgress;
-  const submitDisabled = !hasStock;
+    // Always fetch line items on mount to show shipping costs automatically
+    const initialQuantity = quantity || (hasOneItemLeft || !allowOrdersOfMultipleItems ? 1 : 1);
+    const initialDeliveryMethod = deliveryMethod || (shippingEnabled ? 'shipping' : pickupEnabled ? 'pickup' : undefined);
 
-  const publicData = listing?.attributes?.publicData || {};
+    if (mounted) {
+      handleFetchLineItems({
+        quantity: initialQuantity.toString(),
+        deliveryMethod: initialDeliveryMethod,
+        displayDeliveryMethod,
+        listingId,
+        isOwnListing,
+        fetchLineItemsInProgress,
+        onFetchTransactionLineItems,
+      });
+    }
+  }, [mounted, values, hasOneItemLeft, allowOrdersOfMultipleItems, displayDeliveryMethod, listingId, isOwnListing, fetchLineItemsInProgress, onFetchTransactionLineItems, shippingEnabled, pickupEnabled]);
 
   return (
     <Form onSubmit={handleFormSubmit}>

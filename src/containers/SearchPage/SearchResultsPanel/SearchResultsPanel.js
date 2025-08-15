@@ -57,15 +57,14 @@ const SearchResultsPanel = props => {
         `${panelLargeWidth / 3}vw`,
       ].join(', ');
     } else {
-      // Panel width relative to the viewport
-      const panelMediumWidth = 50;
-      const panelLargeWidth = 62.5;
+      // Panel width relative to the viewport - CSS grid now handles the layout
       return [
-        '(max-width: 549px) 100vw',
-        '(max-width: 767px) 50vw',
-        `(max-width: 1439px) 26vw`,
-        `(max-width: 1920px) 18vw`,
-        `14vw`,
+        '(max-width: 549px) 100vw',      // Mobile: 1 item per row
+        '(max-width: 767px) 50vw',       // Small: 2 items per row
+        '(max-width: 1023px) 33.33vw',  // Medium: 3 items per row
+        '(max-width: 1439px) 25vw',     // Large: 4 items per row
+        '(max-width: 1920px) 20vw',     // 1920x1200: 5-6 items per row
+        '16.66vw',                       // Ultra wide: 6-7 items per row
       ].join(', ');
     }
   };
