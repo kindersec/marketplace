@@ -48,25 +48,25 @@
 
   /* Laptop screens - force more columns for better space utilization */
   @media (min-width: 1024px) and (max-width: 1439px) {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 12px;
   }
 
   /* Desktop screens - force more columns */
   @media (min-width: 1440px) and (max-width: 1919px) {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     gap: 12px;
   }
 
   /* 1920x1200 and similar screens - force more columns */
   @media (min-width: 1920px) {
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(8, 1fr);
     gap: 12px;
   }
 
   /* Ultra wide screens */
   @media (min-width: 2560px) {
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(10, 1fr);
     gap: 12px;
   }
 }
