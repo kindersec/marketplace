@@ -10,6 +10,7 @@
     "thermostats",
     "appliances",
     "smart-indoor-garden",
+    "lawn-mower",
     "other"
   ],
   "brands": [
@@ -32,6 +33,7 @@
     "yeelight",
     "reolink",
     "roborock",
+    "a-hope-garden",
     "generic"
   ],
   "compatibility": [

@@ -479,6 +479,25 @@
   }
 }
 
+/* Reduced width for provider users */
+.profileMenuLabelProvider {
+  padding: 0 4px;
+  min-width: 36px;
+  max-width: 36px;
+  
+  @media (--viewportMedium) {
+    padding: 0 6px;
+    min-width: 40px;
+    max-width: 40px;
+  }
+
+  @media (--viewportLarge) {
+    padding: 0 8px;
+    min-width: 44px;
+    max-width: 44px;
+  }
+}
+
 .profileMenuIsOpen {
   &:hover {
     border-bottom: 3px solid var(--marketplaceColor);

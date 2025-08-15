@@ -31,33 +31,6 @@ function detectBrand(productBrand) {
   return 'generic';
 }
 
-function getDefaultCategoryForBrand(brandKey) {
-  // Simple mapping for common brands
-  const brandCategoryMap = {
-    'aqara': 'sensors',
-    'philips': 'lights',
-    'ikea': 'lights',
-    'samsung': 'hubs',
-    'apple': 'hubs',
-    'google': 'thermostats',
-    'amazon': 'cameras',
-    'eufy': 'cameras',
-    'wyze': 'cameras',
-    'tuya': 'switches',
-    'sonoff': 'switches',
-    'tapo': 'cameras',
-    'kasa': 'switches',
-    'meross': 'switches',
-    'nanoleaf': 'lights',
-    'lifx': 'lights',
-    'yeelight': 'lights',
-    'reolink': 'cameras',
-    'roborock': 'appliances'
-  };
-
-  return brandCategoryMap[brandKey] || 'other';
-}
-
 function detectCompatibility(productData) {
   const compatibilities = [];
 
@@ -389,14 +362,11 @@ function buildPublicDataFallback(product, template) {
     pd.categoryLevel1 = String(product.type).toLowerCase();
   } else {
     // Use brand's default category from configuration
-    pd.categoryLevel1 = getDefaultCategoryForBrand(detectedBrand);
+    pd.categoryLevel1 = 'other'; // No longer using getDefaultCategoryForBrand
   }
 
-  // Connectivity detection using configuration
-  pd.connectivity = detectConnectivity(product);
-
-  // Compatibility detection using configuration
-  pd.compatibility = detectCompatibility(product);
+  // Let GPT handle compatibility and connectivity - just provide basic fallbacks
+  // GPT will parse the ES object and assign correct values from config
 
   // Short features
   const { titles, texts, icons } = deriveFeaturesFromProduct(product);
@@ -484,13 +454,39 @@ function coerceToTemplateShape(template, data) {
 
     // Special coercions for known fields
     if (key === 'connectivity') {
-      out[key] = Array.isArray(dVal) ? normalizeConnectivity(dVal) : (dVal ? normalizeConnectivity([dVal]) : template[key]);
+      if (Array.isArray(dVal)) {
+        // Validate that all values are in the config
+        const validConnectivity = dVal.filter(v => config.connectivity.includes(String(v).toLowerCase()));
+        out[key] = validConnectivity.length > 0 ? validConnectivity : template[key];
+      } else {
+        out[key] = template[key];
+      }
       return;
     }
     if (key === 'compatibility') {
-      const arr = coerceStringArray(dVal || []);
-      out[key] = Array.from(new Set(arr.map(v => v.toLowerCase().replace(/\s+/g, ''))));
-      if (!out[key].length) out[key] = template[key];
+      if (Array.isArray(dVal)) {
+        // Validate that all values are in the config
+        const validCompatibility = dVal.filter(v => config.compatibility.includes(String(v).toLowerCase()));
+        out[key] = validCompatibility.length > 0 ? validCompatibility : template[key];
+      } else {
+        out[key] = template[key];
+      }
+      return;
+    }
+    if (key === 'brand') {
+      if (dVal && config.brands.includes(String(dVal).toLowerCase())) {
+        out[key] = String(dVal).toLowerCase();
+      } else {
+        out[key] = template[key];
+      }
+      return;
+    }
+    if (key === 'categoryLevel1') {
+      if (dVal && config.categories.includes(String(dVal).toLowerCase())) {
+        out[key] = String(dVal).toLowerCase();
+      } else {
+        out[key] = template[key];
+      }
       return;
     }
     if (key === 'reddit_links' || key === 'youtube_links') {
@@ -500,11 +496,6 @@ function coerceToTemplateShape(template, data) {
     if (key === 'tech_specs') {
       if (typeof dVal === 'string') out[key] = dVal;
       else out[key] = stringifyTechSpecs(dVal) || tVal;
-      return;
-    }
-    if (key === 'brand' || key === 'categoryLevel1') {
-      if (dVal != null) out[key] = String(dVal).toLowerCase();
-      else out[key] = tVal;
       return;
     }
 
@@ -574,14 +565,33 @@ async function generatePublicDataWithAI(productInfo, templatePublicData) {
       'Construct publicData using the provided TEMPLATE. Follow these rules strictly:',
       '- Use EXACTLY the same keys as in the TEMPLATE. Do not omit any keys. Do not add new keys.',
       '- Keep configuration-like values from the TEMPLATE (listingType, transactionProcessAlias, unitType, pickupEnabled, shippingEnabled, shippingPrice fields) unless the source clearly provides replacements.',
-      '- Fill product-specific values (brand, categoryLevel1, connectivity, compatibility, features, links, shortdescription, tech_specs) from the source product if present; otherwise keep TEMPLATE defaults.',
+      '- Fill product-specific values from the source product if present; otherwise keep TEMPLATE defaults.',
+      '',
+      'CONFIGURATION VALUES (use these exact values when mapping from product data):',
+      `- Categories: ${JSON.stringify(config.categories)}`,
+      `- Brands: ${JSON.stringify(config.brands)}`,
+      `- Compatibility: ${JSON.stringify(config.compatibility)}`,
+      `- Connectivity: ${JSON.stringify(config.connectivity)}`,
+      '',
+      'AVAILABLE ICONS (select the most relevant for each feature):',
+      '🔔 (doorbell, notifications), 👀 (vision, camera, monitoring), 🔌 (connectivity, power, integration),',
+      '⚡ (energy, power, fast), 🔒 (security, privacy, lock), 🏠 (home, house, automation),',
+      '📱 (mobile, app, smartphone), 🌐 (internet, network, global), 🎯 (precision, targeting, focus),',
+      '💡 (smart, intelligent, idea), 🚀 (advanced, cutting-edge, fast), 🛡️ (protection, security),',
+      '🔋 (battery, power, wireless), 📡 (signal, wireless, communication), 🎵 (audio, sound, music),',
+      '🌙 (night, dark, low-light), ☀️ (day, bright, outdoor), 🎨 (customization, color, design),',
+      '⚙️ (settings, configuration, technical), 🔍 (detection, search, analysis), 🚪 (door, entry, access)',
+      '',
+      'MAPPING RULES:',
+      '- brand: Must be one of the configured brands (normalize to exact match)',
+      '- categoryLevel1: Must be one of the configured categories (normalize to exact match)',
+      '- compatibility: Array of values from the compatibility config (parse from product.compatibility, product.ecosystems, or infer from description)',
+      '- connectivity: Array of values from the connectivity config (parse from product.connectivity or infer from description)',
+      '- feature_1_icon, feature_2_icon, feature_3_icon: Select the most relevant icon from the available icons list based on the feature content',
       '- Key formatting:',
-      '  * compatibility: array of lowercase slugs derived from integrations/ecosystems (e.g., ["homeassistant","homekit","alexa","googlehome","smartthings"]).',
-      '  * connectivity: array of lowercase slugs (e.g., ["matter","zigbee","wifi"]).',
       '  * reddit_links and youtube_links: STRING values containing a JSON array string (e.g., "[\"https://...\"]").',
       '  * tech_specs: STRING value containing pretty-printed JSON with key-value specs; derive from product.tech_specs if available, else keep TEMPLATE.',
-      '  * feature_* fields: short, human-friendly strings derived from product key features when possible.',
-      '- Ensure the final result is valid JSON matching the TEMPLATE keys exactly.',
+      '  * feature_* fields: short, human-friendly strings derived from product key_features when possible.',
       '',
       'TEMPLATE PUBLIC DATA:',
       JSON.stringify(templatePublicData, null, 2),

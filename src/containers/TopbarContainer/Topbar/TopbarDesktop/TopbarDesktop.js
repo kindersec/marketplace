@@ -68,9 +68,16 @@ const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLin
     return currentPage === page || isAccountSettingsPage ? css.currentPage : null;
   };
 
+  // Check if user is of type "provider" to apply reduced width styling
+  const isProvider = currentUser?.attributes?.profile?.publicData?.userType === 'provider';
+  const profileMenuLabelClass = classNames(
+    css.profileMenuLabel,
+    { [css.profileMenuLabelProvider]: isProvider }
+  );
+
   return (
     <Menu>
-      <MenuLabel className={css.profileMenuLabel} isOpenClassName={css.profileMenuIsOpen}>
+      <MenuLabel className={profileMenuLabelClass} isOpenClassName={css.profileMenuIsOpen}>
         <Avatar className={css.avatar} user={currentUser} disableProfileLink />
       </MenuLabel>
       <MenuContent className={css.profileMenuContent}>

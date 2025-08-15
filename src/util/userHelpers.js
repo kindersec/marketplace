@@ -219,6 +219,11 @@ const getCurrentUserTypeConfig = (config, currentUser) => {
  * @returns {Boolean} true if the currentUser's user type, or the anonymous user configuration, is set to see the link
  */
 export const showCreateListingLinkForUser = (config, currentUser) => {
+  // Hide "post a new listing" button for users of type "provider"
+  if (currentUser?.attributes?.profile?.publicData?.userType === 'provider') {
+    return false;
+  }
+
   const { topbar } = config;
   const currentUserTypeConfig = getCurrentUserTypeConfig(config, currentUser);
 

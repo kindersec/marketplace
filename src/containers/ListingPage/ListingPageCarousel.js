@@ -86,7 +86,7 @@ import CompatibilityBadges from './CompatibilityBadges';
 import css from './ListingPage.module.css';
 
 // Tabs Component
-const Tabs = ({ activeTab, onTabChange, publicData }) => {
+const Tabs = ({ activeTab, onTabChange, publicData, reviews = [], fetchReviewsError }) => {
   const tabs = [
     { id: 'features', label: 'Features' },
     { id: 'specs', label: 'Specifications' },
@@ -328,40 +328,43 @@ const Tabs = ({ activeTab, onTabChange, publicData }) => {
             }
           })()}
         </div>
-      </div>
-    ),
-    reviews: (
-      <div className={css.tabContent}>
-        <h3>Customer Reviews</h3>
-        <div className={css.reviewsContainer}>
-          <div className={css.reviewItem}>
-            <div className={css.reviewHeader}>
-              <div className={css.reviewStars}>★★★★★</div>
-              <div className={css.reviewAuthor}>Sarah M.</div>
-              <div className={css.reviewDate}>2 weeks ago</div>
+              </div>
+      ),
+      reviews: (
+        <div className={css.tabContent}>
+          <h3>Customer Reviews ({reviews.length})</h3>
+          {fetchReviewsError ? (
+            <div className={css.errorText}>
+              <p>Failed to load reviews. Please try again later.</p>
             </div>
-            <p>"Excellent product! The setup was incredibly easy and it works flawlessly with my smart home system. Highly recommend!"</p>
-          </div>
-          <div className={css.reviewItem}>
-            <div className={css.reviewHeader}>
-              <div className={css.reviewStars}>★★★★★</div>
-              <div className={css.reviewAuthor}>Mike R.</div>
-              <div className={css.reviewDate}>1 month ago</div>
+          ) : reviews.length === 0 ? (
+            <div className={css.noReviewsMessage}>
+              <p>No reviews yet for this product. Be the first to share your experience!</p>
             </div>
-            <p>"Great value for money. The features are exactly what I needed and the build quality is solid. Very satisfied with my purchase."</p>
-          </div>
-          <div className={css.reviewItem}>
-            <div className={css.reviewHeader}>
-              <div className={css.reviewStars}>★★★★☆</div>
-              <div className={css.reviewAuthor}>Jennifer L.</div>
-              <div className={css.reviewDate}>3 weeks ago</div>
+          ) : (
+            <div className={css.reviewsContainer}>
+              {reviews.map(review => (
+                <div key={review.id.uuid} className={css.reviewItem}>
+                  <div className={css.reviewHeader}>
+                    <div className={css.reviewStars}>
+                      {'★'.repeat(review.attributes.rating || 5)}
+                      {'☆'.repeat(5 - (review.attributes.rating || 5))}
+                    </div>
+                    <div className={css.reviewAuthor}>
+                      {review.author?.attributes?.profile?.displayName || 'Anonymous'}
+                    </div>
+                    <div className={css.reviewDate}>
+                      {new Date(review.attributes.createdAt).toLocaleDateString()}
+                    </div>
+                  </div>
+                  <p>"{review.attributes.content}"</p>
+                </div>
+              ))}
             </div>
-            <p>"Good product overall. Easy to install and works well. The only minor issue is the app could be a bit more intuitive, but it's manageable."</p>
-          </div>
+          )}
         </div>
-      </div>
-    ),
-    more: (
+      ),
+      more: (
       <div className={css.tabContent}>
         <h3>More Resources</h3>
 
@@ -1070,7 +1073,13 @@ export const ListingPageComponent = props => {
 
         {/* Tabs Section */}
         <div className={css.tabsSection}>
-          <Tabs activeTab={activeTab} onTabChange={setActiveTab} publicData={publicData} />
+          <Tabs
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          publicData={publicData}
+          reviews={reviews}
+          fetchReviewsError={fetchReviewsError}
+        />
         </div>
 
         {/* Full-width description and details section */}
