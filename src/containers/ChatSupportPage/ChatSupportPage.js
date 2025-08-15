@@ -19,12 +19,12 @@ const ChatSupportPage = () => {
   ]);
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
-  const [suggestion, setSuggestion] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
   const containerRef = useRef(null);
 
   useEffect(() => {
     scrollToBottom(containerRef);
-  }, [messages]);
+  }, [messages, suggestions]);
 
   const sendMessage = useCallback(async () => {
     const text = input.trim();
@@ -37,17 +37,23 @@ const ChatSupportPage = () => {
       const res = await chatSupport({ messages: nextMessages });
       if (res?.message) {
         setMessages([...nextMessages, res.message]);
-        if (res?.suggestedLink?.url) setSuggestion(res.suggestedLink);
+        if (res?.suggestedLinks && Array.isArray(res.suggestedLinks)) {
+          setSuggestions(res.suggestedLinks);
+        } else {
+          setSuggestions([]);
+        }
       } else if (res?.error) {
         setMessages([
           ...nextMessages,
           { role: 'assistant', content: `Sorry, I couldn't process that: ${res.error}` },
         ]);
+        setSuggestions([]);
       } else {
         setMessages([
           ...nextMessages,
           { role: 'assistant', content: 'Sorry, I could not generate a response.' },
         ]);
+        setSuggestions([]);
       }
     } catch (e) {
       // e may contain server-provided fields via util/api.js request error handling
@@ -59,6 +65,7 @@ const ChatSupportPage = () => {
         ...nextMessages,
         { role: 'assistant', content: `Sorry, I couldn't process that: ${serverMsg}` },
       ]);
+      setSuggestions([]);
     } finally {
       setIsSending(false);
     }
@@ -72,20 +79,51 @@ const ChatSupportPage = () => {
   };
 
   const handleInputFocus = () => {
-    setSuggestion(null);
+    setSuggestions([]);
   };
 
   const handleInputChange = e => {
     setInput(e.target.value);
-    if (e.target.value.trim() && suggestion) {
-      setSuggestion(null);
+    if (e.target.value.trim() && suggestions.length > 0) {
+      setSuggestions([]);
     }
+  };
+
+  // Render suggestion chips for pages and listings
+  const renderSuggestions = () => {
+    if (!suggestions || suggestions.length === 0) return null;
+
+    return (
+      <div className={`${css.message} ${css.assistant}`}>
+        <div className={css.messageContent}>
+          <div className={css.suggestionsHeader}>
+            <span className={css.suggestionsIcon}>💡</span>
+            <span className={css.suggestionsText}>Recommended resources:</span>
+          </div>
+          <SuggestionChipContainer>
+            {suggestions.map((suggestion, index) => {
+              // Remove leading slash from title for cleaner display
+              const displayTitle = suggestion.title.replace(/^\//, '');
+              return (
+                <SuggestionChip
+                  key={`${suggestion.type}-${index}`}
+                  label={displayTitle}
+                  href={suggestion.url}
+                  className={css.suggestionChip}
+                />
+              );
+            })}
+          </SuggestionChipContainer>
+        </div>
+      </div>
+    );
   };
 
   return (
     <Page
       title="Chat Support"
       description="Get expert help with your smart home setup, troubleshooting, and automation questions."
+      robots="noindex, nofollow"
       scrollingDisabled={false}
     >
       <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
@@ -116,15 +154,7 @@ const ChatSupportPage = () => {
                     </div>
                   </div>
                 )}
-                {suggestion && (
-                  <div className={`${css.message} ${css.assistant}`}>
-                    <div className={css.messageContent}>
-                      <SuggestionChipContainer>
-                        <SuggestionChip label={`Recommended: ${suggestion.title}`} href={suggestion.url} />
-                      </SuggestionChipContainer>
-                    </div>
-                  </div>
-                )}
+                {renderSuggestions()}
               </div>
 
               <div className={css.inputContainer}>

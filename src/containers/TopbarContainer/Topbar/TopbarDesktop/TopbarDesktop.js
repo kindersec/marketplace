@@ -13,6 +13,7 @@ import {
   MenuItem,
   NamedLink,
   IconProfile,
+  IconCart,
 } from '../../../../components';
 
 import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
@@ -45,7 +46,20 @@ const InboxLink = ({ notificationCount, inboxTab }) => {
   );
 };
 
+const CartLink = ({ notificationCount = 0 }) => {
+  const notificationBadge = notificationCount > 0 ? (
+    <div className={css.cartNotificationBadge}>
+      {notificationCount > 99 ? '99+' : notificationCount}
+    </div>
+  ) : null;
 
+  return (
+    <NamedLink className={css.cartIconLink} name="CartPage">
+      <IconCart className={css.cartIcon} size="small" />
+      {notificationBadge}
+    </NamedLink>
+  );
+};
 
 const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLink }) => {
   const currentPageClass = page => {
@@ -157,9 +171,7 @@ const TopbarDesktop = props => {
   // Track which topbar mega menu is open (brands | categories | compatibility)
   const [activeMegaMenuId, setActiveMegaMenuId] = useState(null);
 
-  const inboxLinkMaybe = authenticatedOnClientSide ? (
-    <InboxLink notificationCount={notificationCount} inboxTab={inboxTab} />
-  ) : null;
+  const inboxLinkMaybe = null; // Removed inbox button for logged-in users
 
   const profileMenuMaybe = authenticatedOnClientSide ? (
     <ProfileMenu
@@ -206,7 +218,6 @@ const TopbarDesktop = props => {
         showCreateListingsLink={showCreateListingsLink}
       />
 
-      {inboxLinkMaybe}
       <BrandsMegaMenu
         currentPage={currentPage}
         intl={intl}
@@ -234,6 +245,8 @@ const TopbarDesktop = props => {
         onRequestOpen={() => setActiveMegaMenuId('compatibility')}
         onRequestClose={() => setActiveMegaMenuId(null)}
       />
+      {inboxLinkMaybe}
+      <CartLink notificationCount={notificationCount} />
       {profileMenuMaybe}
       {profileIconLinkMaybe}
     </nav>

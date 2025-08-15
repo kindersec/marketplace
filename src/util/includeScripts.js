@@ -31,7 +31,7 @@ export const IncludeScripts = props => {
   let mapLibraries = [];
   let analyticsLibraries = [];
 
-  if (isMapboxInUse) {
+  if (isMapboxInUse && mapboxAccessToken) {
     // NOTE: remember to update mapbox-sdk.min.js to a new version regularly.
     // mapbox-sdk.min.js is included from static folder for CSP purposes.
     mapLibraries.push(
@@ -58,7 +58,7 @@ export const IncludeScripts = props => {
         crossOrigin
       ></script>
     );
-  } else if (isGoogleMapsInUse) {
+  } else if (isGoogleMapsInUse && googleMapsAPIKey) {
     // Add Google Maps library
     mapLibraries.push(
       <script

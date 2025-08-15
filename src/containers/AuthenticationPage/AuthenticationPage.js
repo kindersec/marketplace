@@ -462,6 +462,7 @@ const BlankPage = props => {
   return (
     <Page
       title={schemaTitle}
+      robots="noindex, nofollow"
       scrollingDisabled={scrollingDisabled}
       schema={{
         '@context': 'http://schema.org',

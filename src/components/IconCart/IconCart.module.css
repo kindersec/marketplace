@@ -1,0 +1,43 @@
+@import '../../styles/customMediaQueries.css';
+
+.root {
+  display: inline-block;
+  vertical-align: middle;
+  fill: currentColor;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+/* Size variants - Adjusted for better visibility */
+.small {
+  width: 20px;
+  height: 20px;
+}
+
+.medium {
+  width: 24px;
+  height: 24px;
+}
+
+.large {
+  width: 32px;
+  height: 32px;
+}
+
+.xlarge {
+  width: 48px;
+  height: 48px;
+}
+
+/* Enhanced hover effects */
+.root:hover {
+  transform: scale(1.1) rotate(-5deg);
+  filter: drop-shadow(0 2px 8px rgba(102, 126, 234, 0.25));
+  color: var(--marketplaceColor);
+}
+
+/* Active state */
+.root:active {
+  transform: scale(0.95) rotate(0deg);
+  filter: drop-shadow(0 1px 4px rgba(102, 126, 234, 0.15));
+}

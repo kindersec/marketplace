@@ -54,7 +54,7 @@ export class NotFoundPageComponent extends Component {
     };
 
     return (
-      <Page title={title} scrollingDisabled={scrollingDisabled}>
+      <Page title={title} robots="noindex, nofollow" scrollingDisabled={scrollingDisabled}>
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.root}>
             <div className={css.content}>

@@ -1,27 +1,50 @@
 @import '../../styles/customMediaQueries.css';
 
 .root {
-  display: none;
+  display: flex;
+  justify-content: center;
+  height: 80px;
+  align-items: center;
+  padding: 0 24px;
+  background: linear-gradient(135deg, var(--colorGrey50) 0%, var(--colorWhite) 100%);
+  border-bottom: 1px solid var(--colorGrey200);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
   @media (--viewportMedium) {
-    display: flex;
-    justify-content: flex-end;
-    height: 57px;
-    align-items: flex-end;
-    padding: 13px 24px 0 24px;
+    height: 80px;
+    padding: 0 36px;
   }
 
   @media (--viewportLarge) {
-    padding: 0 36px;
+    padding: 0 48px;
   }
 }
 
 .tab {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   height: 100%;
+  padding: 0 24px;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--colorGrey700);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+  position: relative;
 
   &:first-child {
     margin-left: 0;
+  }
+
+  &:hover {
+    color: var(--colorMarketplace);
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  &[data-selected="true"] {
+    color: var(--colorMarketplace);
+    border-bottom-color: var(--colorMarketplace);
+    font-weight: 600;
   }
 }

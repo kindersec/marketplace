@@ -16,6 +16,8 @@ import {
   LinkedLogo,
   Modal,
   ModalMissingInformation,
+  IconCart,
+  NamedLink,
 } from '../../../components';
 import { getSearchPageResourceLocatorStringParams } from '../../SearchPage/SearchPage.shared';
 
@@ -336,6 +338,14 @@ const TopbarComponent = props => {
           linkToExternalSite={config?.topbar?.logoLink}
         />
         {mobileSearchButtonMaybe}
+        <NamedLink className={css.mobileCartButton} name="CartPage">
+          <IconCart className={css.mobileCartIcon} size="medium" />
+          {notificationCount > 0 && (
+            <div className={css.mobileCartBadge}>
+              {notificationCount > 99 ? '99+' : notificationCount}
+            </div>
+          )}
+        </NamedLink>
       </div>
       <div className={css.desktop}>
         <TopbarDesktop

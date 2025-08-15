@@ -116,6 +116,8 @@ class PageComponent extends Component {
       updated,
       config,
       routeConfiguration,
+      robots,
+      noIndex,
     } = this.props;
 
     const classes = classNames(rootClassName || css.root, className, {
@@ -251,6 +253,9 @@ class PageComponent extends Component {
         >
           <title>{pageTitle}</title>
           {referrer ? <meta name="referrer" content={referrer} /> : null}
+          {robots || noIndex ? (
+            <meta name="robots" content={robots || 'noindex,nofollow'} />
+          ) : null}
           <link rel="canonical" href={canonicalUrl} />
 
           {faviconVariants.map(variant => {

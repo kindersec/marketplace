@@ -123,7 +123,11 @@ export const CompatibilityPageComponent = props => {
 
   if (inProgress) {
     return (
-      <Page title="Smart Home Compatibility" scrollingDisabled={false}>
+      <Page
+        title="Smart Home Compatibility | Domee"
+        description="See which smart home devices work with Google Home, Alexa, HomeKit, SmartThings, Matter, Zigbee, Z-Wave, and more."
+        scrollingDisabled={false}
+      >
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.root}>
             <div className={css.loading}>Loading compatibility information...</div>
@@ -135,7 +139,11 @@ export const CompatibilityPageComponent = props => {
 
   if (error) {
     return (
-      <Page title="Smart Home Compatibility" scrollingDisabled={false}>
+      <Page
+        title="Smart Home Compatibility | Domee"
+        description="See which smart home devices work with Google Home, Alexa, HomeKit, SmartThings, Matter, Zigbee, Z-Wave, and more."
+        scrollingDisabled={false}
+      >
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.root}>
             <div className={css.error}>
@@ -153,7 +161,11 @@ export const CompatibilityPageComponent = props => {
   };
 
   return (
-    <Page title="Smart Home Compatibility" scrollingDisabled={false}>
+    <Page
+      title="Smart Home Compatibility | Domee"
+      description="Explore ecosystems and connectivity protocols like Matter, Zigbee, Z‑Wave, and Thread to ensure your smart devices work together."
+      scrollingDisabled={false}
+    >
       <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
         <div className={css.root}>
           <div className={css.container}>

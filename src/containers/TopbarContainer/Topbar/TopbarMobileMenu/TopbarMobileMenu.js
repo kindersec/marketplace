@@ -187,6 +187,7 @@ const TopbarMobileMenu = props => {
         </InlineTextButton>
 
         <div className={css.accountLinksWrapper}>
+          {/* Inbox link removed for logged-in users
           <NamedLink
             className={classNames(css.inbox, currentPageClass(`InboxPage:${inboxTab}`))}
             name="InboxPage"
@@ -196,6 +197,7 @@ const TopbarMobileMenu = props => {
             <FormattedMessage id="TopbarMobileMenu.inboxLink" />
             {notificationCountBadge}
           </NamedLink>
+          */}
           {manageListingsLinkMaybe}
           <NamedLink
             className={classNames(css.navigationLink, currentPageClass('ProfileSettingsPage'))}

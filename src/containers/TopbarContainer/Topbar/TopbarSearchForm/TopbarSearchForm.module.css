@@ -383,31 +383,67 @@
   justify-content: space-between;
   width: 100%;
   padding: 12px 20px;
-  border: none;
-  background: none;
-  border-radius: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.7) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: left;
-  border-bottom: 1px solid var(--colorGrey100);
+  margin: 2px 0;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+
+  /* Enhanced shadows - matching mega menu label */
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 
   /* Typography */
   font-size: 14px;
   line-height: 18px;
-  color: var(--colorGrey800);
+  color: var(--colorGrey700);
 }
 
 .trendySearchItem:last-child {
-  border-bottom: none;
+  margin-bottom: 0;
 }
 
 .trendySearchItem:hover {
-  background: rgba(0, 0, 0, 0.04);
-  color: var(--colorGrey900);
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.8) 100%);
+  transform: translateY(-2px);
+  color: var(--marketplaceColor);
+  text-decoration: none;
+  border-color: var(--marketplaceColor);
+  box-shadow:
+    0 12px 40px rgba(102, 126, 234, 0.2),
+    0 6px 20px rgba(118, 75, 162, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .trendySearchItem:active {
-  background: rgba(0, 0, 0, 0.08);
+  transform: translateY(0) scale(0.98);
+  box-shadow:
+    0 4px 15px rgba(102, 126, 234, 0.1),
+    0 2px 8px rgba(102, 126, 234, 0.08);
+}
+
+/* Left animated border like navbar menu items */
+.trendySearchItemBorder {
+  position: absolute;
+  top: 2px;
+  left: 0px;
+  height: calc(100% - 4px);
+  width: 0;
+  transition: width var(--transitionStyleButton);
+  background-color: transparent;
 }
 
 .trendySearchContent {
@@ -428,7 +464,7 @@
 }
 
 .trendySearchItem:hover .trendySearchArrow {
-  color: var(--colorGrey600);
+  color: var(--marketplaceColor);
   transform: translateX(2px);
 }
 
@@ -439,7 +475,7 @@
 }
 
 .trendySearchItem:hover svg {
-  color: var(--colorGrey600);
+  color: var(--marketplaceColor);
 }
 
 /* Responsive adjustments for trendy searches */

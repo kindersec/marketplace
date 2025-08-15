@@ -38,11 +38,13 @@ export { default as IconSocialMediaInstagram } from './IconSocialMediaInstagram/
 export { default as IconSocialMediaTwitter } from './IconSocialMediaTwitter/IconSocialMediaTwitter';
 export { default as IconSpinner } from './IconSpinner/IconSpinner';
 export { default as IconSuccess } from './IconSuccess/IconSuccess';
+export { default as IconCart } from './IconCart/IconCart';
 
 // Typography
 export { Heading, H1, H2, H3, H4, H5, H6  } from './Heading/Heading';
 
 // Other independent components
+export { default as AddToCartButton } from './AddToCartButton/AddToCartButton';
 export { default as AspectRatioWrapper } from './AspectRatioWrapper/AspectRatioWrapper';
 export { default as ExternalLink } from './ExternalLink/ExternalLink';
 export { default as ExpandingTextarea } from './ExpandingTextarea/ExpandingTextarea';

@@ -155,6 +155,7 @@ export const NoAccessPageComponent = props => {
   return (
     <Page
       title={intl.formatMessage({ id: pageData.schemaTitle })}
+      robots="noindex, nofollow"
       scrollingDisabled={scrollingDisabled}
     >
       <LayoutSingleColumn

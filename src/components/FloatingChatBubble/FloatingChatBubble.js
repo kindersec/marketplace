@@ -9,17 +9,17 @@ import css from './FloatingChatBubble.module.css';
 const STORAGE_KEYS = {
   messages: 'aiChat.messages',
   minimized: 'aiChat.minimized',
-  suggestion: 'aiChat.suggestion',
+  suggestions: 'aiChat.suggestions',
 };
 
-const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
+const FloatingChatBubble = ({ isOpen = false, onToggle, className, rootClassName }) => {
   const [messages, setMessages] = useState([
     { role: 'assistant', content: 'Hi! I\'m SmartHome Support. How can I help with your smart home today?' },
   ]);
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isMinimized, setIsMinimized] = useState(true);
-  const [suggestion, setSuggestion] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -31,7 +31,7 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
       if (typeof window === 'undefined') return;
       const storedMessages = window.sessionStorage.getItem(STORAGE_KEYS.messages);
       const storedMinimized = window.sessionStorage.getItem(STORAGE_KEYS.minimized);
-      const storedSuggestion = window.sessionStorage.getItem(STORAGE_KEYS.suggestion);
+      const storedSuggestions = window.sessionStorage.getItem(STORAGE_KEYS.suggestions);
 
       if (storedMessages) {
         const parsed = JSON.parse(storedMessages);
@@ -40,9 +40,9 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
       if (storedMinimized != null) {
         setIsMinimized(storedMinimized === 'true');
       }
-      if (storedSuggestion) {
-        const parsedSuggestion = JSON.parse(storedSuggestion);
-        if (parsedSuggestion && typeof parsedSuggestion === 'object') setSuggestion(parsedSuggestion);
+      if (storedSuggestions) {
+        const parsedSuggestions = JSON.parse(storedSuggestions);
+        if (Array.isArray(parsedSuggestions) && parsedSuggestions.length > 0) setSuggestions(parsedSuggestions);
       }
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -74,16 +74,16 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
   useEffect(() => {
     try {
       if (typeof window === 'undefined') return;
-      if (suggestion) {
-        window.sessionStorage.setItem(STORAGE_KEYS.suggestion, JSON.stringify(suggestion));
+      if (suggestions.length > 0) {
+        window.sessionStorage.setItem(STORAGE_KEYS.suggestions, JSON.stringify(suggestions));
       } else {
-        window.sessionStorage.removeItem(STORAGE_KEYS.suggestion);
+        window.sessionStorage.removeItem(STORAGE_KEYS.suggestions);
       }
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.warn('Failed to persist chat suggestion', e);
+      console.warn('Failed to persist chat suggestions', e);
     }
-  }, [suggestion]);
+  }, [suggestions]);
 
   useEffect(() => {
     if (containerRef?.current && !isMinimized) {
@@ -119,19 +119,23 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
       const res = await chatSupport({ messages: nextMessages });
       if (res?.message) {
         setMessages([...nextMessages, res.message]);
-        if (res?.suggestedLink?.url) {
-          setSuggestion(res.suggestedLink);
+        if (res?.suggestedLinks && Array.isArray(res.suggestedLinks)) {
+          setSuggestions(res.suggestedLinks);
+        } else {
+          setSuggestions([]);
         }
       } else if (res?.error) {
         setMessages([
           ...nextMessages,
           { role: 'assistant', content: `Sorry, I couldn't process that: ${res.error}` },
         ]);
+        setSuggestions([]);
       } else {
         setMessages([
           ...nextMessages,
           { role: 'assistant', content: 'Sorry, I could not generate a response.' },
         ]);
+        setSuggestions([]);
       }
     } catch (e) {
       const serverMsg = e?.error || e?.message || 'Unexpected error';
@@ -140,6 +144,7 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
         ...nextMessages,
         { role: 'assistant', content: `Sorry, I couldn't process that: ${serverMsg}` },
       ]);
+      setSuggestions([]);
     } finally {
       setIsSending(false);
     }
@@ -157,8 +162,38 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
       { role: 'assistant', content: 'Hi! I\'m SmartHome Support. How can I help with your smart home today?' },
     ]);
     setInput('');
-    setSuggestion(null);
+    setSuggestions([]);
     inputRef.current?.focus();
+  };
+
+  // Render suggestion chips for pages and listings
+  const renderSuggestions = () => {
+    if (!suggestions || suggestions.length === 0) return null;
+
+    return (
+      <div className={classNames(css.message, css.assistantMessage)}>
+        <div className={css.messageContent}>
+          <div className={css.suggestionsHeader}>
+            <span className={css.suggestionsIcon}>💡</span>
+            <span className={css.suggestionsText}>Recommended resources:</span>
+          </div>
+          <SuggestionChipContainer>
+            {suggestions.map((suggestion, index) => {
+              // Remove leading slash from title for cleaner display
+              const displayTitle = suggestion.title.replace(/^\//, '');
+              return (
+                <SuggestionChip
+                  key={`${suggestion.type}-${index}`}
+                  label={displayTitle}
+                  href={suggestion.url}
+                  className={css.suggestionChip}
+                />
+              );
+            })}
+          </SuggestionChipContainer>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -230,15 +265,7 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
               </div>
             </div>
           )}
-          {suggestion && (
-            <div className={classNames(css.message, css.assistantMessage)}>
-              <div className={css.messageContent}>
-                <SuggestionChipContainer>
-                  <SuggestionChip label={`Recommended: ${suggestion.title}`} href={suggestion.url} />
-                </SuggestionChipContainer>
-              </div>
-            </div>
-          )}
+          {renderSuggestions()}
         </div>
 
         {/* Chat Input */}
@@ -269,11 +296,6 @@ const FloatingChatBubble = ({ isOpen, onToggle, className, rootClassName }) => {
       </div>
     </div>
   );
-};
-
-FloatingChatBubble.defaultProps = {
-  isOpen: false,
-  isMinimized: true,
 };
 
 FloatingChatBubble.propTypes = {

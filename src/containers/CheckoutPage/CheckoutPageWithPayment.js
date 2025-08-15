@@ -520,7 +520,7 @@ export const CheckoutPageWithPayment = props => {
   // and is using a transaction process with Stripe actions (default-booking or default-purchase)
   if (!isStripeCompatibleCurrency) {
     return (
-      <Page title={title} scrollingDisabled={scrollingDisabled}>
+      <Page title={title} robots="noindex, nofollow" scrollingDisabled={scrollingDisabled}>
         <CustomTopbar intl={intl} linkToExternalSite={config?.topbar?.logoLink} />
         <div className={css.contentContainer}>
           <section className={css.incompatibleCurrency}>
@@ -534,7 +534,7 @@ export const CheckoutPageWithPayment = props => {
   }
 
   return (
-    <Page title={title} scrollingDisabled={scrollingDisabled}>
+    <Page title={title} robots="noindex, nofollow" scrollingDisabled={scrollingDisabled}>
       <CustomTopbar intl={intl} linkToExternalSite={config?.topbar?.logoLink} />
       <div className={css.contentContainer}>
         <MobileListingImage

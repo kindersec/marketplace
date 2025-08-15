@@ -15,6 +15,8 @@ import PasswordResetPage from './PasswordResetPage/PasswordResetPage.duck';
 import PaymentMethodsPage from './PaymentMethodsPage/PaymentMethodsPage.duck';
 import ProfilePage from './ProfilePage/ProfilePage.duck';
 import ProfileSettingsPage from './ProfileSettingsPage/ProfileSettingsPage.duck';
+import ProfileDashboardPage from './ProfileDashboardPage/ProfileDashboardPage.duck';
+import OrdersPage from './OrdersPage/OrdersPage.duck';
 import SearchPage from './SearchPage/SearchPage.duck';
 import StripePayoutPage from './StripePayoutPage/StripePayoutPage.duck';
 import TransactionPage from './TransactionPage/TransactionPage.duck';
@@ -32,6 +34,8 @@ export {
   PaymentMethodsPage,
   ProfilePage,
   ProfileSettingsPage,
+  ProfileDashboardPage,
+  OrdersPage,
   SearchPage,
   StripePayoutPage,
   TransactionPage,

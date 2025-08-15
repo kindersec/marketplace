@@ -331,7 +331,7 @@ export const InboxPageComponent = props => {
   const tabs = [...ordersTabMaybe, ...salesTabMaybe];
 
   return (
-    <Page title={title} scrollingDisabled={scrollingDisabled}>
+    <Page title={title} robots="noindex, nofollow" scrollingDisabled={scrollingDisabled}>
       <LayoutSideNavigation
         sideNavClassName={css.navigation}
         topbar={

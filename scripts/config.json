@@ -1,0 +1,72 @@
+{
+  "categories": [
+    "doorbells",
+    "cameras",
+    "sensors",
+    "switches",
+    "locks",
+    "lights",
+    "hubs",
+    "thermostats",
+    "appliances",
+    "smart-indoor-garden",
+    "other"
+  ],
+  "brands": [
+    "aqara",
+    "philips",
+    "ikea",
+    "samsung",
+    "apple",
+    "google",
+    "amazon",
+    "eufy",
+    "wyze",
+    "tuya",
+    "sonoff",
+    "tapo",
+    "kasa",
+    "meross",
+    "nanoleaf",
+    "lifx",
+    "yeelight",
+    "reolink",
+    "roborock",
+    "generic"
+  ],
+  "compatibility": [
+    "homeassistant",
+    "homekit",
+    "alexa",
+    "googlehome",
+    "smartthings",
+    "ifttt",
+    "zigbee",
+    "z-wave",
+    "matter",
+    "thread",
+    "bluetooth",
+    "wifi",
+    "ethernet"
+  ],
+  "connectivity": [
+    "wifi",
+    "zigbee",
+    "thread",
+    "bluetooth",
+    "matter",
+    "ethernet",
+    "z-wave",
+    "cellular"
+  ],
+  "defaults": {
+    "listingType": "sell-new-products",
+    "transactionProcessAlias": "default-purchase/release-1",
+    "unitType": "item",
+    "pickupEnabled": false,
+    "shippingEnabled": true,
+    "shippingPriceInSubunitsAdditionalItems": 0,
+    "shippingPriceInSubunitsOneItem": 0,
+    "works_with_home_assistant": "false"
+  }
+}

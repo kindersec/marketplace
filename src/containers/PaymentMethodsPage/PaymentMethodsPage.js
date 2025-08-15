@@ -171,7 +171,7 @@ const PaymentMethodsPageComponent = props => {
   };
 
   return (
-    <Page title={title} scrollingDisabled={scrollingDisabled}>
+    <Page title={title} robots="noindex, nofollow" scrollingDisabled={scrollingDisabled}>
       <LayoutSideNavigation
         topbar={
           <>

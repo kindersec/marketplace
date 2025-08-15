@@ -112,6 +112,21 @@ export const transactionLineItems = body => {
   return post('/api/transaction-line-items', body);
 };
 
+// Cart endpoints
+export const getCart = () => {
+  return request('/api/cart', { method: methods.GET });
+};
+
+export const saveCart = cart => {
+  // Ensure we send only plain JSON nested under cart key
+  const cartPlain = JSON.parse(JSON.stringify(cart || {}));
+  return post('/api/cart', { cart: cartPlain });
+};
+
+export const cartLineItems = items => {
+  return post('/api/cart-line-items', { items });
+};
+
 // Initiate a privileged transaction.
 //
 // With privileged transitions, the transactions need to be created

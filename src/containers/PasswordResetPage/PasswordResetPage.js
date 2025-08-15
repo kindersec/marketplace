@@ -131,6 +131,7 @@ export const PasswordResetPageComponent = props => {
       title={intl.formatMessage({
         id: 'PasswordResetPage.title',
       })}
+      robots="noindex, nofollow"
       scrollingDisabled={scrollingDisabled}
       referrer="origin"
     >

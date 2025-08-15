@@ -263,7 +263,7 @@ export const EditListingPageComponent = props => {
       : intl.formatMessage({ id: 'EditListingPage.titleEditListing' });
 
     return (
-      <Page title={title} scrollingDisabled={scrollingDisabled}>
+      <Page title={title} robots="noindex, nofollow" scrollingDisabled={scrollingDisabled}>
         <TopbarContainer
           mobileRootClassName={css.mobileTopbar}
           desktopClassName={css.desktopTopbar}
@@ -320,7 +320,7 @@ export const EditListingPageComponent = props => {
       id: 'EditListingPage.loadingListingData',
     };
     return (
-      <Page title={intl.formatMessage(loadingPageMsg)} scrollingDisabled={scrollingDisabled}>
+      <Page title={intl.formatMessage(loadingPageMsg)} robots="noindex, nofollow" scrollingDisabled={scrollingDisabled}>
         <TopbarContainer
           mobileRootClassName={css.mobileTopbar}
           desktopClassName={css.desktopTopbar}

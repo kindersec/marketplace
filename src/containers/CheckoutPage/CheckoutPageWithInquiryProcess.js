@@ -148,7 +148,7 @@ export const CheckoutPageWithInquiryProcess = props => {
   const showPrice = displayPrice(listingTypeConfig);
 
   return (
-    <Page title={title} scrollingDisabled={scrollingDisabled}>
+    <Page title={title} robots="noindex, nofollow" scrollingDisabled={scrollingDisabled}>
       <CustomTopbar intl={intl} linkToExternalSite={config?.topbar?.logoLink} />
       <div className={css.contentContainer}>
         <MobileListingImage

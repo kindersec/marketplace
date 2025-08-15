@@ -295,7 +295,11 @@ export const LandingPageComponent = props => {
 
   if (inProgress) {
     return (
-      <Page title="Smart Home Devices" scrollingDisabled={false}>
+      <Page
+        title="Smart Home Devices | Domee"
+        description="Discover the latest smart home devices, guides, and expert advice. Shop top brands and learn how to automate and secure your home with smart tech."
+        scrollingDisabled={false}
+      >
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.loading}>Loading...</div>
         </LayoutSingleColumn>
@@ -305,7 +309,11 @@ export const LandingPageComponent = props => {
 
   if (error) {
     return (
-      <Page title="Smart Home Devices" scrollingDisabled={false}>
+      <Page
+        title="Smart Home Devices | Domee"
+        description="Discover the latest smart home devices, guides, and expert advice. Shop top brands and learn how to automate and secure your home with smart tech."
+        scrollingDisabled={false}
+      >
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.error}>
             <h2>Oops, something went wrong!</h2>
@@ -317,7 +325,11 @@ export const LandingPageComponent = props => {
   }
 
   return (
-    <Page title="Smart Home Devices" scrollingDisabled={false}>
+    <Page
+      title="Smart Home Devices | Domee"
+      description="Discover and compare smart home devices from top brands. Explore guides on lighting, security, climate, and automation to enhance your home."
+      scrollingDisabled={false}
+    >
       <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
         <div className={css.root}>
           {/* Hero Section */}

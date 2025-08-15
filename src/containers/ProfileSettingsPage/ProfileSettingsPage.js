@@ -175,7 +175,7 @@ export const ProfileSettingsPageComponent = props => {
   const showManageListingsLink = showCreateListingLinkForUser(config, currentUser);
 
   return (
-    <Page className={css.root} title={title} scrollingDisabled={scrollingDisabled}>
+    <Page className={css.root} title={title} robots="noindex, nofollow" scrollingDisabled={scrollingDisabled}>
       <LayoutSingleColumn
         topbar={
           <>

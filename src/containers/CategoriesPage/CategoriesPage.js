@@ -94,7 +94,11 @@ export const CategoriesPageComponent = props => {
 
   if (inProgress) {
     return (
-      <Page title="Smart Home Categories" scrollingDisabled={false}>
+      <Page
+        title="Smart Home Categories | Domee"
+        description="Explore smart home categories: lighting, security cameras, smart locks, sensors, vacuums, and more. Find devices for your needs."
+        scrollingDisabled={false}
+      >
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.root}>
             <div className={css.loading}>Loading categories...</div>
@@ -106,7 +110,11 @@ export const CategoriesPageComponent = props => {
 
   if (error) {
     return (
-      <Page title="Smart Home Categories" scrollingDisabled={false}>
+      <Page
+        title="Smart Home Categories | Domee"
+        description="Explore smart home categories: lighting, security cameras, smart locks, sensors, vacuums, and more. Find devices for your needs."
+        scrollingDisabled={false}
+      >
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.root}>
             <div className={css.error}>
@@ -135,7 +143,11 @@ export const CategoriesPageComponent = props => {
   );
 
   return (
-    <Page title="Smart Home Categories" scrollingDisabled={false}>
+    <Page
+      title="Smart Home Categories | Domee"
+      description="Browse smart home device categories and discover products for lighting, security, climate control, and automation."
+      scrollingDisabled={false}
+    >
       <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
         <div className={css.root}>
           <div className={css.container}>

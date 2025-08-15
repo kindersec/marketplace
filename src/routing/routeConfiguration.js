@@ -31,6 +31,8 @@ const PaymentMethodsPage = loadable(() => import(/* webpackChunkName: "PaymentMe
 const PrivacyPolicyPage = loadable(() => import(/* webpackChunkName: "PrivacyPolicyPage" */ '../containers/PrivacyPolicyPage/PrivacyPolicyPage'));
 const ProfilePage = loadable(() => import(/* webpackChunkName: "ProfilePage" */ '../containers/ProfilePage/ProfilePage'));
 const ProfileSettingsPage = loadable(() => import(/* webpackChunkName: "ProfileSettingsPage" */ '../containers/ProfileSettingsPage/ProfileSettingsPage'));
+const ProfileDashboardPage = loadable(() => import(/* webpackChunkName: "ProfileDashboardPage" */ '../containers/ProfileDashboardPage/ProfileDashboardPage'));
+const OrdersPage = loadable(() => import(/* webpackChunkName: "OrdersPage" */ '../containers/OrdersPage/OrdersPage'));
 const SearchPageWithMap = loadable(() => import(/* webpackChunkName: "SearchPageWithMap" */ /* webpackPrefetch: true */  '../containers/SearchPage/SearchPageWithMap'));
 const SearchPageWithGrid = loadable(() => import(/* webpackChunkName: "SearchPageWithGrid" */ /* webpackPrefetch: true */  '../containers/SearchPage/SearchPageWithGrid'));
 const StripePayoutPage = loadable(() => import(/* webpackChunkName: "StripePayoutPage" */ '../containers/StripePayoutPage/StripePayoutPage'));
@@ -76,6 +78,7 @@ const SmartHomeMythsPage = loadable(() => import(/* webpackChunkName: "SmartHome
 const SmartBulbGlossaryPage = loadable(() => import(/* webpackChunkName: "SmartBulbGlossaryPage" */ '../containers/ArticlesPage/SmartBulbGlossaryPage'));
 const SmartLockGlossaryPage = loadable(() => import(/* webpackChunkName: "SmartLockGlossaryPage" */ '../containers/ArticlesPage/SmartLockGlossaryPage'));
 const ChatSupportPage = loadable(() => import(/* webpackChunkName: "ChatSupportPage" */ '../containers/ChatSupportPage/ChatSupportPage'));
+const CartPage = loadable(() => import(/* webpackChunkName: "CartPage" */ '../containers/CartPage/CartPage'));
 
 export const ACCOUNT_SETTINGS_PAGES = [
   'ContactDetailsPage',
@@ -145,6 +148,13 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       path: '/support',
       name: 'ChatSupportPage',
       component: ChatSupportPage,
+    },
+    {
+      path: '/cart',
+      name: 'CartPage',
+      auth: true,
+      authPage: 'LoginPage',
+      component: CartPage,
     },
     {
       path: '/landing-page',
@@ -345,12 +355,28 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       loadData: pageDataLoadingAPI.ProfilePage.loadData,
     },
     {
+      path: '/profile',
+      name: 'ProfileDashboardPage',
+      auth: true,
+      authPage: 'LoginPage',
+      component: ProfileDashboardPage,
+    },
+    {
+      path: '/orders',
+      name: 'OrdersPage',
+      auth: true,
+      authPage: 'LoginPage',
+      component: OrdersPage,
+      loadData: pageDataLoadingAPI.OrdersPage.loadData,
+    },
+    {
       path: '/profile-settings',
       name: 'ProfileSettingsPage',
       auth: true,
       authPage: 'LoginPage',
       component: ProfileSettingsPage,
     },
+
 
     // Note: authenticating with IdP (e.g. Facebook) expects that /login path exists
     // so that in the error case users can be redirected back to the LoginPage
@@ -595,16 +621,16 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       name: 'SmartBathroomGadgetsPage',
       component: SmartBathroomGadgetsPage,
     },
-          {
-        path: '/articles/underrated-smart-devices',
-        name: 'UnderratedSmartDevicesPage',
-        component: UnderratedSmartDevicesPage,
-      },
-      {
-        path: '/articles/smart-home-glossary',
-        name: 'SmartHomeGlossaryPage',
-        component: SmartHomeGlossaryPage,
-      },
+    {
+      path: '/articles/underrated-smart-devices',
+      name: 'UnderratedSmartDevicesPage',
+      component: UnderratedSmartDevicesPage,
+    },
+    {
+      path: '/articles/smart-home-glossary',
+      name: 'SmartHomeGlossaryPage',
+      component: SmartHomeGlossaryPage,
+    },
       {
         path: '/articles/wi-fi',
         name: 'WiFiPage',
@@ -670,7 +696,7 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
         name: 'SmartLockGlossaryPage',
         component: SmartLockGlossaryPage,
       },
-  ];
-};
+    ];
+  };
 
 export default routeConfiguration;

@@ -1412,10 +1412,11 @@ const mergeMapConfig = (hostedMapConfig, defaultMapConfig) => {
 
   const hasApiAccess =
     mapProviderPicked === 'googleMaps' ? !!googleMapsAPIKeyPicked : !!mapboxAccessTokenPicked;
-  if (!hasApiAccess) {
-    console.error(
-      `The access tokens are not in place for the selected map provider (${mapProviderPicked})`
-    );
+  // Only warn in development and only if a map is actually expected to load; otherwise stay silent
+  if (!hasApiAccess && process.env.NODE_ENV === 'development') {
+    // console.warn(
+    //   `Map provider selected ("${mapProviderPicked}") but no API key/token configured. Maps will be disabled.`
+    // );
   }
 
   return {

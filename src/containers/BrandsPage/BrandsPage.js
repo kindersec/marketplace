@@ -514,7 +514,11 @@ export const BrandsPageComponent = props => {
 
   if (inProgress) {
     return (
-      <Page title="Smart Home Brands" scrollingDisabled={false}>
+      <Page
+        title="Smart Home Brands | Domee"
+        description="Browse popular smart home brands including Philips Hue, Ring, Ecobee, Aqara, and more. Discover devices compatible with your smart home."
+        scrollingDisabled={false}
+      >
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.root}>
             <div className={css.loading}>Loading brands...</div>
@@ -526,7 +530,11 @@ export const BrandsPageComponent = props => {
 
   if (error) {
     return (
-      <Page title="Smart Home Brands" scrollingDisabled={false}>
+      <Page
+        title="Smart Home Brands | Domee"
+        description="Browse popular smart home brands including Philips Hue, Ring, Ecobee, Aqara, and more. Discover devices compatible with your smart home."
+        scrollingDisabled={false}
+      >
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.root}>
             <div className={css.error}>
@@ -553,8 +561,19 @@ export const BrandsPageComponent = props => {
     brand.brand.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const brandFromQuery = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('brand') : null;
+  const selectedBrand = brandFromQuery && brandsData.find(b => b.value === brandFromQuery);
+  const brandTitleMaybe = selectedBrand ? `${selectedBrand.brand} Smart Home Devices | Domee` : 'Smart Home Brands | Domee';
+  const brandDescMaybe = selectedBrand
+    ? `Explore ${selectedBrand.brand} smart home devices — compatibility, features, and top picks for lighting, security, and automation.`
+    : 'Explore top smart home brands and find products that work with your ecosystem. Compare devices across lighting, security, climate, and more.';
+
   return (
-    <Page title="Smart Home Brands" scrollingDisabled={false}>
+    <Page
+      title={brandTitleMaybe}
+      description={brandDescMaybe}
+      scrollingDisabled={false}
+    >
       <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
         <div className={css.root}>
           <div className={css.container}>

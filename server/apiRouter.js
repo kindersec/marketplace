@@ -13,10 +13,13 @@ const { deserialize } = require('./api-util/sdk');
 const initiateLoginAs = require('./api/initiate-login-as');
 const loginAs = require('./api/login-as');
 const transactionLineItems = require('./api/transaction-line-items');
+const cartHandler = require('./api/cart');
+const cartLineItems = require('./api/cart-line-items');
 const initiatePrivileged = require('./api/initiate-privileged');
 const transitionPrivileged = require('./api/transition-privileged');
 const contactHandler = require('./api/contact');
 const chatSupport = require('./api/chat-support');
+
 
 const createUserWithIdp = require('./api/auth/createUserWithIdp');
 
@@ -62,10 +65,14 @@ router.use(
 router.get('/initiate-login-as', initiateLoginAs);
 router.get('/login-as', loginAs);
 router.post('/transaction-line-items', transactionLineItems);
+router.get('/cart', cartHandler);
+router.post('/cart', cartHandler);
+router.post('/cart-line-items', cartLineItems);
 router.post('/initiate-privileged', initiatePrivileged);
 router.post('/transition-privileged', transitionPrivileged);
 router.post('/contact', contactHandler);
 router.post('/chat-support', chatSupport);
+
 
 // Create user with identity provider (e.g. Facebook or Google)
 // This endpoint is called to create a new user after user has confirmed

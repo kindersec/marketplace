@@ -1,0 +1,326 @@
+@import '../../styles/customMediaQueries.css';
+
+.root {
+  background-color: var(--colorWhite);
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* User Navigation */
+.userNav {
+  margin-bottom: 32px;
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding: 32px;
+  background: linear-gradient(135deg, var(--colorGrey50) 0%, var(--colorWhite) 100%);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pageTitle {
+  margin: 0 0 16px 0;
+  color: var(--colorGrey900);
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.pageDescription {
+  margin: 0;
+  color: var(--colorGrey600);
+  font-size: 18px;
+  line-height: 1.5;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Orders Section */
+.ordersSection {
+  margin-bottom: 48px;
+}
+
+.ordersGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+
+  @media (--viewportMedium) {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 32px;
+  }
+}
+
+/* Order Card */
+.orderCard {
+  display: flex;
+  background: var(--colorWhite);
+  border: 1px solid var(--colorGrey200);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.orderCard:hover {
+  border-color: var(--colorMarketplace);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+.orderImage {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--colorGrey200);
+}
+
+.orderImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.orderImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background: var(--colorGrey100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--colorGrey400);
+}
+
+.placeholderIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.orderInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.orderTitle {
+  margin: 0;
+  color: var(--colorGrey900);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.orderMeta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.orderDate {
+  color: var(--colorGrey600);
+}
+
+.orderTotal {
+  color: var(--colorGrey900);
+  font-weight: 600;
+}
+
+.orderActions {
+  display: flex;
+  align-items: center;
+}
+
+.viewDetailsButton {
+  padding: 12px 24px;
+  background-color: var(--colorMarketplace);
+  color: var(--colorWhite);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewDetailsButton:hover {
+  background-color: var(--colorMarketplaceDark);
+  transform: translateY(-1px);
+}
+
+/* Status Badges */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.statusConfirmed {
+  background-color: var(--colorSuccess);
+  color: var(--colorWhite);
+}
+
+.statusPending {
+  background-color: var(--colorWarning);
+  color: var(--colorWhite);
+}
+
+.statusShipped {
+  background-color: var(--colorInfo);
+  color: var(--colorWhite);
+}
+
+.statusCompleted {
+  background-color: var(--colorSuccess);
+  color: var(--colorWhite);
+}
+
+.statusCancelled {
+  background-color: var(--colorError);
+  color: var(--colorWhite);
+}
+
+.statusExpired {
+  background-color: var(--colorGrey500);
+  color: var(--colorWhite);
+}
+
+.statusDefault {
+  background-color: var(--colorGrey300);
+  color: var(--colorGrey700);
+}
+
+/* Loading State */
+.loadingContainer {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.loadingSpinner {
+  width: 48px;
+  height: 48px;
+  color: var(--colorMarketplace);
+  margin-bottom: 16px;
+}
+
+.loadingText {
+  margin: 0;
+  color: var(--colorGrey600);
+  font-size: 16px;
+}
+
+/* Error State */
+.errorContainer {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.errorIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--colorError);
+  margin-bottom: 16px;
+}
+
+.errorTitle {
+  margin: 0 0 16px 0;
+  color: var(--colorGrey900);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.errorDescription {
+  margin: 0 0 24px 0;
+  color: var(--colorGrey600);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.retryButton {
+  padding: 12px 24px;
+  background-color: var(--colorMarketplace);
+  color: var(--colorWhite);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.retryButton:hover {
+  background-color: var(--colorMarketplaceDark);
+  transform: translateY(-1px);
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.emptyStateIcon {
+  width: 64px;
+  height: 64px;
+  color: var(--colorGrey400);
+  margin-bottom: 24px;
+}
+
+.emptyStateTitle {
+  margin: 0 0 16px 0;
+  color: var(--colorGrey900);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.emptyStateDescription {
+  margin: 0 0 32px 0;
+  color: var(--colorGrey600);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 400px;
+  margin: 0 auto 32px auto;
+}
+
+.browseButton {
+  display: inline-block;
+  padding: 16px 32px;
+  background-color: var(--colorMarketplace);
+  color: var(--colorWhite);
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.browseButton:hover {
+  background-color: var(--colorMarketplaceDark);
+  transform: translateY(-2px);
+  text-decoration: none;
+}

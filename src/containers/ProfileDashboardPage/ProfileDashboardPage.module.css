@@ -1,0 +1,389 @@
+@import '../../styles/customMediaQueries.css';
+
+.root {
+  background-color: var(--colorWhite);
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* User Navigation */
+.userNav {
+  margin-bottom: 32px;
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
+}
+
+/* Profile Header */
+.profileHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 48px;
+  padding: 32px;
+  background: linear-gradient(135deg, var(--colorGrey50) 0%, var(--colorWhite) 100%);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  @media (--viewportMedium) {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+    padding: 40px;
+  }
+}
+
+.profileImageSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 0;
+    margin-right: 32px;
+  }
+}
+
+.profileImage {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 16px;
+  border: 4px solid var(--colorWhite);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.editProfileButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: var(--colorGrey100);
+  color: var(--colorGrey700);
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.editProfileButton:hover {
+  background-color: var(--colorGrey200);
+  color: var(--colorGrey800);
+  text-decoration: none;
+}
+
+.editIcon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.profileInfo {
+  flex: 1;
+}
+
+.profileName {
+  margin: 0 0 16px 0;
+  color: var(--colorGrey900);
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.profileBio {
+  margin: 0 0 24px 0;
+  color: var(--colorGrey600);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 500px;
+}
+
+.profileStats {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  @media (--viewportMedium) {
+    justify-content: flex-start;
+  }
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  @media (--viewportMedium) {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+.statNumber {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--colorGrey900);
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: var(--colorGrey600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Section Titles */
+.sectionTitle {
+  margin: 0 0 24px 0;
+  color: var(--colorGrey900);
+  font-size: 24px;
+  font-weight: 600;
+  border-bottom: 2px solid var(--colorGrey200);
+  padding-bottom: 12px;
+}
+
+/* Quick Actions */
+.quickActions {
+  margin-bottom: 48px;
+}
+
+.actionGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @media (--viewportMedium) {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+}
+
+.actionCard {
+  display: block;
+  padding: 24px;
+  background: var(--colorWhite);
+  border: 2px solid var(--colorGrey200);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.actionCard:hover {
+  border-color: var(--colorGrey300);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.actionCardContent {
+  display: flex;
+  align-items: flex-start;
+}
+
+.actionIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--colorGrey600);
+  margin-right: 16px;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.actionText {
+  flex: 1;
+}
+
+.actionTitle {
+  margin: 0 0 8px 0;
+  color: var(--colorGrey900);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.actionDescription {
+  margin: 0;
+  color: var(--colorGrey600);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Account Settings */
+.accountSettings {
+  margin-bottom: 48px;
+}
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @media (--viewportMedium) {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+  }
+}
+
+.profileCard {
+  background: var(--colorWhite);
+  border: 1px solid var(--colorGrey200);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.profileCard:hover {
+  border-color: var(--colorGrey300);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cardIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--colorGrey600);
+  margin-right: 12px;
+}
+
+.cardTitle {
+  margin: 0;
+  color: var(--colorGrey900);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cardContent {
+  color: var(--colorGrey700);
+}
+
+.settingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--colorGrey100);
+}
+
+.settingLabel {
+  font-weight: 500;
+  color: var(--colorGrey700);
+}
+
+.settingValue {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--colorGrey600);
+  font-size: 14px;
+}
+
+.verifiedBadge {
+  background-color: var(--colorSuccess);
+  color: var(--colorWhite);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.unverifiedBadge {
+  background-color: var(--colorWarning);
+  color: var(--colorWhite);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.editSettingLink {
+  display: inline-block;
+  color: var(--colorMarketplace);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 0;
+  transition: color 0.2s ease;
+}
+
+.editSettingLink:hover {
+  color: var(--colorMarketplaceDark);
+  text-decoration: underline;
+}
+
+/* Card-specific styles */
+.manageListingsCard {
+  border-color: var(--colorMarketplace);
+}
+
+.manageListingsCard:hover {
+  border-color: var(--colorMarketplaceDark);
+}
+
+.ordersCard {
+  border-color: var(--colorSuccess);
+}
+
+.ordersCard:hover {
+  border-color: var(--colorSuccessDark);
+}
+
+.browseCard {
+  border-color: var(--colorMarketplace);
+}
+
+.browseCard:hover {
+  border-color: var(--colorMarketplaceDark);
+}
+
+.salesCard {
+  border-color: var(--colorInfo);
+}
+
+.salesCard:hover {
+  border-color: var(--colorInfoDark);
+}
+
+.contactCard {
+  border-color: var(--colorEmail);
+}
+
+.contactCard:hover {
+  border-color: var(--colorEmailDark);
+}
+
+.securityCard {
+  border-color: var(--colorWarning);
+}
+
+.securityCard:hover {
+  border-color: var(--colorWarningDark);
+}
+
+.paymentCard {
+  border-color: var(--colorSuccess);
+}
+
+.paymentCard:hover {
+  border-color: var(--colorSuccessDark);
+}
+
+.payoutCard {
+  border-color: var(--colorInfo);
+}
+
+.payoutCard:hover {
+  border-color: var(--colorInfoDark);
+}

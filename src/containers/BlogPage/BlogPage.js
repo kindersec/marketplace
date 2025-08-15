@@ -214,7 +214,11 @@ export const BlogPageComponent = props => {
 
   if (inProgress) {
     return (
-      <Page title="Smart Home Blog" scrollingDisabled={false}>
+      <Page
+        title="Smart Home Blog | Domee"
+        description="Read expert smart home articles, guides, and reviews. Learn about Wi‑Fi, security, lighting, automation, and the best devices for your home."
+        scrollingDisabled={false}
+      >
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.loading}>Loading...</div>
         </LayoutSingleColumn>
@@ -224,7 +228,11 @@ export const BlogPageComponent = props => {
 
   if (error) {
     return (
-      <Page title="Smart Home Blog" scrollingDisabled={false}>
+      <Page
+        title="Smart Home Blog | Domee"
+        description="Read expert smart home articles, guides, and reviews. Learn about Wi‑Fi, security, lighting, automation, and the best devices for your home."
+        scrollingDisabled={false}
+      >
         <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
           <div className={css.error}>
             <h2>Oops, something went wrong!</h2>
@@ -236,7 +244,11 @@ export const BlogPageComponent = props => {
   }
 
   return (
-    <Page title="Smart Home Blog" scrollingDisabled={false}>
+    <Page
+      title="Smart Home Blog | Domee"
+      description="Discover smart home insights, tutorials, and product recommendations to help you build a smarter, safer, and more efficient home."
+      scrollingDisabled={false}
+    >
       <LayoutSingleColumn topbar={<TopbarContainer />} footer={<FooterContainer />}>
         <div className={css.root}>
           {/* Hero Section */}

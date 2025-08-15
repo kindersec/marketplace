@@ -366,6 +366,35 @@
   font-weight: var(--fontWeightBold);
 }
 
+.suggestionsHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--colorGrey700);
+}
+
+.suggestionsIcon {
+  font-size: 16px;
+}
+
+.suggestionsText {
+  font-size: 13px;
+  color: var(--colorGrey600);
+}
+
+.suggestionChip {
+  margin: 4px 4px 4px 0;
+  transition: all 0.2s ease;
+}
+
+.suggestionChip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Responsive design - ultra-compact layout for maximum information density */
 @media (--viewportSmall) {
   .root {

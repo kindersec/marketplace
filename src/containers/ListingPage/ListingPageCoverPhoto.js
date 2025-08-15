@@ -61,12 +61,8 @@ import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../FooterContainer/FooterContainer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
-import {
-  sendInquiry,
-  setInitialValues,
-  fetchTimeSlots,
-  fetchTransactionLineItems,
-} from './ListingPage.duck';
+import { sendInquiry, setInitialValues, fetchTimeSlots, fetchTransactionLineItems } from './ListingPage.duck';
+import { addToCart } from '../../ducks/cart.duck';
 
 import {
   LoadingPage,
@@ -259,7 +255,7 @@ export const ListingPageComponent = props => {
     onSendInquiry,
     setInquiryModalOpen,
   });
-  const onSubmit = handleSubmit({
+  const onSubmitCheckout = handleSubmit({
     ...commonParams,
     currentUser,
     callSetInitialValues,
@@ -267,12 +263,25 @@ export const ListingPageComponent = props => {
     onInitializeCardPaymentData,
   });
 
+  const onSubmitAddToCart = values => {
+    const orderData = values || {};
+    return props
+      .onAddToCart(currentListing, orderData)
+      .then(() => {
+        history.push('/cart');
+      })
+      .catch(() => {});
+  };
+
   const handleOrderSubmit = values => {
     const isCurrentlyClosed = currentListing.attributes.state === LISTING_STATE_CLOSED;
     if (isOwnListing || isCurrentlyClosed) {
       window.scrollTo(0, 0);
     } else {
-      onSubmit(values);
+      // This handler is used for inquiry (without payment) to submit directly
+      // For purchase/booking, the CTA opens a modal and the FinalForm submission
+      // will call the onSubmit passed to OrderPanel below
+      onSubmitCheckout(values);
     }
   };
 
@@ -406,7 +415,7 @@ export const ListingPageComponent = props => {
               className={css.orderPanel}
               listing={currentListing}
               isOwnListing={isOwnListing}
-              onSubmit={handleOrderSubmit}
+              onSubmit={isPurchase ? onSubmitAddToCart : handleOrderSubmit}
               authorLink={
                 <NamedLink
                   className={css.authorNameLink}
@@ -635,6 +644,7 @@ const mapDispatchToProps = dispatch => ({
   onInitializeCardPaymentData: () => dispatch(initializeCardPaymentData()),
   onFetchTimeSlots: (listingId, start, end, timeZone, options) =>
     dispatch(fetchTimeSlots(listingId, start, end, timeZone, options)), // for OrderPanel
+  onAddToCart: (listing, orderData) => dispatch(addToCart({ listing, orderData })),
 });
 
 // Note: it is important that the withRouter HOC is **outside** the

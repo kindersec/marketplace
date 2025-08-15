@@ -61,12 +61,8 @@ import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../FooterContainer/FooterContainer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
-import {
-  sendInquiry,
-  setInitialValues,
-  fetchTimeSlots,
-  fetchTransactionLineItems,
-} from './ListingPage.duck';
+import { sendInquiry, setInitialValues, fetchTimeSlots, fetchTransactionLineItems } from './ListingPage.duck';
+import { addToCart } from '../../ducks/cart.duck';
 
 import {
   LoadingPage,
@@ -195,20 +191,133 @@ const Tabs = ({ activeTab, onTabChange, publicData }) => {
               }
             }
 
+                                    // Function to make keys more readable
+            const formatKey = (key) => {
+              return key
+                .replace(/_/g, ' ')           // Replace underscores with spaces
+                .replace(/\b\w/g, l => l.toUpperCase()) // Capitalize first letter of each word
+                .replace(/\b(wi-fi|wifi)\b/gi, 'Wi-Fi') // Fix Wi-Fi capitalization
+                .replace(/\b(usb|hdmi|rj45|ip)\b/gi, l => l.toUpperCase()) // Common tech acronyms
+                .replace(/\b(ghz|mhz|mb|gb|kb)\b/gi, l => l.toUpperCase()) // Common units
+                .replace(/\b(ieee|wpa|wpa2|wpa3)\b/gi, l => l.toUpperCase()); // Common standards
+            };
+
+            // Recursive function to render nested specifications up to 5 levels deep
+            const renderSpecsTable = (specs, level = 0, parentKey = '') => {
+              if (level > 4) return null; // Limit to 5 levels deep
+
+              if (!specs || typeof specs !== 'object') {
+                return null;
+              }
+
+              return (
+                <table className={css.specsTable}>
+                  <tbody>
+                    {Object.entries(specs).map(([key, value]) => {
+                      const isNested = value && typeof value === 'object' && !Array.isArray(value);
+                      // Don't show parent key prefix for children, just format the current key
+                      const displayKey = formatKey(key);
+
+                      if (isNested && level < 4) {
+                        // Render nested object as a group with indented children
+                        return (
+                          <React.Fragment key={key}>
+                            <tr className={css.specsGroupHeader}>
+                              <td colSpan="2" className={css.specsGroupTitle}>
+                                {displayKey}
+                              </td>
+                            </tr>
+                            {renderSpecsTable(value, level + 1, key)}
+                          </React.Fragment>
+                        );
+                      } else {
+                        // Render simple key-value pair
+                        return (
+                          <tr key={key} className={level > 0 ? css.specsNestedRow : ''}>
+                            <td className={css.specsKey}>{displayKey}</td>
+                            <td className={css.specsValue}>
+                              {Array.isArray(value) ? value.join(', ') : String(value)}
+                            </td>
+                          </tr>
+                        );
+                      }
+                    })}
+                  </tbody>
+                </table>
+              );
+            };
+
+                        // Function to render specifications in two-column layout
+            const renderSpecsTwoColumn = (specs) => {
+              if (!specs || typeof specs !== 'object') {
+                return null;
+              }
+
+              // Separate keys into nested objects and simple values
+              const nestedKeys = [];
+              const simpleKeys = [];
+
+              Object.entries(specs).forEach(([key, value]) => {
+                const isNested = value && typeof value === 'object' && !Array.isArray(value);
+                if (isNested) {
+                  nestedKeys.push({ key, value });
+                } else {
+                  simpleKeys.push({ key, value });
+                }
+              });
+
+              // If we have simple values, render them in a single table first
+              const simpleValuesTable = simpleKeys.length > 0 ? (
+                <div className={css.specsSection}>
+                  <h4 className={css.specsSectionTitle}>General Specifications</h4>
+                  <table className={css.specsTable}>
+                    <tbody>
+                      {simpleKeys.map(({ key, value }) => (
+                        <tr key={key}>
+                          <td className={css.specsKey}>{formatKey(key)}</td>
+                          <td className={css.specsValue}>
+                            {Array.isArray(value) ? value.join(', ') : String(value)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : null;
+
+              // If we have nested objects, render them in two columns
+              const nestedSpecsLayout = nestedKeys.length > 0 ? (
+                <div className={css.specsTwoColumnLayout}>
+                  <div className={css.specsLeftColumn}>
+                    {nestedKeys.slice(0, Math.ceil(nestedKeys.length / 2)).map(({ key, value }) => (
+                      <div key={key} className={css.specsSection}>
+                        <h4 className={css.specsSectionTitle}>{formatKey(key)}</h4>
+                        {renderSpecsTable(value, 1, key)}
+                      </div>
+                    ))}
+                  </div>
+                  <div className={css.specsRightColumn}>
+                    {nestedKeys.slice(Math.ceil(nestedKeys.length / 2)).map(({ key, value }) => (
+                      <div key={key} className={css.specsSection}>
+                        <h4 className={css.specsSectionTitle}>{formatKey(key)}</h4>
+                        {renderSpecsTable(value, 1, key)}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null;
+
+              return (
+                <div className={css.specsContainer}>
+                  {simpleValuesTable}
+                  {nestedSpecsLayout}
+                </div>
+              );
+            };
+
             // If we have valid specs, display them
             if (parsedSpecs && typeof parsedSpecs === 'object' && Object.keys(parsedSpecs).length > 0) {
-                             return (
-                 <table className={css.specsTable}>
-                   <tbody>
-                     {Object.entries(parsedSpecs).map(([key, value]) => (
-                       <tr key={key}>
-                         <td>{key}</td>
-                         <td>{value}</td>
-                       </tr>
-                     ))}
-                   </tbody>
-                 </table>
-               );
+              return renderSpecsTwoColumn(parsedSpecs);
             } else {
               // Fallback to placeholder content if no valid tech_specs
               return (
@@ -716,7 +825,7 @@ export const ListingPageComponent = props => {
     onSendInquiry,
     setInquiryModalOpen,
   });
-  const onSubmit = handleSubmit({
+  const onSubmitCheckout = handleSubmit({
     ...commonParams,
     currentUser,
     callSetInitialValues,
@@ -724,12 +833,22 @@ export const ListingPageComponent = props => {
     onInitializeCardPaymentData,
   });
 
+  const onSubmitAddToCart = values => {
+    const orderData = values || {};
+    return props
+      .onAddToCart(currentListing, orderData)
+      .then(() => {
+        history.push('/cart');
+      })
+      .catch(() => {});
+  };
+
   const handleOrderSubmit = values => {
     const isCurrentlyClosed = currentListing.attributes.state === LISTING_STATE_CLOSED;
     if (isOwnListing || isCurrentlyClosed) {
       window.scrollTo(0, 0);
     } else {
-      onSubmit(values);
+      onSubmitCheckout(values);
     }
   };
 
@@ -918,7 +1037,7 @@ export const ListingPageComponent = props => {
               })}
               listing={currentListing}
               isOwnListing={isOwnListing}
-              onSubmit={handleOrderSubmit}
+              onSubmit={isPurchase ? onSubmitAddToCart : handleOrderSubmit}
               authorLink={
                 <NamedLink
                   className={css.authorNameLink}
@@ -1148,6 +1267,7 @@ const mapDispatchToProps = dispatch => ({
   onInitializeCardPaymentData: () => dispatch(initializeCardPaymentData()),
   onFetchTimeSlots: (listingId, start, end, timeZone, options) =>
     dispatch(fetchTimeSlots(listingId, start, end, timeZone, options)), // for OrderPanel
+  onAddToCart: (listing, orderData) => dispatch(addToCart({ listing, orderData })),
 });
 
 // Note: it is important that the withRouter HOC is **outside** the

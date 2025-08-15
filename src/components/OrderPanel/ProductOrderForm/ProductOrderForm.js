@@ -136,11 +136,9 @@ const renderForm = formRenderProps => {
     values,
   } = formRenderProps;
 
-  // Note: don't add custom logic before useEffect
   useEffect(() => {
     setMounted(true);
 
-    // Side-effect: fetch line-items after mounting if possible
     const { quantity, deliveryMethod } = values;
     if (quantity && !formRenderProps.hasMultipleDeliveryMethods) {
       handleFetchLineItems({
@@ -155,7 +153,6 @@ const renderForm = formRenderProps => {
     }
   }, []);
 
-  // If form values change, update line-items for the order breakdown
   const handleOnChange = formValues => {
     const { quantity, deliveryMethod } = formValues.values;
     if (mounted) {
@@ -170,18 +167,15 @@ const renderForm = formRenderProps => {
     }
   };
 
-  // In case quantity and deliveryMethod are missing focus on that select-input.
-  // Otherwise continue with the default handleSubmit function.
+  // For cart: directly submit to parent if quantity (and deliveryMethod if needed) is valid
   const handleFormSubmit = e => {
     const { quantity, deliveryMethod } = values || {};
     if (!quantity || quantity < 1) {
       e.preventDefault();
-      // Blur event will show validator message
       formApi.blur('quantity');
       formApi.focus('quantity');
     } else if (displayDeliveryMethod && !deliveryMethod) {
       e.preventDefault();
-      // Blur event will show validator message
       formApi.blur('deliveryMethod');
       formApi.focus('deliveryMethod');
     } else {
@@ -190,8 +184,7 @@ const renderForm = formRenderProps => {
   };
 
   const breakdownData = {};
-  const showBreakdown =
-    breakdownData && lineItems && !fetchLineItemsInProgress && !fetchLineItemsError;
+  const showBreakdown = false; // disable local breakdown to simplify add-to-cart submit UX
 
   const showContactUser = typeof onContactUser === 'function';
 
@@ -207,8 +200,6 @@ const renderForm = formRenderProps => {
   );
   const quantityRequiredMsg = intl.formatMessage({ id: 'ProductOrderForm.quantityRequired' });
 
-  // Listing is out of stock if currentStock is zero.
-  // Undefined/null stock means that stock has never been set.
   const hasNoStockLeft = typeof currentStock != null && currentStock === 0;
   const hasStock = currentStock && currentStock > 0;
   const hasOneItemLeft = currentStock === 1;
@@ -250,15 +241,6 @@ const renderForm = formRenderProps => {
         </FieldSelect>
       )}
 
-      {/* <DeliveryMethodMaybe
-        displayDeliveryMethod={displayDeliveryMethod}
-        hasMultipleDeliveryMethods={hasMultipleDeliveryMethods}
-        deliveryMethod={values?.deliveryMethod}
-        hasStock={hasStock}
-        formId={formId}
-        intl={intl}
-      /> */}
-
       {showBreakdown ? (
         <div className={css.breakdownWrapper}>
           <H6 as="h3" className={css.bookingBreakdownTitle}>
@@ -280,7 +262,7 @@ const renderForm = formRenderProps => {
       <div className={css.submitButton}>
         <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
           {hasStock ? (
-            <FormattedMessage id="ProductOrderForm.ctaButton" />
+            <FormattedMessage id="ProductOrderForm.ctaButtonAddToCart" />
           ) : (
             <FormattedMessage id="ProductOrderForm.ctaButtonNoStock" />
           )}
@@ -301,30 +283,6 @@ const renderForm = formRenderProps => {
   );
 };
 
-/**
- * A form for ordering a product.
- *
- * @component
- * @param {Object} props
- * @param {string} [props.rootClassName] - Custom class that overrides the default class for the root element
- * @param {string} [props.className] - Custom class that extends the default class for the root element
- * @param {string} props.marketplaceName - The name of the marketplace
- * @param {string} props.formId - The ID of the form
- * @param {Function} props.onSubmit - The function to handle the form submission
- * @param {propTypes.uuid} props.listingId - The ID of the listing
- * @param {propTypes.money} props.price - The price of the listing
- * @param {number} props.currentStock - The current stock of the listing
- * @param {boolean} props.isOwnListing - Whether the listing is owned by the current user
- * @param {boolean} props.pickupEnabled - Whether pickup is enabled
- * @param {boolean} props.shippingEnabled - Whether shipping is enabled
- * @param {boolean} props.displayDeliveryMethod - Whether the delivery method is displayed
- * @param {Object} props.lineItems - The line items
- * @param {Function} props.onFetchTransactionLineItems - The function to fetch the transaction line items
- * @param {boolean} props.fetchLineItemsInProgress - Whether the line items are being fetched
- * @param {propTypes.error} props.fetchLineItemsError - The error for fetching the line items
- * @param {Function} props.onContactUser - The function to contact the user
- * @returns {JSX.Element}
- */
 const ProductOrderForm = props => {
   const intl = useIntl();
   const {
@@ -336,8 +294,6 @@ const ProductOrderForm = props => {
     allowOrdersOfMultipleItems,
   } = props;
 
-  // Should not happen for listings that go through EditListingWizard.
-  // However, this might happen for imported listings.
   if (displayDeliveryMethod && !pickupEnabled && !shippingEnabled) {
     return (
       <p className={css.error}>

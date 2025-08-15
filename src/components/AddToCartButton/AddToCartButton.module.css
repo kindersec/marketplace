@@ -1,0 +1,20 @@
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.smallButton {
+  padding: 4px 8px;
+  min-width: 32px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.countContainer {
+  padding: 4px 8px;
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+}

@@ -385,7 +385,13 @@ export const searchParamsPicker = (
     latlng: ['origin'],
     latlngBounds: ['bounds'],
   });
-  const searchParamsInURL = normalizeIncomingSearchParams(rawSearchParamsInURL, filterConfigs);
+  const normalizedFromURL = normalizeIncomingSearchParams(rawSearchParamsInURL, filterConfigs);
+  // Allow custom passthrough params for meta enrichment
+  const passthroughAllowed = ['brand', 'category', 'subcategory'];
+  const passthrough = Object.entries(rawSearchParamsInURL).reduce((acc, [k, v]) => {
+    return passthroughAllowed.includes(k) ? { ...acc, [k]: v } : acc;
+  }, {});
+  const searchParamsInURL = { ...normalizedFromURL, ...passthrough };
 
   // Pick only search params that are part of current search configuration
   const queryParamsFromSearchParams = pickSearchParamsOnly(
@@ -481,11 +487,58 @@ export const createSearchResultSchema = (
   // http://schema.org
   // We are using JSON-LD format
   const marketplaceName = config.marketplaceName;
-  const { address, keywords } = mainSearchData;
+
+  // Helpers for brand/category enrichment in meta
+  const toTitleCase = s =>
+    (s || '')
+      .toString()
+      .replace(/[-_]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());
+
+  const findCategoryLabelById = (categories, id) => {
+    if (!id || !categories) return null;
+    for (const c of categories) {
+      if (c.id === id) return c.label || c.id;
+      const sub = findCategoryLabelById(c.subcategories || [], id);
+      if (sub) return sub;
+    }
+    return null;
+  };
+
+  const { address, keywords, brand: brandParam, category: catParam, subcategory } = mainSearchData;
   const keywordsMaybe = keywords ? `"${keywords}"` : null;
-  const searchTitle =
-    address || keywordsMaybe || intl.formatMessage({ id: 'SearchPage.schemaForSearch' });
-  const schemaDescription = intl.formatMessage({ id: 'SearchPage.schemaDescription' });
+
+  // Derive category label either from passthrough param or configured nested category params
+  const categoriesCfg = config?.categoryConfiguration?.categories || [];
+  const level1 = mainSearchData?.pub_categoryLevel1;
+  const level2 = mainSearchData?.pub_categoryLevel2;
+  const level3 = mainSearchData?.pub_categoryLevel3;
+  const categoryLabelFromLevels =
+    findCategoryLabelById(categoriesCfg, level3) ||
+    findCategoryLabelById(categoriesCfg, level2) ||
+    findCategoryLabelById(categoriesCfg, level1);
+  const categoryLabel = toTitleCase(catParam) || toTitleCase(subcategory) || categoryLabelFromLevels;
+  const brandLabel = toTitleCase(brandParam);
+
+  // Build enriched title/description when brand or category filters are present
+  let searchTitle;
+  let schemaDescription;
+  if (brandLabel && categoryLabel) {
+    searchTitle = `${brandLabel} ${categoryLabel}`;
+    schemaDescription = `Browse ${brandLabel} ${categoryLabel} with specs, compatibility and reviews. Compare and find devices for your smart home.`;
+  } else if (brandLabel) {
+    searchTitle = `${brandLabel} Smart Home Devices`;
+    schemaDescription = `Explore ${brandLabel} smart home devices, features and compatibility. Compare products and find what works with your ecosystem.`;
+  } else if (categoryLabel) {
+    searchTitle = `Smart ${categoryLabel}`;
+    schemaDescription = `Discover smart ${categoryLabel.toLowerCase()} – compare features, compatibility, and prices to build your smart home.`;
+  } else {
+    searchTitle = address || keywordsMaybe || intl.formatMessage({ id: 'SearchPage.schemaForSearch' });
+    schemaDescription = intl.formatMessage({ id: 'SearchPage.schemaDescription' });
+  }
+
   const schemaTitle = intl.formatMessage(
     { id: 'SearchPage.schemaTitle' },
     { searchTitle, marketplaceName }
