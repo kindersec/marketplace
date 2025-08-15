@@ -154,6 +154,9 @@ const TopbarDesktop = props => {
   const giveSpaceForSearch = customLinks == null || customLinks?.length === 0;
   const classes = classNames(rootClassName || css.root, className);
 
+  // Track which topbar mega menu is open (brands | categories | compatibility)
+  const [activeMegaMenuId, setActiveMegaMenuId] = useState(null);
+
   const inboxLinkMaybe = authenticatedOnClientSide ? (
     <InboxLink notificationCount={notificationCount} inboxTab={inboxTab} />
   ) : null;
@@ -209,18 +212,27 @@ const TopbarDesktop = props => {
         intl={intl}
         history={history}
         routeConfiguration={routeConfiguration}
+        isOpen={activeMegaMenuId === 'brands'}
+        onRequestOpen={() => setActiveMegaMenuId('brands')}
+        onRequestClose={() => setActiveMegaMenuId(null)}
       />
       <CategoriesMegaMenu
         currentPage={currentPage}
         intl={intl}
         history={history}
         routeConfiguration={routeConfiguration}
+        isOpen={activeMegaMenuId === 'categories'}
+        onRequestOpen={() => setActiveMegaMenuId('categories')}
+        onRequestClose={() => setActiveMegaMenuId(null)}
       />
       <CompatibilityMegaMenu
         currentPage={currentPage}
         intl={intl}
         history={history}
         routeConfiguration={routeConfiguration}
+        isOpen={activeMegaMenuId === 'compatibility'}
+        onRequestOpen={() => setActiveMegaMenuId('compatibility')}
+        onRequestClose={() => setActiveMegaMenuId(null)}
       />
       {profileMenuMaybe}
       {profileIconLinkMaybe}

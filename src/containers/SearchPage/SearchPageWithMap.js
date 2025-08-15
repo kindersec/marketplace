@@ -53,6 +53,7 @@ import {
   getDatesAndSeatsMaybe,
   getSearchPageResourceLocatorStringParams,
 } from './SearchPage.shared';
+import { normalizeIncomingSearchParams } from '../../util/searchParamMappers';
 
 import FilterComponent from './FilterComponent';
 import SearchMap from './SearchMap/SearchMap';
@@ -155,10 +156,11 @@ export class SearchPageComponent extends Component {
 
       // parse query parameters, including a custom attribute named category
       // when onMapMoveEnd is called, pagination needs to be reset.
-      const { address, bounds, mapSearch, page, ...rest } = parse(location.search, {
+      const { address, bounds, mapSearch, page, ...restRaw } = parse(location.search, {
         latlng: ['origin'],
         latlngBounds: ['bounds'],
       });
+      const rest = normalizeIncomingSearchParams(restRaw, filterConfigs);
 
       const originMaybe = isOriginInUse(this.props.config) ? { origin: viewportCenter } : {};
       const dropNonFilterParams = false;
@@ -174,6 +176,49 @@ export class SearchPageComponent extends Component {
       const { routeName, pathParams } = getSearchPageResourceLocatorStringParams(routes, location);
 
       history.push(createResourceLocatorString(routeName, routes, pathParams, searchParams));
+    }
+  }
+
+  componentDidMount() {
+    setTimeout(() => this.ensureCanonicalQuery(), 0);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.search !== this.props.location.search) {
+      this.ensureCanonicalQuery();
+    }
+  }
+
+  ensureCanonicalQuery() {
+    const { history, routeConfiguration, location, config, params: currentPathParams = {} } = this.props;
+    const { listingFields: listingFieldsConfig } = config?.listing || {};
+    const { defaultFilters: defaultFiltersConfig } = config?.search || {};
+    const activeListingTypes = config?.listing?.listingTypes.map(c => c.listingType);
+    const listingCategories = config.categoryConfiguration.categories;
+    const filterConfigs = {
+      listingFieldsConfig,
+      defaultFiltersConfig,
+      listingCategories,
+      activeListingTypes,
+      currentPathParams,
+    };
+
+    const { mapSearch, page, ...raw } = parse(location.search, {
+      latlng: ['origin'],
+      latlngBounds: ['bounds'],
+    });
+    const normalized = normalizeIncomingSearchParams(raw, filterConfigs);
+    const validated = validFilterParams(normalized, filterConfigs, false);
+    const canonicalFrom = Object.keys(validated).length > 0 ? validated : normalized;
+
+    const { routeName, pathParams } = getSearchPageResourceLocatorStringParams(
+      routeConfiguration,
+      location
+    );
+    const canonical = createResourceLocatorString(routeName, routeConfiguration, pathParams, canonicalFrom);
+    const current = `${location.pathname}${location.search}`;
+    if (new URL('http://x' + canonical).search !== new URL('http://x' + current).search) {
+      history.replace(canonical);
     }
   }
 

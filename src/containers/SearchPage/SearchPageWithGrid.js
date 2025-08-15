@@ -52,6 +52,7 @@ import {
   getDatesAndSeatsMaybe,
   getSearchPageResourceLocatorStringParams,
 } from './SearchPage.shared';
+import { normalizeIncomingSearchParams } from '../../util/searchParamMappers';
 
 import FilterComponent from './FilterComponent';
 import MainPanelHeader from './MainPanelHeader/MainPanelHeader';
@@ -88,6 +89,52 @@ export class SearchPageComponent extends Component {
 
     // SortBy
     this.handleSortBy = this.handleSortBy.bind(this);
+  }
+
+  componentDidMount() {
+    // Defer canonicalization to avoid fighting with initial client-side replace
+    setTimeout(() => this.ensureCanonicalQuery(), 0);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.search !== this.props.location.search) {
+      // Avoid infinite loops by canonicalizing only when output differs materially
+      this.ensureCanonicalQuery();
+    }
+  }
+
+  ensureCanonicalQuery() {
+    const { history, routeConfiguration, location, config, params: currentPathParams = {} } = this.props;
+    const { listingFields: listingFieldsConfig } = config?.listing || {};
+    const { defaultFilters: defaultFiltersConfig } = config?.search || {};
+    const activeListingTypes = config?.listing?.listingTypes.map(c => c.listingType);
+    const listingCategories = config.categoryConfiguration.categories;
+    const filterConfigs = {
+      listingFieldsConfig,
+      defaultFiltersConfig,
+      listingCategories,
+      activeListingTypes,
+      currentPathParams,
+    };
+
+    const { mapSearch, page, ...raw } = parse(location.search, {
+      latlng: ['origin'],
+      latlngBounds: ['bounds'],
+    });
+    const normalized = normalizeIncomingSearchParams(raw, filterConfigs);
+    const validated = validFilterParams(normalized, filterConfigs, false);
+    const canonicalFrom = Object.keys(validated).length > 0 ? validated : normalized;
+
+    const { routeName, pathParams } = getSearchPageResourceLocatorStringParams(
+      routeConfiguration,
+      location
+    );
+    const canonical = createResourceLocatorString(routeName, routeConfiguration, pathParams, canonicalFrom);
+    const current = `${location.pathname}${location.search}`;
+    // Only replace if resulting search differs (ignore order differences)
+    if (new URL('http://x' + canonical).search !== new URL('http://x' + current).search) {
+      history.replace(canonical);
+    }
   }
 
   // Invoked when a modal is opened from a child component,

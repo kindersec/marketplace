@@ -66,4 +66,5 @@ const MenuContent = props => {
   );
 };
 
+MenuContent.displayName = 'MenuContent';
 export default MenuContent;

@@ -48,11 +48,11 @@ const featuresData = [
 
 // Categories section data
 const categoriesData = [
-  { name: "Smart Lighting", icon: "💡", count: "500+ Products", url: "/products?pub_categoryLevel1=lights" },
-  { name: "Security Cameras", icon: "📹", count: "200+ Products", url: "/products?pub_categoryLevel1=security-cameras" },
-  { name: "Smart Locks", icon: "🔒", count: "100+ Products", url: "/products?pub_categoryLevel1=smart-locks" },
-  { name: "Doorbells", icon: "🚪", count: "75+ Products", url: "/products?pub_categoryLevel1=doorbells" },
-  { name: "Robot Vacuums", icon: "🤖", count: "45+ Products", url: "/products?pub_categoryLevel1=robot-vacuum" }
+  { name: "Smart Lighting", icon: "💡", count: "500+ Products", url: "/products?category=lights" },
+  { name: "Security Cameras", icon: "📹", count: "200+ Products", url: "/products?category=security-cameras" },
+  { name: "Smart Locks", icon: "🔒", count: "100+ Products", url: "/products?category=smart-locks" },
+  { name: "Doorbells", icon: "🚪", count: "75+ Products", url: "/products?category=doorbells" },
+  { name: "Robot Vacuums", icon: "🤖", count: "45+ Products", url: "/products?category=robot-vacuum" }
 ];
 
 // Testimonials data

@@ -540,8 +540,8 @@ export const BrandsPageComponent = props => {
   }
 
   const handleBrandClick = (brand) => {
-    // Redirect to search page with brand filter
-    const searchUrl = `/products?pub_brand=${encodeURIComponent(brand.value)}`;
+    // Redirect to search page with brand filter (public param)
+    const searchUrl = `/products?brand=${encodeURIComponent(brand.value)}`;
     window.location.href = searchUrl;
   };
 

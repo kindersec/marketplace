@@ -8,6 +8,7 @@ import {
   constructQueryParamName,
 } from '../../util/search';
 import { createSlug, parse, stringify } from '../../util/urlHelpers';
+import { normalizeIncomingSearchParams } from '../../util/searchParamMappers';
 import {
   getStartOf,
   parseDateFromISO8601,
@@ -256,10 +257,16 @@ export const validUrlQueryParamsFromProps = props => {
   };
 
   // eslint-disable-next-line no-unused-vars
-  const { mapSearch, page, ...searchInURL } = parse(location.search, {
+  const { mapSearch, page, ...rawSearchInURL } = parse(location.search, {
     latlng: ['origin'],
     latlngBounds: ['bounds'],
   });
+  const searchInURLRaw = normalizeIncomingSearchParams(rawSearchInURL, filterConfigs);
+  // Allow brand/category public params even if not listed as configured filters yet
+  const passthroughAllowed = ['brand', 'category', 'subcategory'];
+  const searchInURL = Object.entries(rawSearchInURL).reduce((acc, [k, v]) => {
+    return passthroughAllowed.includes(k) ? { ...acc, [k]: v } : acc;
+  }, searchInURLRaw);
   // urlQueryParams doesn't contain page specific url params
   // like mapSearch, page or origin (origin depends on config.maps.search.sortSearchByDistance)
   return validFilterParams(searchInURL, filterConfigs, false);
@@ -374,10 +381,11 @@ export const searchParamsPicker = (
   sortConfig,
   isOriginInUse
 ) => {
-  const { mapSearch, page, ...searchParamsInURL } = parse(searchFromLocation, {
+  const { mapSearch, page, ...rawSearchParamsInURL } = parse(searchFromLocation, {
     latlng: ['origin'],
     latlngBounds: ['bounds'],
   });
+  const searchParamsInURL = normalizeIncomingSearchParams(rawSearchParamsInURL, filterConfigs);
 
   // Pick only search params that are part of current search configuration
   const queryParamsFromSearchParams = pickSearchParamsOnly(

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-import { MenuContent, MenuLabel } from '../../components';
+import MenuContent from '../MenuContent/MenuContent';
+import MenuLabel from '../MenuLabel/MenuLabel';
 import css from './Menu.module.css';
 
 const KEY_CODE_ESCAPE = 27;
@@ -167,14 +168,15 @@ class Menu extends Component {
         ? isOpenProp
         : this.state.isOpen;
 
-      if (child.type === MenuLabel) {
+      const childTypeName = child?.type?.displayName || child?.type?.name;
+      if (childTypeName === 'MenuLabel') {
         // MenuLabel needs toggleOpen function
         // We pass that directly  so that component user doesn't need to worry about that
         return React.cloneElement(child, {
           isOpen,
           onToggleActive: this.toggleOpen,
         });
-      } else if (child.type === MenuContent) {
+      } else if (childTypeName === 'MenuContent') {
         // MenuContent needs some styling data (width, arrowPosition, and isOpen info)
         // We pass those directly so that component user doesn't need to worry about those.
         const { contentPosition = CONTENT_TO_RIGHT, useArrow } = this.props;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 import {
@@ -17,8 +17,7 @@ import css from './MegaMenu.module.css';
  * Categories mega dropdown menu component
  * Shows a wide panel with category options that redirects to search page
  */
-const CategoriesMegaMenu = ({ currentPage, intl, history, routeConfiguration }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const CategoriesMegaMenu = ({ currentPage, intl, history, routeConfiguration, isOpen, onRequestOpen, onRequestClose }) => {
 
   const getCurrentPageClass = page => {
     return currentPage === page ? css.currentPage : null;
@@ -41,11 +40,11 @@ const CategoriesMegaMenu = ({ currentPage, intl, history, routeConfiguration }) 
   ];
 
   const handleCategoryClick = (categoryValue) => {
-    // Redirect to search page with category filter
-    const searchParams = { pub_category: categoryValue };
+    // Redirect to search page with category filter (public param)
+    const searchParams = { category: categoryValue };
     const to = createResourceLocatorString('SearchPage', routeConfiguration, {}, searchParams);
     history.push(to);
-    setIsOpen(false);
+    onRequestClose && onRequestClose();
   };
 
   return (
@@ -53,9 +52,14 @@ const CategoriesMegaMenu = ({ currentPage, intl, history, routeConfiguration }) 
       contentPlacementOffset={-12}
       contentPosition="left"
       isOpen={isOpen}
-      onToggleActive={setIsOpen}
+      onToggleActive={nextOpen => (nextOpen ? onRequestOpen && onRequestOpen() : onRequestClose && onRequestClose())}
     >
-      <MenuLabel className={css.megaMenuLabel} isOpenClassName={css.megaMenuIsOpen}>
+      <MenuLabel
+        className={css.megaMenuLabel}
+        isOpenClassName={css.megaMenuIsOpen}
+        onMouseEnter={() => onRequestOpen && onRequestOpen()}
+        onMouseLeave={() => onRequestClose && onRequestClose()}
+      >
         <span className={css.megaMenuLabelWrapper}>
           {intl.formatMessage({ id: 'TopbarDesktop.categories.label' })}
           <IconArrowHead
@@ -66,7 +70,11 @@ const CategoriesMegaMenu = ({ currentPage, intl, history, routeConfiguration }) 
           />
         </span>
       </MenuLabel>
-      <MenuContent className={css.megaMenuContent}>
+      <MenuContent
+        className={css.megaMenuContent}
+        onMouseEnter={() => onRequestOpen && onRequestOpen()}
+        onMouseLeave={() => onRequestClose && onRequestClose()}
+      >
         <MenuItem key="categories-header" className={css.megaMenuHeaderItem}>
           <div className={css.megaMenuHeader}>
             <h3 className={css.megaMenuTitle}>

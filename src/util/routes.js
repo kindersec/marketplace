@@ -3,6 +3,7 @@ import { matchPath } from 'react-router-dom';
 import { compile } from 'path-to-regexp';
 // NOTE: This file imports urlHelpers.js, which may lead to circular dependency
 import { stringify } from './urlHelpers';
+import { toPublicQueryParams } from './searchParamMappers';
 
 const findRouteByName = (nameToFind, routes) => find(routes, route => route.name === nameToFind);
 
@@ -69,7 +70,8 @@ export const createResourceLocatorString = (
   searchParams = {},
   hash = ''
 ) => {
-  const searchQuery = stringify(searchParams);
+  const publicParams = toPublicQueryParams(searchParams);
+  const searchQuery = stringify(publicParams);
   const includeSearchQuery = searchQuery.length > 0 ? `?${searchQuery}` : '';
   const path = pathByRouteName(routeName, routes, pathParams);
   return `${path}${includeSearchQuery}${hash}`;

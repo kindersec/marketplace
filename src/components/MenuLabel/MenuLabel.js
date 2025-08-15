@@ -48,10 +48,11 @@ const MenuLabel = props => {
   });
 
   return (
-    <button className={classes} onClick={onClick} onBlur={onBlur}>
+    <button type="button" className={classes} onClick={onClick} onBlur={onBlur}>
       {children}
     </button>
   );
 };
 
+MenuLabel.displayName = 'MenuLabel';
 export default MenuLabel;

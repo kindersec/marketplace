@@ -12,6 +12,7 @@ import {
 import { constructQueryParamName, isOriginInUse, isStockInUse } from '../../util/search';
 import { hasPermissionToViewData, isUserAuthorized } from '../../util/userHelpers';
 import { parse } from '../../util/urlHelpers';
+import { normalizeIncomingSearchParams } from '../../util/searchParamMappers';
 
 import { addMarketplaceEntities } from '../../ducks/marketplaceData.duck';
 
@@ -349,6 +350,12 @@ export const loadData = (params, search, config) => (dispatch, getState, sdk) =>
   });
 
   const { page = 1, address, origin, ...rest } = queryParams;
+  // Normalize public params (brand/category/subcategory/etc.) into internal pub_* keys
+  const filterConfigs = {
+    listingFieldsConfig: config?.listing?.listingFields || [],
+    defaultFiltersConfig: config?.search?.defaultFilters || [],
+  };
+  const normalizedRest = normalizeIncomingSearchParams(rest, filterConfigs);
   const originMaybe = isOriginInUse(config) && origin ? { origin } : {};
 
   const listingTypeVariantMaybe = listingTypePathParam
@@ -364,7 +371,7 @@ export const loadData = (params, search, config) => (dispatch, getState, sdk) =>
 
   const searchListingsCall = searchListings(
     {
-      ...rest,
+      ...normalizedRest,
       ...originMaybe,
       ...listingTypeVariantMaybe,
       page,

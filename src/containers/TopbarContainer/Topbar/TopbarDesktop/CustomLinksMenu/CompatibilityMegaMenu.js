@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 import {
@@ -17,8 +17,7 @@ import css from './MegaMenu.module.css';
  * Compatibility mega dropdown menu component
  * Shows a wide panel with compatibility options that redirects to search page
  */
-const CompatibilityMegaMenu = ({ currentPage, intl, history, routeConfiguration }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const CompatibilityMegaMenu = ({ currentPage, intl, history, routeConfiguration, isOpen, onRequestOpen, onRequestClose }) => {
 
   const getCurrentPageClass = page => {
     return currentPage === page ? css.currentPage : null;
@@ -45,11 +44,11 @@ const CompatibilityMegaMenu = ({ currentPage, intl, history, routeConfiguration 
   ];
 
   const handleCompatibilityClick = (compatibilityValue) => {
-    // Redirect to search page with compatibility filter
-    const searchParams = { pub_compatibility: compatibilityValue };
+    // Redirect to search page with compatibility filter (public param)
+    const searchParams = { compatibility: compatibilityValue };
     const to = createResourceLocatorString('SearchPage', routeConfiguration, {}, searchParams);
     history.push(to);
-    setIsOpen(false);
+    onRequestClose && onRequestClose();
   };
 
   return (
@@ -57,9 +56,14 @@ const CompatibilityMegaMenu = ({ currentPage, intl, history, routeConfiguration 
       contentPlacementOffset={-12}
       contentPosition="left"
       isOpen={isOpen}
-      onToggleActive={setIsOpen}
+      onToggleActive={nextOpen => (nextOpen ? onRequestOpen && onRequestOpen() : onRequestClose && onRequestClose())}
     >
-      <MenuLabel className={css.megaMenuLabel} isOpenClassName={css.megaMenuIsOpen}>
+      <MenuLabel
+        className={css.megaMenuLabel}
+        isOpenClassName={css.megaMenuIsOpen}
+        onMouseEnter={() => onRequestOpen && onRequestOpen()}
+        onMouseLeave={() => onRequestClose && onRequestClose()}
+      >
         <span className={css.megaMenuLabelWrapper}>
           {intl.formatMessage({ id: 'TopbarDesktop.compatibility.label' })}
           <IconArrowHead
@@ -70,7 +74,11 @@ const CompatibilityMegaMenu = ({ currentPage, intl, history, routeConfiguration 
           />
         </span>
       </MenuLabel>
-      <MenuContent className={css.megaMenuContent}>
+      <MenuContent
+        className={css.megaMenuContent}
+        onMouseEnter={() => onRequestOpen && onRequestOpen()}
+        onMouseLeave={() => onRequestClose && onRequestClose()}
+      >
         <MenuItem key="compatibility-header" className={css.megaMenuHeaderItem}>
           <div className={css.megaMenuHeader}>
             <h3 className={css.megaMenuTitle}>
