@@ -198,26 +198,26 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       ),
     },
     {
-      path: '/l',
+      path: '/product',
       name: 'ListingBasePage',
       component: RedirectToLandingPage,
     },
     {
-      path: '/l/:slug/:id',
+      path: '/product/:slug/:id',
       name: 'ListingPage',
       ...authForPrivateMarketplace,
       component: ListingPage,
       loadData: pageDataLoadingAPI.ListingPage.loadData,
     },
     {
-      path: '/l/:slug/:id/checkout',
+      path: '/product/:slug/:id/checkout',
       name: 'CheckoutPage',
       auth: true,
       component: CheckoutPage,
       setInitialValues: pageDataLoadingAPI.CheckoutPage.setInitialValues,
     },
     {
-      path: '/l/:slug/:id/:variant',
+      path: '/product/:slug/:id/:variant',
       name: 'ListingPageVariant',
       auth: true,
       authPage: 'LoginPage',
@@ -225,7 +225,7 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       loadData: pageDataLoadingAPI.ListingPage.loadData,
     },
     {
-      path: '/l/new',
+      path: '/product/new',
       name: 'NewListingPage',
       auth: true,
       component: () => (
@@ -236,28 +236,94 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       ),
     },
     {
-      path: '/l/:slug/:id/:type/:tab',
+      path: '/product/:slug/:id/:type/:tab',
       name: 'EditListingPage',
       auth: true,
       component: EditListingPage,
       loadData: pageDataLoadingAPI.EditListingPage.loadData,
     },
     {
-      path: '/l/:slug/:id/:type/:tab/:returnURLType',
+      path: '/product/:slug/:id/:type/:tab/:returnURLType',
       name: 'EditListingStripeOnboardingPage',
       auth: true,
       component: EditListingPage,
       loadData: pageDataLoadingAPI.EditListingPage.loadData,
     },
 
-    // Canonical path should be after the `/l/new` path since they
+    // Canonical path should be after the `/product/new` path since they
     // conflict and `new` is not a valid listing UUID.
     {
-      path: '/l/:id',
+      path: '/product/:id',
       name: 'ListingPageCanonical',
       ...authForPrivateMarketplace,
       component: ListingPage,
       loadData: pageDataLoadingAPI.ListingPage.loadData,
+    },
+    // Backward compatibility redirects from legacy '/l' paths
+    {
+      path: '/l',
+      name: 'ListingBasePageRedirect',
+      component: () => <NamedRedirect name="ListingBasePage" />,
+    },
+    {
+      path: '/l/:slug/:id',
+      name: 'ListingPageRedirect',
+      component: props => (
+        <NamedRedirect name="ListingPage" params={{ slug: props.params?.slug, id: props.params?.id }} />
+      ),
+    },
+    {
+      path: '/l/:slug/:id/checkout',
+      name: 'CheckoutPageRedirect',
+      component: props => (
+        <NamedRedirect name="CheckoutPage" params={{ slug: props.params?.slug, id: props.params?.id }} />
+      ),
+    },
+    {
+      path: '/l/:slug/:id/:variant',
+      name: 'ListingPageVariantRedirect',
+      component: props => (
+        <NamedRedirect
+          name="ListingPageVariant"
+          params={{ slug: props.params?.slug, id: props.params?.id, variant: props.params?.variant }}
+        />
+      ),
+    },
+    {
+      path: '/l/new',
+      name: 'NewListingPageRedirect',
+      component: () => <NamedRedirect name="NewListingPage" />,
+    },
+    {
+      path: '/l/:slug/:id/:type/:tab',
+      name: 'EditListingPageRedirect',
+      component: props => (
+        <NamedRedirect
+          name="EditListingPage"
+          params={{ slug: props.params?.slug, id: props.params?.id, type: props.params?.type, tab: props.params?.tab }}
+        />
+      ),
+    },
+    {
+      path: '/l/:slug/:id/:type/:tab/:returnURLType',
+      name: 'EditListingStripeOnboardingPageRedirect',
+      component: props => (
+        <NamedRedirect
+          name="EditListingStripeOnboardingPage"
+          params={{
+            slug: props.params?.slug,
+            id: props.params?.id,
+            type: props.params?.type,
+            tab: props.params?.tab,
+            returnURLType: props.params?.returnURLType,
+          }}
+        />
+      ),
+    },
+    {
+      path: '/l/:id',
+      name: 'ListingPageCanonicalRedirect',
+      component: props => <NamedRedirect name="ListingPageCanonical" params={{ id: props.params?.id }} />,
     },
     {
       path: '/u',

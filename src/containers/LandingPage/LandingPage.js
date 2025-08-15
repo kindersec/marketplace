@@ -266,7 +266,7 @@ export const LandingPageComponent = props => {
   const handleFeaturedProductClick = (product) => {
     // Navigate to specific listing page using the listingId
     if (product.listingId) {
-      history.push(`/l/${product.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}/${product.listingId}`);
+      history.push(`/product/${product.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}/${product.listingId}`);
     } else {
       // Fallback to search if no listingId is available
       history.push(`/products?search=${encodeURIComponent(product.name)}`);

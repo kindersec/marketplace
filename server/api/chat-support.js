@@ -69,7 +69,7 @@ const fetchRelatedListings = async (req, res, query) => {
       const title = l?.attributes?.title || 'Listing';
       const description = l?.attributes?.description || '';
       // Use canonical relative path which redirects to slugged URL
-      const url = `/l/${id}`;
+      const url = `/product/${id}`;
       return { id, title, description, url };
     });
   } catch (e) {
