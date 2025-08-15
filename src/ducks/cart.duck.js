@@ -74,18 +74,67 @@ export const cartRemoveItemError = e => ({ type: CART_REMOVE_ITEM_ERROR, payload
 // ================ Helpers ================ //
 const normalizeCart = raw => {
   if (!raw || typeof raw !== 'object') return {};
+
+  // Debug logging for troubleshooting
+  if (typeof window !== 'undefined') {
+    console.log('🛒 normalizeCart: raw input', raw);
+  }
+
   // Convert potential map-like or prototype-less objects into plain providerId -> array structure
   const entries = Object.entries({ ...raw });
   const normalized = entries.reduce((acc, [providerId, items]) => {
     const list = Array.isArray(items) ? items : [];
-    acc[providerId] = list.map(it => ({
-      listingId: (it?.listingId?.uuid || it?.listingId) ?? '',
-      quantity: Number(it?.quantity || 0),
-      deliveryMethod: it?.deliveryMethod || undefined,
-      priceVariantName: it?.priceVariantName || undefined,
-    }));
+    acc[providerId] = list.map(it => {
+      const rawQuantity = it?.quantity;
+      let quantity = 0;
+
+      // Debug logging for quantity processing
+      if (typeof window !== 'undefined') {
+        console.log(`🛒 normalizeCart: processing item quantity`, {
+          providerId,
+          item: it,
+          rawQuantity,
+          rawQuantityType: typeof rawQuantity,
+          isNaN: isNaN(rawQuantity)
+        });
+      }
+
+      // Ensure quantity is a valid positive number
+      if (typeof rawQuantity === 'number' && !isNaN(rawQuantity) && rawQuantity > 0) {
+        quantity = rawQuantity;
+      } else if (typeof rawQuantity === 'string') {
+        const parsed = Number(rawQuantity);
+        if (!isNaN(parsed) && parsed > 0) {
+          quantity = parsed;
+        }
+      }
+
+      const normalizedItem = {
+        listingId: (it?.listingId?.uuid || it?.listingId) ?? '',
+        quantity: quantity,
+        deliveryMethod: it?.deliveryMethod || undefined,
+        priceVariantName: it?.priceVariantName || undefined,
+      };
+
+      // Debug logging for normalized item
+      if (typeof window !== 'undefined') {
+        console.log(`🛒 normalizeCart: normalized item`, {
+          providerId,
+          original: it,
+          normalized: normalizedItem
+        });
+      }
+
+      return normalizedItem;
+    });
     return acc;
   }, {});
+
+  // Debug logging for final result
+  if (typeof window !== 'undefined') {
+    console.log('🛒 normalizeCart: final result', normalized);
+  }
+
   return normalized;
 };
 
@@ -147,13 +196,44 @@ export const loadCart = () => (dispatch, getState, sdk) => {
 const mergeCartItem = (cart, providerId, item) => {
   const prev = cart[providerId] || [];
   const { listingId, quantity, deliveryMethod, priceVariantName } = item;
+
+  // Debug logging for troubleshooting
+  if (typeof window !== 'undefined') {
+    console.log(`🛒 mergeCartItem: processing item`, {
+      providerId,
+      listingId,
+      quantity,
+      quantityType: typeof quantity,
+      isNaN: isNaN(quantity),
+      prevItems: prev
+    });
+  }
+
   const idx = prev.findIndex(i => i.listingId === listingId && i.priceVariantName === priceVariantName);
   if (idx >= 0) {
     const updated = [...prev];
     const prevItem = updated[idx];
+
+    // Ensure both quantities are valid numbers before adding
+    const prevQuantity = typeof prevItem.quantity === 'number' && !isNaN(prevItem.quantity) ? prevItem.quantity : 0;
+    const newQuantity = typeof quantity === 'number' && !isNaN(quantity) ? quantity : 0;
+    const totalQuantity = prevQuantity + newQuantity;
+
+    // Debug logging for quantity calculation
+    if (typeof window !== 'undefined') {
+      console.log(`🛒 mergeCartItem: quantity calculation`, {
+        providerId,
+        listingId,
+        prevQuantity,
+        newQuantity,
+        totalQuantity,
+        prevItem
+      });
+    }
+
     updated[idx] = {
       ...prevItem,
-      quantity: Number(prevItem.quantity || 0) + Number(quantity || 0),
+      quantity: totalQuantity,
       deliveryMethod: deliveryMethod || prevItem.deliveryMethod,
     };
     return { ...cart, [providerId]: updated };
@@ -175,9 +255,16 @@ export const addToCart = ({ listing, orderData }) => (dispatch, getState, sdk) =
     return Promise.reject(new Error('Listing author missing'));
   }
 
+  // Validate quantity is a valid number
+  const quantity = Number(orderData?.quantity);
+  if (isNaN(quantity) || quantity <= 0) {
+    console.error('🛒 Error: Invalid quantity', orderData?.quantity);
+    return Promise.reject(new Error('Invalid quantity'));
+  }
+
   const item = {
     listingId: listing?.id?.uuid || listing?.id,
-    quantity: orderData?.quantity,
+    quantity: quantity,
     deliveryMethod: orderData?.deliveryMethod,
     priceVariantName: orderData?.priceVariantName,
   };
@@ -242,7 +329,9 @@ export const updateCartItemQuantity = ({ listingId, providerId, quantity }) => (
   const state = getState();
   const currentCart = state.Cart?.cart || {};
 
-  if (quantity <= 0) {
+  // Validate quantity is a valid number
+  const validQuantity = Number(quantity);
+  if (isNaN(validQuantity) || validQuantity <= 0) {
     return dispatch(removeFromCart({ listingId, providerId }));
   }
 
@@ -252,7 +341,7 @@ export const updateCartItemQuantity = ({ listingId, providerId, quantity }) => (
 
   if (itemIndex >= 0) {
     updatedCart[providerId] = [...providerItems];
-    updatedCart[providerId][itemIndex] = { ...providerItems[itemIndex], quantity };
+    updatedCart[providerId][itemIndex] = { ...providerItems[itemIndex], quantity: validQuantity };
 
     dispatch(cartUpdateItemRequest());
 

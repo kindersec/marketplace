@@ -866,7 +866,26 @@ export const fetchNextTransitions = id => (dispatch, getState, sdk) => {
     });
 };
 
+// Global rate limiting for API calls
+let lastApiCallTime = 0;
+const MIN_API_CALL_INTERVAL = 500; // Minimum 500ms between API calls
+
 export const fetchTransactionLineItems = ({ orderData, listingId, isOwnListing }) => dispatch => {
+  // Check if we're already in progress to prevent duplicate calls
+  const state = getState();
+  if (state.TransactionPage?.fetchLineItemsInProgress) {
+    console.warn('fetchTransactionLineItems: Already in progress, skipping duplicate call');
+    return Promise.resolve();
+  }
+
+  // Rate limiting check
+  const now = Date.now();
+  if (now - lastApiCallTime < MIN_API_CALL_INTERVAL) {
+    console.warn('fetchTransactionLineItems: Rate limited, skipping call');
+    return Promise.resolve();
+  }
+
+  lastApiCallTime = now;
   dispatch(fetchLineItemsRequest());
   transactionLineItems({ orderData, listingId, isOwnListing })
     .then(response => {
@@ -874,7 +893,17 @@ export const fetchTransactionLineItems = ({ orderData, listingId, isOwnListing }
       dispatch(fetchLineItemsSuccess(lineItems));
     })
     .catch(e => {
-      dispatch(fetchLineItemsError(storableError(e)));
+      // Special handling for rate limiting errors
+      if (e.status === 429) {
+        console.warn('fetchTransactionLineItems: Rate limited (429), will not retry immediately');
+        // Set a longer delay for rate limited requests
+        setTimeout(() => {
+          dispatch(fetchLineItemsError(storableError(e)));
+        }, 1000); // 1 second delay
+      } else {
+        dispatch(fetchLineItemsError(storableError(e)));
+      }
+
       log.error(e, 'fetching-line-items-failed', {
         listingId: listingId.uuid,
         orderData,

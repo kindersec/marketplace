@@ -293,3 +293,28 @@
     padding: 0;
   }
 }
+
+.retrySection {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.retryButton {
+  composes: button from global;
+  composes: buttonSecondary from global;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--colorGrey100);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

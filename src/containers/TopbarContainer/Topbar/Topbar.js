@@ -22,7 +22,6 @@ import {
 import { getSearchPageResourceLocatorStringParams } from '../../SearchPage/SearchPage.shared';
 
 import MenuIcon from './MenuIcon';
-import SearchIcon from './SearchIcon';
 import TopbarSearchForm from './TopbarSearchForm/TopbarSearchForm';
 import TopbarMobileMenu from './TopbarMobileMenu/TopbarMobileMenu';
 import TopbarDesktop from './TopbarDesktop/TopbarDesktop';
@@ -246,19 +245,6 @@ const TopbarComponent = props => {
   const isMobileMenuOpen = isMobileLayout && mobilemenu === 'open';
   const isMobileSearchOpen = isMobileLayout && mobilesearch === 'open';
 
-  const mobileMenu = (
-    <TopbarMobileMenu
-      isAuthenticated={isAuthenticated}
-      currentUser={currentUser}
-      onLogout={handleLogout}
-      notificationCount={notificationCount}
-      currentPage={resolvedCurrentPage}
-      customLinks={customLinks}
-      showCreateListingsLink={showCreateListingsLink}
-      inboxTab={topbarInboxTab}
-    />
-  );
-
   const topbarSearcInitialValues = () => {
     if (isMainSearchTypeKeywords(config)) {
       return { keywords };
@@ -295,17 +281,27 @@ const TopbarComponent = props => {
   const showSearchForm =
     showSearchOnAllPages || showSearchOnSearchPage || showSearchNotOnLandingPage;
 
+  const mobileMenu = (
+    <TopbarMobileMenu
+      isAuthenticated={isAuthenticated}
+      currentUser={currentUser}
+      onLogout={handleLogout}
+      notificationCount={notificationCount}
+      currentPage={resolvedCurrentPage}
+      customLinks={customLinks}
+      showCreateListingsLink={showCreateListingsLink}
+      inboxTab={topbarInboxTab}
+      showSearchForm={showSearchForm}
+      onSearchSubmit={handleSubmit}
+      initialSearchFormValues={initialSearchFormValues}
+      intl={intl}
+      history={history}
+      location={location}
+    />
+  );
+
   const mobileSearchButtonMaybe = showSearchForm ? (
-    <Button
-      rootClassName={css.searchMenu}
-      onClick={() => redirectToURLWithModalState(history, location, 'mobilesearch')}
-      title={intl.formatMessage({ id: 'Topbar.searchIcon' })}
-    >
-      <SearchIcon
-        className={css.searchMenuIcon}
-        ariaLabel={intl.formatMessage({ id: 'Topbar.searchIcon' })}
-      />
-    </Button>
+    <div className={css.searchMenu} />
   ) : (
     <div className={css.searchMenu} />
   );

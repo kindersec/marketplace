@@ -97,6 +97,89 @@
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
 }
 
+/* Mobile search button in menu */
+.mobileSearchButton {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 280px;
+  margin: 24px auto 32px auto;
+  padding: 16px 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+
+  /* Enhanced glassmorphism background */
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.7) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  /* Enhanced shadows */
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
+  /* Enhanced transitions */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  /* Hovers */
+  &:enabled {
+    cursor: pointer;
+  }
+
+  &:enabled:hover {
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.8) 100%);
+    transform: translateY(-2px);
+    box-shadow:
+      0 12px 40px rgba(102, 126, 234, 0.2),
+      0 6px 20px rgba(118, 75, 162, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    border-color: var(--marketplaceColor);
+  }
+
+  &:enabled:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow:
+      0 4px 15px rgba(102, 126, 234, 0.1),
+      0 2px 8px rgba(102, 126, 234, 0.08);
+  }
+}
+
+.mobileSearchIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--colorGrey700);
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobileSearchButton:hover .mobileSearchIcon {
+  transform: scale(1.1) rotate(-5deg);
+  color: var(--marketplaceColor);
+}
+
+.mobileSearchText {
+  font-size: 16px;
+  font-weight: var(--fontWeightMedium);
+  color: var(--colorGrey700);
+  transition: color 0.3s ease;
+}
+
+.mobileSearchButton:hover .mobileSearchText {
+  color: var(--marketplaceColor);
+}
+
 .greeting {
   /* Font */
   font-weight: var(--fontWeightBlack);

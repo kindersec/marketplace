@@ -15,8 +15,10 @@ import {
   InlineTextButton,
   NamedLink,
   NotificationBadge,
+  Button,
 } from '../../../../components';
 
+import SearchIcon from '../SearchIcon';
 import css from './TopbarMobileMenu.module.css';
 
 const CustomLinkComponent = ({ linkConfig, currentPage }) => {
@@ -77,6 +79,12 @@ const TopbarMobileMenu = props => {
     customLinks,
     onLogout,
     showCreateListingsLink,
+    showSearchForm,
+    onSearchSubmit,
+    initialSearchFormValues,
+    intl,
+    history,
+    location,
   } = props;
 
   const user = ensureCurrentUser(currentUser);
@@ -177,6 +185,26 @@ const TopbarMobileMenu = props => {
   return (
     <div className={css.root}>
       <AvatarLarge className={css.avatar} user={currentUser} />
+
+      {/* Search icon in mobile menu */}
+      {showSearchForm && (
+        <Button
+          rootClassName={css.mobileSearchButton}
+          onClick={() => {
+            // Redirect to search page with mobile search modal
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set('mobilesearch', 'open');
+            history.push(`${location.pathname}?${searchParams.toString()}`);
+          }}
+          title={intl.formatMessage({ id: 'Topbar.searchIcon' })}
+        >
+          <SearchIcon className={css.mobileSearchIcon} />
+          <span className={css.mobileSearchText}>
+            <FormattedMessage id="Topbar.searchIcon" />
+          </span>
+        </Button>
+      )}
+
       <div className={css.content}>
         <span className={css.greeting}>
           <FormattedMessage id="TopbarMobileMenu.greeting" values={{ displayName }} />

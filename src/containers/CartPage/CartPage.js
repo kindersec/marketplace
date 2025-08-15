@@ -41,7 +41,24 @@ const CartItem = ({ item, listing, providerId, onUpdateQuantity, onRemove, confi
   const images = listing?.images || [];
   const firstImage = images.length > 0 ? images[0] : null;
 
+  // Debug logging for troubleshooting
+  if (typeof window !== 'undefined' && (typeof quantity !== 'number' || isNaN(quantity))) {
+    console.warn('CartItem: Invalid quantity detected', { item, listing, quantity, type: typeof quantity });
+  }
 
+  // Validate that quantity and price are valid numbers
+  const isValidQuantity = typeof quantity === 'number' && !isNaN(quantity) && quantity > 0;
+  const isValidPrice = price &&
+    typeof price.amount === 'number' &&
+    !isNaN(price.amount) &&
+    price.amount > 0 &&
+    price.currency;
+
+  // Early return if essential data is invalid
+  if (!isValidQuantity) {
+    console.warn('CartItem: Invalid quantity', { item, listing });
+    return null;
+  }
 
   const handleQuantityChange = async (newQuantity) => {
     if (newQuantity === quantity) return;
@@ -67,7 +84,20 @@ const CartItem = ({ item, listing, providerId, onUpdateQuantity, onRemove, confi
     }
   };
 
-  const itemTotal = price ? formatMoney(intl, new Money(price.amount * quantity, price.currency)) : null;
+  const itemTotal = isValidPrice ? (() => {
+    try {
+      const totalAmount = price.amount * quantity;
+      // Double-check that the calculation result is valid
+      if (typeof totalAmount === 'number' && !isNaN(totalAmount) && totalAmount > 0) {
+        return formatMoney(intl, new Money(totalAmount, price.currency));
+      }
+      console.warn('CartItem: Invalid total amount calculated', { price, quantity, totalAmount });
+      return null;
+    } catch (error) {
+      console.error('CartItem: Error creating Money object', { price, quantity, error });
+      return null;
+    }
+  })() : null;
 
   return (
     <div className={css.cartItem}>
@@ -98,7 +128,7 @@ const CartItem = ({ item, listing, providerId, onUpdateQuantity, onRemove, confi
             </NamedLink>
           </H4>
 
-          {price && (
+          {isValidPrice && (
             <div className={css.itemPrice}>
               {formatMoney(intl, price)}
             </div>
@@ -123,16 +153,16 @@ const CartItem = ({ item, listing, providerId, onUpdateQuantity, onRemove, confi
               <button
                 className={css.quantityBtn}
                 onClick={() => handleQuantityChange(quantity - 1)}
-                disabled={isUpdating || quantity <= 1}
+                disabled={isUpdating || !isValidQuantity || quantity <= 1}
                 aria-label={intl.formatMessage({ id: 'CartPage.decreaseQuantity' })}
               >
                 −
               </button>
-              <span className={css.quantityValue}>{quantity}</span>
+              <span className={css.quantityValue}>{isValidQuantity ? quantity : '—'}</span>
               <button
                 className={css.quantityBtn}
                 onClick={() => handleQuantityChange(quantity + 1)}
-                disabled={isUpdating}
+                disabled={isUpdating || !isValidQuantity}
                 aria-label={intl.formatMessage({ id: 'CartPage.increaseQuantity' })}
               >
                 +
@@ -173,6 +203,27 @@ const CartPageComponent = props => {
       if (typeof window !== 'undefined') {
         // eslint-disable-next-line no-console
         console.log('CartPage loadCart(): cart object', cartObj);
+
+        // Additional debugging for cart data validation
+        if (cartObj && typeof cartObj === 'object') {
+          Object.entries(cartObj).forEach(([providerId, items]) => {
+            if (Array.isArray(items)) {
+              items.forEach((item, index) => {
+                if (typeof item.quantity !== 'number' || isNaN(item.quantity)) {
+                  console.warn(`Cart validation warning: Invalid quantity at provider ${providerId}, item ${index}:`, item);
+                }
+                // Log the raw item data to help debug
+                console.log(`Cart item ${index} at provider ${providerId}:`, {
+                  raw: item,
+                  quantity: item.quantity,
+                  quantityType: typeof item.quantity,
+                  isNaN: isNaN(item.quantity),
+                  listingId: item.listingId
+                });
+              });
+            }
+          });
+        }
       }
       const allRefs = Object.values(cartObj || {})
         .flat()
@@ -194,27 +245,44 @@ const CartPageComponent = props => {
 
   const providerGroups = providerIds.map(pid => ({
     providerId: pid,
-    items: cart[pid] || [],
+    items: (cart[pid] || []).filter(item => {
+      // Filter out items with invalid quantities
+      const quantity = item.quantity;
+      return typeof quantity === 'number' && !isNaN(quantity) && quantity > 0;
+    }),
     listings: (cart[pid] || []).map(item => listingsById[item.listingId?.uuid || item.listingId])
-  }));
+  })).filter(group => group.items.length > 0); // Remove empty provider groups
 
   // Calculate totals
   const grandTotal = providerGroups.reduce((total, group) => {
     const groupTotal = group.items.reduce((groupSum, item) => {
       const listing = listingsById[item.listingId?.uuid || item.listingId];
       const price = listing?.attributes?.price;
-      return groupSum + (price ? price.amount * item.quantity : 0);
+      const itemQuantity = item.quantity;
+
+      // Validate that both price and quantity are valid numbers
+      const isValidPrice = price && typeof price.amount === 'number' && !isNaN(price.amount);
+      const isValidQuantity = typeof itemQuantity === 'number' && !isNaN(itemQuantity) && itemQuantity > 0;
+
+      return groupSum + (isValidPrice && isValidQuantity ? price.amount * itemQuantity : 0);
     }, 0);
     return total + groupTotal;
   }, 0);
 
   const totalItems = providerGroups.reduce((total, group) => {
-    return total + group.items.reduce((sum, item) => sum + item.quantity, 0);
+    return total + group.items.reduce((sum, item) => {
+      const itemQuantity = item.quantity;
+      const isValidQuantity = typeof itemQuantity === 'number' && !isNaN(itemQuantity) && itemQuantity > 0;
+      return sum + (isValidQuantity ? itemQuantity : 0);
+    }, 0);
   }, 0);
 
   const currency = providerGroups[0]?.items[0] ?
     listingsById[providerGroups[0].items[0].listingId?.uuid || providerGroups[0].items[0].listingId]?.attributes?.price?.currency :
     config.currency;
+
+  // Validate that currency is a valid string
+  const isValidCurrency = typeof currency === 'string' && currency.length > 0;
 
   return (
     <Page title="Cart" robots="noindex, nofollow">
@@ -266,7 +334,14 @@ const CartPageComponent = props => {
                     <div className={css.providerItems}>
                       {group.items.map((item, idx) => {
                         const listing = ensureListing(listingsById[item.listingId?.uuid || item.listingId]);
-                    return (
+
+                        // Skip rendering if listing is not available or invalid
+                        if (!listing || !listing.id) {
+                          console.warn('CartItem: Invalid listing for item', item);
+                          return null;
+                        }
+
+                        return (
                           <CartItem
                             key={`${item.listingId?.uuid || item.listingId}_${idx}`}
                             item={item}
@@ -276,8 +351,8 @@ const CartPageComponent = props => {
                             onRemove={removeFromCart}
                             config={config}
                           />
-                    );
-                  })}
+                        );
+                      })}
                     </div>
                   </div>
                 ))}
@@ -292,7 +367,14 @@ const CartPageComponent = props => {
                   <div className={css.summaryRow}>
                     <span><FormattedMessage id="CartPage.subtotal" /></span>
                     <span>
-                      {grandTotal > 0 && currency ? formatMoney(intl, new Money(grandTotal, currency)) : '—'}
+                      {grandTotal > 0 && typeof grandTotal === 'number' && !isNaN(grandTotal) && isValidCurrency ? (() => {
+                        try {
+                          return formatMoney(intl, new Money(grandTotal, currency));
+                        } catch (error) {
+                          console.error('CartPage: Error formatting subtotal', { grandTotal, currency, error });
+                          return '—';
+                        }
+                      })() : '—'}
                     </span>
                   </div>
 
@@ -306,7 +388,14 @@ const CartPageComponent = props => {
                   <div className={css.summaryTotal}>
                     <span><FormattedMessage id="CartPage.total" /></span>
                     <span>
-                      {grandTotal > 0 && currency ? formatMoney(intl, new Money(grandTotal, currency)) : '—'}
+                      {grandTotal > 0 && typeof grandTotal === 'number' && !isNaN(grandTotal) && isValidCurrency ? (() => {
+                        try {
+                          return formatMoney(intl, new Money(grandTotal, currency));
+                        } catch (error) {
+                          console.error('CartPage: Error formatting total', { grandTotal, currency, error });
+                          return '—';
+                        }
+                      })() : '—'}
                     </span>
                   </div>
 

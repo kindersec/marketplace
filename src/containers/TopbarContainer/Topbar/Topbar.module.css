@@ -161,6 +161,11 @@
   }
 }
 
+/* Hide search menu on mobile - moved to mobile menu */
+.searchMenu {
+  display: none;
+}
+
 /* Add subtle shine effect on hover */
 .menu::after,
 .searchMenu::after {

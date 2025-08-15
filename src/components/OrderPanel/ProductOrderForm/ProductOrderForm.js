@@ -37,20 +37,41 @@ const handleFetchLineItems = ({
   fetchLineItemsInProgress,
   onFetchTransactionLineItems,
 }) => {
+  // Don't make API calls if component is unmounting
+  if (!mounted) {
+    return;
+  }
+
   const stockReservationQuantity = Number.parseInt(quantity, 10);
   const deliveryMethodMaybe = deliveryMethod ? { deliveryMethod } : {};
   const isBrowser = typeof window !== 'undefined';
+
+  // Don't make API calls if we're already in progress or have errors
   if (
     isBrowser &&
     stockReservationQuantity &&
     (!displayDeliveryMethod || deliveryMethod) &&
-    !fetchLineItemsInProgress
+    !fetchLineItemsInProgress &&
+    !fetchLineItemsError // Don't retry if there's an error
   ) {
-    onFetchTransactionLineItems({
-      orderData: { stockReservationQuantity, ...deliveryMethodMaybe },
-      listingId,
-      isOwnListing,
-    });
+    // Clear any existing timeout
+    if (fetchTimeout) {
+      clearTimeout(fetchTimeout);
+    }
+
+    // Set a new timeout to debounce the API call
+    const newTimeout = setTimeout(() => {
+      // Check again if component is still mounted before making the call
+      if (mounted) {
+        onFetchTransactionLineItems({
+          orderData: { stockReservationQuantity, ...deliveryMethodMaybe },
+          listingId,
+          isOwnListing,
+        });
+      }
+    }, 300); // 300ms debounce delay
+
+    setFetchTimeout(newTimeout);
   }
 };
 
@@ -272,6 +293,7 @@ const VendorInfo = props => {
 const renderForm = formRenderProps => {
   const [mounted, setMounted] = useState(false);
   const [localQuantity, setLocalQuantity] = useState(1);
+  const [fetchTimeout, setFetchTimeout] = useState(null); // Add timeout state for debouncing
   const {
     // FormRenderProps from final-form
     handleSubmit,
@@ -417,10 +439,11 @@ const renderForm = formRenderProps => {
     }
 
     // Always fetch line items on mount to show shipping costs automatically
-    const initialQuantity = quantity || (hasOneItemLeft || !allowOrdersOfMultipleItems ? 1 : 1);
-    const initialDeliveryMethod = deliveryMethod || (shippingEnabled ? 'shipping' : pickupEnabled ? 'pickup' : undefined);
+    // Only fetch if we're not already in progress and don't have line items
+    if (mounted && !fetchLineItemsInProgress && !lineItems) {
+      const initialQuantity = quantity || (hasOneItemLeft || !allowOrdersOfMultipleItems ? 1 : 1);
+      const initialDeliveryMethod = deliveryMethod || (shippingEnabled ? 'shipping' : pickupEnabled ? 'pickup' : undefined);
 
-    if (mounted) {
       handleFetchLineItems({
         quantity: initialQuantity.toString(),
         deliveryMethod: initialDeliveryMethod,
@@ -431,7 +454,26 @@ const renderForm = formRenderProps => {
         onFetchTransactionLineItems,
       });
     }
-  }, [mounted, values, hasOneItemLeft, allowOrdersOfMultipleItems, displayDeliveryMethod, listingId, isOwnListing, fetchLineItemsInProgress, onFetchTransactionLineItems, shippingEnabled, pickupEnabled]);
+
+    // Cleanup function to clear timeout on unmount
+    return () => {
+      if (fetchTimeout) {
+        clearTimeout(fetchTimeout);
+        setFetchTimeout(null);
+      }
+    };
+  }, [mounted, values, hasOneItemLeft, allowOrdersOfMultipleItems, displayDeliveryMethod, listingId, isOwnListing, shippingEnabled, pickupEnabled]); // Removed fetchLineItemsInProgress and onFetchTransactionLineItems from dependencies
+
+  // Additional cleanup effect
+  useEffect(() => {
+    return () => {
+      // Clear any pending timeouts when component unmounts
+      if (fetchTimeout) {
+        clearTimeout(fetchTimeout);
+        setFetchTimeout(null);
+      }
+    };
+  }, []); // Empty dependency array - only runs on unmount
 
   return (
     <Form onSubmit={handleFormSubmit}>
@@ -476,6 +518,39 @@ const renderForm = formRenderProps => {
       ) : null}
 
       <FetchLineItemsError error={fetchLineItemsError} />
+
+      {/* Manual retry button when there are errors */}
+      {fetchLineItemsError && (
+        <div className={css.retrySection}>
+          <button
+            type="button"
+            className={css.retryButton}
+            onClick={() => {
+              // Clear the error and retry
+              const { quantity, deliveryMethod } = values;
+              const currentQuantity = quantity || (hasOneItemLeft || !allowOrdersOfMultipleItems ? 1 : 1);
+              const currentDeliveryMethod = deliveryMethod || (shippingEnabled ? 'shipping' : pickupEnabled ? 'pickup' : undefined);
+
+              handleFetchLineItems({
+                quantity: currentQuantity.toString(),
+                deliveryMethod: currentDeliveryMethod,
+                displayDeliveryMethod,
+                listingId,
+                isOwnListing,
+                fetchLineItemsInProgress: false, // Force retry
+                onFetchTransactionLineItems,
+              });
+            }}
+            disabled={fetchLineItemsInProgress}
+          >
+            {fetchLineItemsInProgress ? (
+              <FormattedMessage id="ProductOrderForm.retrying" defaultMessage="Retrying..." />
+            ) : (
+              <FormattedMessage id="ProductOrderForm.retry" defaultMessage="Retry" />
+            )}
+          </button>
+        </div>
+      )}
 
       {/* Quantity selector and Add to Cart button on same line */}
       <div className={css.quantityAndButtonRow}>
@@ -538,13 +613,31 @@ const renderForm = formRenderProps => {
 
 const ProductOrderForm = props => {
   const intl = useIntl();
+  const [mounted, setMounted] = useState(false);
+  const [localQuantity, setLocalQuantity] = useState(1);
+  const [fetchTimeout, setFetchTimeout] = useState(null); // Add timeout state for debouncing
+
   const {
+    rootClassName,
+    className,
+    formId,
+    listing,
     price,
     currentStock,
     pickupEnabled,
     shippingEnabled,
-    displayDeliveryMethod,
     allowOrdersOfMultipleItems,
+    reviews,
+    marketplaceName,
+    onSubmit,
+    onContactUser,
+    lineItems,
+    fetchLineItemsInProgress,
+    fetchLineItemsError,
+    listingId,
+    isOwnListing,
+    onFetchTransactionLineItems,
+    displayDeliveryMethod,
   } = props;
 
   if (displayDeliveryMethod && !pickupEnabled && !shippingEnabled) {

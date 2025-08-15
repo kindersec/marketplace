@@ -109,10 +109,50 @@
 }
 
 .logoLink:hover {
-  border-bottom: 4px solid var(--marketplaceColor);
+  border-bottom: 2px solid var(--marketplaceColor);
   border-radius: 0;
-  transform: translateY(-1px) scale(1.02);
-  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.15));
+  transform: translateY(-1px);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* Right section start - pushes all right elements to the right */
+.rightSectionStart {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+/* Ensure all right elements have no right margin and are properly spaced */
+.rightSectionStart,
+.rightSectionStart + *,
+.rightSectionStart + * + *,
+.rightSectionStart + * + * + *,
+.rightSectionStart + * + * + * + * {
+  margin-right: 0 !important;
+}
+
+/* Ensure the last element (profile) has no right margin */
+.rightSectionStart + * + * + * + * + * {
+  margin-right: 0 !important;
+}
+
+/* Override any default margins for right section elements */
+.root > .rightSectionStart,
+.root > .rightSectionStart + *,
+.root > .rightSectionStart + * + *,
+.root > .rightSectionStart + * + * + *,
+.root > .rightSectionStart + * + * + * + * {
+  margin-right: 0 !important;
+}
+
+/* Force right positioning for the entire right section */
+.root > .rightSectionStart {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+/* Ensure no right margin on any right section element */
+.root > .rightSectionStart ~ * {
+  margin-right: 0 !important;
 }
 
 /* Enhanced search styling */
@@ -481,20 +521,20 @@
 
 /* Reduced width for provider users */
 .profileMenuLabelProvider {
-  padding: 0 4px;
-  min-width: 36px;
-  max-width: 36px;
+  padding: 0 6px;
+  min-width: 40px;
+  max-width: 40px;
 
   @media (--viewportMedium) {
-    padding: 0 6px;
-    min-width: 40px;
-    max-width: 40px;
-  }
-
-  @media (--viewportLarge) {
     padding: 0 8px;
     min-width: 44px;
     max-width: 44px;
+  }
+
+  @media (--viewportLarge) {
+    padding: 0 10px;
+    min-width: 48px;
+    max-width: 48px;
   }
 }
 

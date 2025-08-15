@@ -226,6 +226,7 @@ const TopbarDesktop = props => {
       />
 
       <BrandsMegaMenu
+        className={css.rightSectionStart}
         currentPage={currentPage}
         intl={intl}
         history={history}
