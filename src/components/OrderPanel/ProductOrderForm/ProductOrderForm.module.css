@@ -27,6 +27,80 @@
   }
 }
 
+.hiddenQuantityField {
+  display: none;
+}
+
+.quantitySection {
+  padding: 0 24px;
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 32px;
+  }
+}
+
+.quantityLabel {
+  composes: label from global;
+  display: block;
+  margin-bottom: 12px;
+  font-weight: var(--fontWeightMedium);
+  color: var(--colorGrey700);
+}
+
+.quantitySelector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+
+.quantityButton {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--colorGrey300);
+  background-color: var(--colorWhite);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    border-color: var(--colorGrey500);
+    background-color: var(--colorGrey50);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.quantityButtonText {
+  font-size: 18px;
+  font-weight: var(--fontWeightBold);
+  color: var(--colorGrey700);
+  line-height: 1;
+}
+
+.quantityDisplay {
+  min-width: 40px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: var(--fontWeightMedium);
+  color: var(--colorGrey700);
+}
+
+.singleItemQuantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+
 .deliveryField {
   padding: 0 24px;
   margin-top: 24px;
@@ -52,8 +126,124 @@
   }
 }
 
+.shippingInfo {
+  padding: 0 24px;
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 32px;
+  }
+}
+
+.shippingTitle {
+  composes: h5 from global;
+  margin: 0 0 12px 0;
+  color: var(--colorGrey700);
+  font-weight: var(--fontWeightMedium);
+}
+
+.shippingDetails {
+  margin: 0;
+}
+
+.shippingPrice {
+  composes: textSmall from global;
+  margin: 0 0 8px 0;
+  color: var(--colorGrey600);
+}
+
+.shippingConditions {
+  composes: textSmall from global;
+  margin: 0;
+  color: var(--colorGrey500);
+  font-style: italic;
+}
+
+.reviewsCount {
+  padding: 0 24px;
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 32px;
+  }
+}
+
+.reviewsLink {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--colorMarketplace);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--colorMarketplaceDark);
+  }
+}
+
+.policyLinks {
+  padding: 0 24px;
+  margin-bottom: 24px;
+  text-align: center;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 32px;
+  }
+}
+
+.policyLink {
+  composes: textSmall from global;
+  color: var(--colorGrey500);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--colorGrey700);
+  }
+}
+
+.policySeparator {
+  composes: textSmall from global;
+  color: var(--colorGrey300);
+  margin: 0 8px;
+}
+
+.vendorInfo {
+  padding: 0 24px;
+  margin-bottom: 24px;
+  text-align: center;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 32px;
+  }
+}
+
+.vendorLabel {
+  composes: textSmall from global;
+  color: var(--colorGrey500);
+  margin-right: 4px;
+}
+
+.vendorLink {
+  composes: textSmall from global;
+  color: var(--colorGrey600);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--colorGrey800);
+  }
+}
+
 .breakdownWrapper {
   padding: 0 24px;
+  margin-top: 24px;
 
   @media (--viewportMedium) {
     padding: 0;

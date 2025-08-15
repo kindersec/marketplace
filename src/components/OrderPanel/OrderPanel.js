@@ -512,6 +512,8 @@ const OrderPanel = props => {
             shippingEnabled={shippingEnabled && displayShipping}
             displayDeliveryMethod={displayPickup || displayShipping}
             onContactUser={onContactUser}
+            listing={listing}
+            reviews={listing?.reviews || []}
             {...sharedProps}
           />
         ) : showInquiryForm ? (

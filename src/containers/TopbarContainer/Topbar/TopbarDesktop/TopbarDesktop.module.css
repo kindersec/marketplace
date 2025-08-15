@@ -484,7 +484,7 @@
   padding: 0 4px;
   min-width: 36px;
   max-width: 36px;
-  
+
   @media (--viewportMedium) {
     padding: 0 6px;
     min-width: 40px;

@@ -14,6 +14,7 @@ import {
   PrimaryButton,
   H3,
   H6,
+  NamedLink,
 } from '../../../components';
 
 import EstimatedCustomerBreakdownMaybe from '../EstimatedCustomerBreakdownMaybe';
@@ -99,18 +100,182 @@ const DeliveryMethodMaybe = props => {
         type="hidden"
       />
     </div>
-  ) : (
-    <FieldTextInput
-      id={`${formId}.deliveryMethod`}
-      className={css.deliveryField}
-      name="deliveryMethod"
-      type="hidden"
-    />
+  ) : null;
+};
+
+// Custom quantity selector component
+const QuantitySelector = props => {
+  const { quantity, onQuantityChange, maxQuantity, disabled } = props;
+
+  const handleIncrement = () => {
+    if (quantity < maxQuantity && !disabled) {
+      onQuantityChange(quantity + 1);
+    }
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1 && !disabled) {
+      onQuantityChange(quantity - 1);
+    }
+  };
+
+  return (
+    <div className={css.quantitySelector}>
+      <button
+        type="button"
+        className={css.quantityButton}
+        onClick={handleDecrement}
+        disabled={quantity <= 1 || disabled}
+        aria-label="Decrease quantity"
+      >
+        <span className={css.quantityButtonText}>−</span>
+      </button>
+      <span className={css.quantityDisplay}>{quantity}</span>
+      <button
+        type="button"
+        className={css.quantityButton}
+        onClick={handleIncrement}
+        disabled={quantity >= maxQuantity || disabled}
+        aria-label="Increase quantity"
+      >
+        <span className={css.quantityButtonText}>+</span>
+      </button>
+    </div>
+  );
+};
+
+// Shipping information component
+const ShippingInfo = props => {
+  const { publicData, intl, price } = props;
+  const { shippingPriceInSubunitsOneItem, shippingPriceInSubunitsAdditionalItems, shippingConditions } = publicData || {};
+
+  if (!shippingPriceInSubunitsOneItem && !shippingPriceInSubunitsAdditionalItems) {
+    return null;
+  }
+
+  const formatShippingPrice = (priceInSubunits) => {
+    if (!priceInSubunits) return null;
+    // Convert subunits to currency (assuming 100 subunits = 1 currency unit)
+    const priceValue = priceInSubunits / 100;
+    const currency = price?.currency || 'USD';
+    return intl.formatNumber(priceValue, { style: 'currency', currency });
+  };
+
+  const firstItemPrice = formatShippingPrice(shippingPriceInSubunitsOneItem);
+  const additionalItemPrice = formatShippingPrice(shippingPriceInSubunitsAdditionalItems);
+
+  return (
+    <div className={css.shippingInfo}>
+      <h4 className={css.shippingTitle}>
+        <FormattedMessage id="ProductOrderForm.shippingInfoTitle" defaultMessage="Shipping Information" />
+      </h4>
+      <div className={css.shippingDetails}>
+        {firstItemPrice && (
+          <p className={css.shippingPrice}>
+            <FormattedMessage
+              id="ProductOrderForm.shippingFirstItem"
+              defaultMessage="First item: {price}"
+              values={{ price: firstItemPrice }}
+            />
+          </p>
+        )}
+        {additionalItemPrice && (
+          <p className={css.shippingPrice}>
+            <FormattedMessage
+              id="ProductOrderForm.shippingAdditionalItems"
+              defaultMessage="Additional items: {price} each"
+              values={{ price: additionalItemPrice }}
+            />
+          </p>
+        )}
+        {shippingConditions && (
+          <p className={css.shippingConditions}>{shippingConditions}</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Reviews count component
+const ReviewsCount = props => {
+  const { reviews, listingId, intl } = props;
+  const reviewsCount = reviews?.length || 0;
+
+  if (reviewsCount === 0) {
+    return null;
+  }
+
+  const handleReviewsClick = () => {
+    // Scroll to reviews section
+    const reviewsElement = document.querySelector('.sectionReviews');
+    if (reviewsElement) {
+      reviewsElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <div className={css.reviewsCount}>
+      <button
+        type="button"
+        className={css.reviewsLink}
+        onClick={handleReviewsClick}
+      >
+        <FormattedMessage
+          id="ProductOrderForm.reviewsCount"
+          defaultMessage="{count} reviews"
+          values={{ count: reviewsCount }}
+        />
+      </button>
+    </div>
+  );
+};
+
+// Policy links component
+const PolicyLinks = props => {
+  const { intl } = props;
+
+  return (
+    <div className={css.policyLinks}>
+      <NamedLink name="ShippingDeliveryPolicyPage" className={css.policyLink}>
+        <FormattedMessage id="ProductOrderForm.shippingPolicy" defaultMessage="Shipping Policy" />
+      </NamedLink>
+      <span className={css.policySeparator}>•</span>
+      <NamedLink name="ReturnRefundPolicyPage" className={css.policyLink}>
+        <FormattedMessage id="ProductOrderForm.refundPolicy" defaultMessage="Refund Policy" />
+      </NamedLink>
+    </div>
+  );
+};
+
+// Vendor information component
+const VendorInfo = props => {
+  const { author, intl } = props;
+
+  if (!author) {
+    return null;
+  }
+
+  const authorDisplayName = author.attributes?.profile?.displayName || 'Vendor';
+
+  return (
+    <div className={css.vendorInfo}>
+      <span className={css.vendorLabel}>
+        <FormattedMessage id="ProductOrderForm.soldBy" defaultMessage="Sold by" />
+      </span>
+      <NamedLink
+        name="ProfilePage"
+        params={{ id: author.id?.uuid }}
+        className={css.vendorLink}
+      >
+        {authorDisplayName}
+      </NamedLink>
+    </div>
   );
 };
 
 const renderForm = formRenderProps => {
   const [mounted, setMounted] = useState(false);
+  const [localQuantity, setLocalQuantity] = useState(1);
   const {
     // FormRenderProps from final-form
     handleSubmit,
@@ -134,12 +299,28 @@ const renderForm = formRenderProps => {
     payoutDetailsWarning,
     marketplaceName,
     values,
+    listing,
+    reviews,
   } = formRenderProps;
+
+  // Add missing variables that are referenced in the form
+  const showContactUser = typeof onContactUser === 'function';
+  const contactSellerLink = showContactUser ? (
+    <InlineTextButton onClick={onContactUser}>
+      <FormattedMessage id="ProductOrderForm.finePrintNoStockLinkText" />
+    </InlineTextButton>
+  ) : null;
 
   useEffect(() => {
     setMounted(true);
 
     const { quantity, deliveryMethod } = values;
+    if (quantity) {
+      setLocalQuantity(Number.parseInt(quantity, 10) || 1);
+    } else if (hasOneItemLeft || !allowOrdersOfMultipleItems) {
+      setLocalQuantity(1);
+    }
+
     if (quantity && !formRenderProps.hasMultipleDeliveryMethods) {
       handleFetchLineItems({
         quantity,
@@ -169,35 +350,43 @@ const renderForm = formRenderProps => {
 
   // For cart: directly submit to parent if quantity (and deliveryMethod if needed) is valid
   const handleFormSubmit = e => {
-    const { quantity, deliveryMethod } = values || {};
-    if (!quantity || quantity < 1) {
+    const { deliveryMethod } = values || {};
+    const finalQuantity = hasOneItemLeft || !allowOrdersOfMultipleItems ? 1 : localQuantity;
+
+    if (!finalQuantity || finalQuantity < 1) {
       e.preventDefault();
-      formApi.blur('quantity');
-      formApi.focus('quantity');
-    } else if (displayDeliveryMethod && !deliveryMethod) {
+      return;
+    }
+    if (displayDeliveryMethod && !deliveryMethod) {
       e.preventDefault();
-      formApi.blur('deliveryMethod');
-      formApi.focus('deliveryMethod');
-    } else {
-      handleSubmit(e);
+      return;
+    }
+
+    e.preventDefault();
+    const formValues = { quantity: finalQuantity.toString(), deliveryMethod };
+    handleSubmit(formValues);
+  };
+
+  const handleQuantityChange = (newQuantity) => {
+    setLocalQuantity(newQuantity);
+    formApi.change('quantity', newQuantity.toString());
+
+    // Fetch line items when quantity changes
+    if (mounted) {
+      handleFetchLineItems({
+        quantity: newQuantity.toString(),
+        deliveryMethod: values?.deliveryMethod,
+        displayDeliveryMethod,
+        listingId,
+        isOwnListing,
+        fetchLineItemsInProgress,
+        onFetchTransactionLineItems,
+      });
     }
   };
 
-  const breakdownData = {};
-  const showBreakdown = false; // disable local breakdown to simplify add-to-cart submit UX
-
-  const showContactUser = typeof onContactUser === 'function';
-
-  const onClickContactUser = e => {
-    e.preventDefault();
-    onContactUser();
-  };
-
-  const contactSellerLink = (
-    <InlineTextButton onClick={onClickContactUser}>
-      <FormattedMessage id="ProductOrderForm.finePrintNoStockLinkText" />
-    </InlineTextButton>
-  );
+  const showBreakdown = lineItems && lineItems.length > 0;
+  const breakdownData = lineItems ? lineItems[0] : null;
   const quantityRequiredMsg = intl.formatMessage({ id: 'ProductOrderForm.quantityRequired' });
 
   const hasNoStockLeft = typeof currentStock != null && currentStock === 0;
@@ -210,36 +399,35 @@ const renderForm = formRenderProps => {
   const submitInProgress = fetchLineItemsInProgress;
   const submitDisabled = !hasStock;
 
+  const publicData = listing?.attributes?.publicData || {};
+
   return (
     <Form onSubmit={handleFormSubmit}>
       <FormSpy subscription={{ values: true }} onChange={handleOnChange} />
-      {hasNoStockLeft ? null : hasOneItemLeft || !allowOrdersOfMultipleItems ? (
-        <FieldTextInput
-          id={`${formId}.quantity`}
-          className={css.quantityField}
-          name="quantity"
-          type="hidden"
-          validate={numberAtLeast(quantityRequiredMsg, 1)}
-        />
-      ) : (
-        <FieldSelect
-          id={`${formId}.quantity`}
-          className={css.quantityField}
-          name="quantity"
-          disabled={!hasStock}
-          label={intl.formatMessage({ id: 'ProductOrderForm.quantityLabel' })}
-          validate={numberAtLeast(quantityRequiredMsg, 1)}
-        >
-          <option disabled value="">
-            {intl.formatMessage({ id: 'ProductOrderForm.selectQuantityOption' })}
-          </option>
-          {quantities.map(quantity => (
-            <option key={quantity} value={quantity}>
-              {intl.formatMessage({ id: 'ProductOrderForm.quantityOption' }, { quantity })}
-            </option>
-          ))}
-        </FieldSelect>
+
+      {/* Delivery method selector */}
+      <DeliveryMethodMaybe
+        displayDeliveryMethod={displayDeliveryMethod}
+        hasMultipleDeliveryMethods={hasMultipleDeliveryMethods}
+        deliveryMethod={values?.deliveryMethod}
+        hasStock={hasStock}
+        formId={formId}
+        intl={intl}
+      />
+
+      {/* Shipping information - only show when shipping is selected */}
+      {values?.deliveryMethod === 'shipping' && (
+        <ShippingInfo publicData={publicData} intl={intl} price={price} />
       )}
+
+      {/* Reviews count and vendor info on same line */}
+      <div className={css.reviewsAndVendorRow}>
+        <ReviewsCount reviews={reviews} listingId={listingId} intl={intl} />
+        <VendorInfo author={listing?.author} intl={intl} />
+      </div>
+
+      {/* Policy links */}
+      <PolicyLinks intl={intl} />
 
       {showBreakdown ? (
         <div className={css.breakdownWrapper}>
@@ -259,14 +447,49 @@ const renderForm = formRenderProps => {
 
       <FetchLineItemsError error={fetchLineItemsError} />
 
-      <div className={css.submitButton}>
-        <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
-          {hasStock ? (
-            <FormattedMessage id="ProductOrderForm.ctaButtonAddToCart" />
-          ) : (
-            <FormattedMessage id="ProductOrderForm.ctaButtonNoStock" />
-          )}
-        </PrimaryButton>
+      {/* Quantity selector and Add to Cart button on same line */}
+      <div className={css.quantityAndButtonRow}>
+        {/* Custom quantity selector */}
+        {hasStock && allowOrdersOfMultipleItems && !hasOneItemLeft ? (
+          <div className={css.quantitySection}>
+            <label className={css.quantityLabel}>
+              <FormattedMessage id="ProductOrderForm.quantityLabel" />
+            </label>
+            <QuantitySelector
+              quantity={localQuantity}
+              onQuantityChange={handleQuantityChange}
+              maxQuantity={selectableStock}
+              disabled={!hasStock}
+            />
+          </div>
+        ) : hasStock && (hasOneItemLeft || !allowOrdersOfMultipleItems) ? (
+          <div className={css.quantitySection}>
+            <label className={css.quantityLabel}>
+              <FormattedMessage id="ProductOrderForm.quantityLabel" />
+            </label>
+            <div className={css.singleItemQuantity}>
+              <span className={css.quantityDisplay}>1</span>
+            </div>
+            <FieldTextInput
+              id={`${formId}.quantity`}
+              className={css.hiddenQuantityField}
+              name="quantity"
+              type="hidden"
+              value="1"
+              validate={numberAtLeast(quantityRequiredMsg, 1)}
+            />
+          </div>
+        ) : null}
+
+        <div className={css.submitButton}>
+          <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
+            {hasStock ? (
+              <FormattedMessage id="ProductOrderForm.ctaButtonAddToCart" />
+            ) : (
+              <FormattedMessage id="ProductOrderForm.ctaButtonNoStock" />
+            )}
+          </PrimaryButton>
+        </div>
       </div>
       <p className={css.finePrint}>
         {payoutDetailsWarning ? (
