@@ -720,6 +720,34 @@ function transformToListing(product, imageIds = [], finalPublicData = null) {
   return listing;
 }
 
+// Function to set default stock for a listing using stock adjustment API
+async function setDefaultStock(listingId, stockAmount) {
+  try {
+    console.log(`Setting stock to ${stockAmount} for listing ${listingId}`);
+
+    // Create stock adjustment to set the total stock
+    const stockAdjustment = {
+      listingId: new types.UUID(listingId),
+      quantity: stockAmount,
+      type: 'stock-adjustment/set-total-stock'
+    };
+
+    const response = await integrationSdk.stockAdjustments.create(stockAdjustment);
+    console.log('Stock adjustment created successfully:', response.data.data.id);
+
+    return response.data;
+  } catch (error) {
+    console.error('Error setting default stock:', error);
+    if (error.response?.data?.errors) {
+      console.error('Stock API Errors:', JSON.stringify(error.response.data.errors, null, 2));
+    }
+    if (error.data?.errors) {
+      console.error('Stock SDK Errors:', JSON.stringify(error.data.errors, null, 2));
+    }
+    throw error;
+  }
+}
+
 // Function to create listing in Sharetribe
 async function createListing(listingData) {
   try {
@@ -735,6 +763,16 @@ async function createListing(listingData) {
     );
 
     console.log('Listing created successfully:', response.data.data.id);
+
+    // Set default stock to 10 for the newly created listing
+    try {
+      await setDefaultStock(response.data.data.id, 10);
+      console.log('Default stock set to 10');
+    } catch (stockError) {
+      console.error('Warning: Failed to set default stock:', stockError.message);
+      // Don't fail the listing creation if stock setting fails
+    }
+
     return response.data;
   } catch (error) {
     console.error('Error creating listing:', error);

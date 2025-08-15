@@ -32,13 +32,9 @@
 }
 
 .quantitySection {
-  padding: 0 24px;
-  margin-bottom: 24px;
-
-  @media (--viewportMedium) {
-    padding: 0;
-    margin-bottom: 32px;
-  }
+  flex: 1;
+  max-width: 200px;
+  margin-bottom: 0;
 }
 
 .quantityLabel {
@@ -241,6 +237,32 @@
   }
 }
 
+.reviewsAndVendorRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 32px;
+  }
+}
+
+.quantityAndButtonRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 0 24px;
+  margin-top: 24px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-top: 72px;
+  }
+}
+
 .breakdownWrapper {
   padding: 0 24px;
   margin-top: 24px;
@@ -252,13 +274,8 @@
 }
 
 .submitButton {
-  padding: 0 24px;
-  margin-top: 24px;
-
-  @media (--viewportMedium) {
-    padding: 0;
-    margin-top: 72px;
-  }
+  flex-shrink: 0;
+  min-width: 120px;
 }
 
 .finePrint {

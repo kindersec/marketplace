@@ -148,7 +148,7 @@ const QuantitySelector = props => {
 const ShippingInfo = props => {
   const { publicData, intl, price } = props;
   const { shippingPriceInSubunitsOneItem, shippingPriceInSubunitsAdditionalItems, shippingConditions } = publicData || {};
-
+  
   if (!shippingPriceInSubunitsOneItem && !shippingPriceInSubunitsAdditionalItems) {
     return null;
   }
@@ -200,10 +200,6 @@ const ShippingInfo = props => {
 const ReviewsCount = props => {
   const { reviews, listingId, intl } = props;
   const reviewsCount = reviews?.length || 0;
-
-  if (reviewsCount === 0) {
-    return null;
-  }
 
   const handleReviewsClick = () => {
     // Scroll to reviews section
@@ -321,10 +317,14 @@ const renderForm = formRenderProps => {
       setLocalQuantity(1);
     }
 
-    if (quantity && !formRenderProps.hasMultipleDeliveryMethods) {
+    // Always fetch line items on mount to show shipping costs automatically
+    const initialQuantity = quantity || (hasOneItemLeft || !allowOrdersOfMultipleItems ? 1 : 1);
+    const initialDeliveryMethod = deliveryMethod || (shippingEnabled ? 'shipping' : pickupEnabled ? 'pickup' : undefined);
+    
+    if (mounted) {
       handleFetchLineItems({
-        quantity,
-        deliveryMethod,
+        quantity: initialQuantity.toString(),
+        deliveryMethod: initialDeliveryMethod,
         displayDeliveryMethod,
         listingId,
         isOwnListing,
@@ -332,7 +332,7 @@ const renderForm = formRenderProps => {
         onFetchTransactionLineItems,
       });
     }
-  }, []);
+  }, [mounted, values, hasOneItemLeft, allowOrdersOfMultipleItems, displayDeliveryMethod, listingId, isOwnListing, fetchLineItemsInProgress, onFetchTransactionLineItems]);
 
   const handleOnChange = formValues => {
     const { quantity, deliveryMethod } = formValues.values;
@@ -415,10 +415,8 @@ const renderForm = formRenderProps => {
         intl={intl}
       />
 
-      {/* Shipping information - only show when shipping is selected */}
-      {values?.deliveryMethod === 'shipping' && (
-        <ShippingInfo publicData={publicData} intl={intl} price={price} />
-      )}
+      {/* Shipping information - always show if available */}
+      <ShippingInfo publicData={publicData} intl={intl} price={price} />
 
       {/* Reviews count and vendor info on same line */}
       <div className={css.reviewsAndVendorRow}>
